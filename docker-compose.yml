@@ -5,3 +5,7 @@ services:
     build: ./scraper
     volumes:
       - ./scraper:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
