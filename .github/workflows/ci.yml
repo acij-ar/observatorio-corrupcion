@@ -11,7 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: scrap
+      - name: Build docker container
+        run: docker-compose build
+
+      - name: Run scraper
         run: docker-compose run --rm scraper bash run.sh
 
       - uses: actions/upload-artifact@v2
