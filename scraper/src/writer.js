@@ -1,18 +1,15 @@
 import fs from 'fs'
 
-const clear_line = (line) => {
-  return line
-    .map(val => {
+const clear_line = (line) =>
+  line
+    .map((val) => {
       try {
-        return val
-          .replace(/"/g, ' ')
-          .replace(/\n/g, ' ')
+        return val.replace(/"/g, ' ').replace(/\n/g, ' ')
       } catch (error) {
         return val
       }
     })
     .join('","')
-}
 
 const streams = {}
 const outputDir = 'data'
@@ -28,31 +25,32 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir)
 }
 
-keys.forEach(key => {
-  streams[key] = fs.createWriteStream(
-    `${outputDir}/${key}.csv`,
-    { flags: 'a' }
-  )
+keys.forEach((key) => {
+  streams[key] = fs.createWriteStream(`${outputDir}/${key}.csv`, { flags: 'a' })
 })
 
 const write = (entry) => {
   const lines = {}
-  entry.causas = [{
-    estado: entry.estado,
-    ultima_actualizacion: entry.ultima_actualizacion,
-    caratula: entry.caratula,
-    terminado: entry.terminado,
-  }]
+  entry.causas = [
+    {
+      estado: entry.estado,
+      ultima_actualizacion: entry.ultima_actualizacion,
+      caratula: entry.caratula,
+      terminado: entry.terminado,
+    },
+  ]
 
-  keys.forEach(key => {
+  keys.forEach((key) => {
     if (key in entry) {
-      lines[key] = entry[key]
-        .map(e => ({ expediente: entry.expediente, ...e }))
+      lines[key] = entry[key].map((e) => ({
+        expediente: entry.expediente,
+        ...e,
+      }))
     }
   })
 
-  Object.keys(lines).forEach(key => {
-    lines[key].forEach(line => {
+  Object.keys(lines).forEach((key) => {
+    lines[key].forEach((line) => {
       if (fs.readFileSync(`${outputDir}/${key}.csv`).length === 0) {
         const header = clear_line(Object.keys(line))
         streams[key].write(`"${header}"\n`)

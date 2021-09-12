@@ -5,6 +5,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "lint": "npx eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "npx prettier . --check",
+    "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run prettier:fix && npm run lint:fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,5 +17,11 @@
   "dependencies": {
     "puppeteer": "^10.2.0",
     "puppeteer-cluster": "^0.22.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.0"
   }
 }
