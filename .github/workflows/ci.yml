@@ -15,9 +15,9 @@ jobs:
         run: docker-compose build
 
       - name: Run scraper
-        run: docker-compose run --rm scraper bash run.sh
+        run: ./run.sh
 
       - uses: actions/upload-artifact@v2
         with:
           name: data
-          path: scraper/data/
+          path: data/cij/
