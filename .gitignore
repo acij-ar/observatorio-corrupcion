@@ -1,3 +1,11 @@
+# Ignore the scraped data
+# some dirs are very heavy
+data
+
+# python stuff
+.ipynb_checkpoints
+__pycache__
+
 # Logs
 logs
 *.log
