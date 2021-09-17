@@ -12,11 +12,11 @@ const clear_line = (line) =>
     .join('","')
 
 const streams = {}
-const outputDir = 'data'
+const outputDir = 'data/scraper'
 const keys = [
   'causas',
   'delitos',
-  'radicacioon_del_expediente',
+  'radicaciones_del_expediente',
   'resoluciones',
   'implicados',
 ]

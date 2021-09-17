@@ -17,7 +17,7 @@ const mapKeys = {
   Expediente: 'expediente',
   Carátula: 'caratula',
   Delitos: 'delitos',
-  'Radicación del expediente': 'radicacioon_del_expediente',
+  'Radicación del expediente': 'radicaciones_del_expediente',
   Estado: 'estado',
   'Resolución/es': 'resoluciones',
   'Última actualización': 'ultima_actualizacion',
@@ -46,16 +46,19 @@ const parse = (lis) => {
         let room = ''
         if (rest.includes('-')) {
           // eslint-disable-next-line no-undef
-          ;[camara, room] = rest.split('-', (limit = 2))
+          [camara, room] = rest.split('-', (limit = 2))
         }
+        const params = new URLSearchParams(a.href)
         return {
           fecha: date,
           camara: camara.trim(),
           sala: room.trim(),
-          link: a.href,
+          pdf_nombre: `${params.get("id")}.pdf`,
+          pdf_url: a.href,
+          pdf_hash: "",
         }
       })
-    } else if (key === 'radicacioon_del_expediente') {
+    } else if (key === 'radicaciones_del_expediente') {
       text = [
         ...getNodesByXPath('div[contains(@class, "item-especial-largo")]', li),
         ...getNodesByXPath('div/div/div[@class="item-especial-largo"]', li),
@@ -68,7 +71,7 @@ const parse = (lis) => {
         ])
         .map((row) => ({
           fecha: row[0],
-          camara: row[1],
+          sala: row[1],
           fiscal: row[2],
           fiscalia: row[3],
         }))
@@ -106,8 +109,8 @@ const parse = (lis) => {
         .filter((row) => row[1].toLowerCase() !== 'ver todos')
         .map((row) => ({
           relacion: row[0],
-          nombre: row[1],
-          abogado: row[2],
+          implicado: row[1],
+          letrado: row[2],
         }))
 
       row.implicados = involved
