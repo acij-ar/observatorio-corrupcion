@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Union, Optional, Dict, Any
 
-from pydantic import BaseSettings, validator
+from pydantic import BaseSettings, AnyHttpUrl, validator
 
 
 class Settings(BaseSettings):
@@ -14,6 +14,11 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return Path(v)
         return v
+
+    ARANGO_HOST: AnyHttpUrl
+    ARANGO_DB: str
+    ARANGO_USERNAME: str
+    ARANGO_PASSWORD: str
 
 
 settings = Settings()
