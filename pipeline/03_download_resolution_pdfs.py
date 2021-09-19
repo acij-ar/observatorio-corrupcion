@@ -200,20 +200,20 @@ logger.info(f"PDFs: bajando {len(df_resolutions)} nuevos archivos")
 asyncio.run(download_multi_files(resolutions))
 
 logger.info("PDFs: convertiendolos a txt")
-resolutions = [
-    file
-    for file in resolutions
-    if not file["filepath"].with_suffix(".txt").is_file()
+pdfs: List[str] = [
+    settings.BASE_DIR / "PDFs/" / row.pdf_nombre
+    for i, row in df_resolutions.iterrows()
+    if not (settings.BASE_DIR / "PDFs/" / row.pdf_nombre).with_suffix(".txt").is_file()
 ]
-for row in tqdm(resolutions, total=len(resolutions)):
-    if row["filepath"].stat().st_size == 0:
+for filepath in tqdm(pdfs, total=len(pdfs)):
+    if filepath.stat().st_size == 0:
         continue
 
-    command = f"pdftotext -layout -enc UTF-8 {row['filepath']}"
+    command = f"pdftotext -layout -enc UTF-8 {filepath}"
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     if error:
-        logger.error(f"Error convertiendo {row.pdf_nombre}: {error}")
+        logger.error(f"Error convertiendo {filepath}: {error}")
 
 logger.info('PDFs: extrayendo resoluciones')
 df_resolutions['resuelve_texto'] = df_resolutions.progress_apply(
