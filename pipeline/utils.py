@@ -56,10 +56,6 @@ def clear_string(txt: str) -> str:
 
 def generate_key(code: str) -> str:
     code = unidecode.unidecode(code)
-    return clear_string(code)
+    code = clear_string(code)
+    return "_".join(code.split())
 
-# def generate_key(name: str) -> str:
-#     # Generate a valid arangoDB key
-#     valid = ascii_letters + digits
-#     key = unidecode.unidecode(name)
-#     return ''.join([l if l in valid else '_' for l in key])
