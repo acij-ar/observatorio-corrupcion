@@ -11,6 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set env
+        env:
+          ARANGO_HOST: ${{ secrets.ARANGO_HOST }}
+          ARANGO_DB: ${{ secrets.ARANGO_DB }}
+          ARANGO_USERNAME: ${{ secrets.ARANGO_USERNAME }}
+          ARANGO_PASSWORD: ${{ secrets.ARANGO_PASSWORD }}
+        run: |
+          cp .env.sample .env
+          sed -i "s/ARANGO_HOST=.*$/ARANGO_HOST=$ARANGO_HOST/" .env
+          sed -i "s/ARANGO_DB=.*$/ARANGO_DB=$ARANGO_DB/" .env
+          sed -i "s/ARANGO_USERNAME=.*$/ARANGO_USERNAME=$ARANGO_USERNAME/" .env
+          sed -i "s/ARANGO_PASSWORD=.*$/ARANGO_PASSWORD=$ARANGO_PASSWORD/" .env
+
       - name: Build docker container
         run: docker-compose build
 
