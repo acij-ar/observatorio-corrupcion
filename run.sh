@@ -27,7 +27,7 @@ function retry {
 mkdir -p data/cij
 
 # Run the scraper
-retry docker-compose run --rm scraper node index.js
+retry docker-compose run --rm scraper node --trace-warnings --unhandled-rejections=strict index.js
 # Run the pipeline process
 retry docker-compose run --rm pipeline python 01_download_external_data.py
 retry docker-compose run --rm pipeline python 02_data_normalization.py

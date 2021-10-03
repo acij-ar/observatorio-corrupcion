@@ -41,7 +41,7 @@ nodes = [
 ]
 for node in nodes:
     df = pd.read_json(Path(settings.BASE_DIR) / node["path"], lines=True)
-    stats_text += f"<li>{len(df._key.unique)} {node['text']} únicos</li>"
+    stats_text += f"<li>{len(df._key.unique())} {node['text']} únicos</li>"
 
 stats_text += f"<li>{len(list((Path(settings.BASE_DIR) / 'PDFs').glob('*.pdf')))} PDF de resoluciones procesados</li>"
 
