@@ -62,7 +62,7 @@ if response.status_code != 200:
     exit()
 headers = {"Authorization": f"bearer {response.json()['jwt']}"}
 
-with httpx.Client(headers=headers) as client:
+with httpx.Client(headers=headers, timeout=None) as client:
     arango_api_url = f"{settings.ARANGO_HOST}/_db/{settings.ARANGO_DB}/_api"
 
     # Create db if not exist
