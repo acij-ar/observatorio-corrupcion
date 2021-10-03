@@ -233,15 +233,38 @@ def fix_fiscal(row):
     else:
         return row['fiscal']
 
+
+def fix_sala(sala):
+    sala = " ".join(sala.split())
+
+    pattern = "FEDERAL (\d+)$"
+    matchs = re.search(pattern, sala)
+    if matchs:
+        num = matchs.groups()[0]
+        sala = " ".join(sala.split()[:-1]) + f" N {num}"
+
+    sala = sala.replace(
+        "CÁMARA CRIMINAL Y CORRECCIONAL FEDERAL - SALA",
+        "CÁMARA NACIONAL DE APELACIONES EN LO CRIMINAL Y CORRECCIONAL FEDERAL - SALA"
+    ).replace(
+        "JUZGADO CRIMINAL Y CORRECCIONAL FEDERAL N",
+        "JUZGADO NACIONAL DE PRIMERA INSTANCIA EN LO CRIMINAL Y CORRECCIONAL FEDERAL N"
+    )
+
+    return sala
+
+
 df_radication = pd.read_csv(
     settings.BASE_DIR / 'cij/radicaciones_del_expediente.csv'
 ).fillna("")
-df_radication.sala = df_radication.sala.apply(clear_string)
-df_radication.fiscal = df_radication.fiscal.apply(clear_string)
-df_radication.fiscal = df_radication.fiscal.apply(remove_dr_dra)
 df_radication.sala = df_radication.sala.str.replace(
     'CAMARA', 'CÁMARA'
-).str.replace('CASACION', 'CASACIÓN')
+).str.replace('CASACION', 'CASACIÓN').str.replace(
+    '-$', '', regex=True
+).str.replace('.', ' ', regex=False)
+df_radication.sala = df_radication.sala.apply(fix_sala)
+df_radication.fiscal = df_radication.fiscal.apply(clear_string)
+df_radication.fiscal = df_radication.fiscal.apply(remove_dr_dra)
 df_radication['sala_c'] = df_radication.sala
 
 correct_cameras = pd.read_csv(
