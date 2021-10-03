@@ -20,8 +20,8 @@ services:
 
   db:
     image: arangodb:3.7.3
-    env_file:
-      - .env
+    environment:
+      ARANGO_ROOT_PASSWORD: ${ARANGO_PASSWORD}
     volumes:
       - arangodb:/var/lib/arangodb3
     ports:
