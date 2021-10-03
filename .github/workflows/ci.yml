@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # - uses: actions/download-artifact@v2
+      #   with:
+      #     name: data
+      #     path: data
+
       - name: Setup local vars
         env:
           ARANGO_HOST: ${{ secrets.ARANGO_HOST }}
@@ -36,7 +41,15 @@ jobs:
       - name: Run scraper
         run: ./run.sh
 
+      - name: Commit report
+        run: |
+          git config --global user.name 'fnbellomo'
+          git config --global user.email 'fnbellomo@gmail.com'
+          git add cij.zip
+          git commit -m "action update data"
+          git push
+
       - uses: actions/upload-artifact@v2
         with:
           name: data
-          path: data/cij/
+          path: data
