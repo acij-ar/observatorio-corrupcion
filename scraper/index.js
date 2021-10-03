@@ -31,11 +31,11 @@ async function main() {
     await page.waitForNavigation()
     await page.addScriptTag({ path: 'src/utils.js' })
 
-    const rows = await page.evaluate(() =>
-      getNodesByXPath('//*[@id="solapa-1"]/div/ul[@class="info"]')
+    const rows = await page.evaluate(`
+      getNodesByXPath('//*[@id="solapa-${section}"]/div/ul[@class="info"]')
         .map((ul) => getNodesByXPath('li', ul))
         .map((lis) => parse(lis))
-    )
+    `)
 
     // Save to csv
     rows.forEach((row) => {
@@ -58,8 +58,8 @@ async function main() {
   )
   console.log(`Hay ${section1} casusas de la sección 1 y ${section2} de la 2`)
 
-  const section1Pages = parseInt(section1 / 6)
-  const section2Pages = parseInt(section2 / 6)
+  const section1Pages = Math.ceil(section1 / 6)
+  const section2Pages = Math.ceil(section2 / 6)
   for (let i = 0; i < section1Pages; i++) {
     cluster.queue({ total: section1Pages, paged: i, section: 1 })
   }
