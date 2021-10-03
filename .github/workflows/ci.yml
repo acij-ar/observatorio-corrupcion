@@ -11,18 +11,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set env
+      - name: Setup local vars
         env:
           ARANGO_HOST: ${{ secrets.ARANGO_HOST }}
           ARANGO_DB: ${{ secrets.ARANGO_DB }}
           ARANGO_USERNAME: ${{ secrets.ARANGO_USERNAME }}
           ARANGO_PASSWORD: ${{ secrets.ARANGO_PASSWORD }}
+          BOT_EMAIL_USER: ${{ secrets.BOT_EMAIL_USER }}
+          BOT_EMAIL_PASSWORD: ${{ secrets.BOT_EMAIL_PASSWORD }}
+          BOT_EMAILS_TO_NOTIFY: ${{ secrets.BOT_EMAILS_TO_NOTIFY }}
         run: |
           cp .env.sample .env
-          sed -i "s/ARANGO_HOST=.*$/ARANGO_HOST=$ARANGO_HOST/" .env
-          sed -i "s/ARANGO_DB=.*$/ARANGO_DB=$ARANGO_DB/" .env
-          sed -i "s/ARANGO_USERNAME=.*$/ARANGO_USERNAME=$ARANGO_USERNAME/" .env
-          sed -i "s/ARANGO_PASSWORD=.*$/ARANGO_PASSWORD=$ARANGO_PASSWORD/" .env
+          sed -i -e "s|ARANGO_HOST=.*$|ARANGO_HOST=$ARANGO_HOST|" .env
+          sed -i -e "s|ARANGO_DB=.*$|ARANGO_DB=$ARANGO_DB|" .env
+          sed -i -e "s|ARANGO_USERNAME=.*$|ARANGO_USERNAME=$ARANGO_USERNAME|" .env
+          sed -i -e "s|ARANGO_PASSWORD=.*$|ARANGO_PASSWORD=$ARANGO_PASSWORD|" .env
+          sed -i -e "s|BOT_EMAIL_USER=.*$|BOT_EMAIL_USER=$BOT_EMAIL_USER|" .env
+          sed -i -e "s|BOT_EMAIL_PASSWORD=.*$|BOT_EMAIL_PASSWORD=$BOT_EMAIL_PASSWORD|" .env
+          sed -i -e "s|BOT_EMAILS_TO_NOTIFY=.*$|BOT_EMAILS_TO_NOTIFY=$BOT_EMAILS_TO_NOTIFY|" .env
 
       - name: Build docker container
         run: docker-compose build
