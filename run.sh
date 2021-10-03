@@ -35,5 +35,6 @@ retry docker-compose run --rm pipeline python 03_download_resolution_pdfs.py
 retry docker-compose run --rm pipeline python 04_create_arango_nodes.py
 retry docker-compose run --rm pipeline python 05_create_arango_edges.py
 retry docker-compose run --rm pipeline python 06_update_arango.py
+retry docker-compose run --rm pipeline python 07_send_notify_emails.py
 
 zip -r cij.zip data/cij/* data/db/*

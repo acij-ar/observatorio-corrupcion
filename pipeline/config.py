@@ -1,7 +1,7 @@
 from pathlib import Path
-from typing import Union, Optional, Dict, Any
+from typing import Union, Optional, Dict, Any, List
 
-from pydantic import BaseSettings, AnyHttpUrl, validator
+from pydantic import BaseSettings, AnyHttpUrl, EmailStr, validator
 
 
 class Settings(BaseSettings):
@@ -20,10 +20,24 @@ class Settings(BaseSettings):
     ARANGO_USERNAME: str
     ARANGO_PASSWORD: str
 
+    BOT_EMAIL_USER: EmailStr
+    BOT_EMAIL_PASSWORD: str
+    BOT_EMAILS_TO_NOTIFY: List[EmailStr]
+
+    @validator("BOT_EMAILS_TO_NOTIFY", pre=True)
+    def assemble_emails_to_notify(
+        cls, v: Union[str, List[str]]
+    ) -> Union[List[str], str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
+
 
 settings = Settings()
 
-# Create the directories
+# Create the output directories
 for dir in ["cij", "email", "external", "PDFs", "db"]:
     p = settings.BASE_DIR / dir
     p.mkdir(parents=True, exist_ok=True)
