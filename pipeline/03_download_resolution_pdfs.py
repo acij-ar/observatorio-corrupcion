@@ -139,6 +139,8 @@ def find_signatures(pdf_name: str) -> List[List[str]]:
 
     if filepath.stat().st_size == 0:
         return []
+    elif not filepath.with_suffix(".txt").is_file():
+        return []
 
     with open(filepath.with_suffix(".txt")) as file:
         firms: List[str] = list(
