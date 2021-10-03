@@ -64,19 +64,23 @@ async def dowload_justiciapedia_bio(urls: List[HttpUrl]) -> List[str]:
 justiciapedia_url: HttpUrl = 'https://chequeado.com/justiciapedia'
 spreadsheets: List[DowloadFile] = [
     {
-        "url": "https://docs.google.com/spreadsheets/d/1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM/export?format=csv&id=1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM&gid=0",
+        # "url": "https://docs.google.com/spreadsheets/d/1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM/export?format=csv&id=1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM&gid=0",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRcvC7LtQ_blMeKjvpS5XLUIrJGBDvC79Z-Y5ZypZC-oP44YKoCQ9fcPsvvkjIIhw/pub?output=csv",
         "filepath": settings.BASE_DIR / "external/correcion_involucrados.csv",
     },
     {
-        "url": "https://docs.google.com/spreadsheets/d/19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk/export?format=csv&id=19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk&gid=0",
+        # "url": "https://docs.google.com/spreadsheets/d/19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk/export?format=csv&id=19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk&gid=0",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRBtjCgaAKZu-3RFX5fKRBPSUym7hP5Z5VFVkgZ6baHQcVXLTnI85835uWL8V7XJw/pub?output=csv",
         "filepath": settings.BASE_DIR / "external/correcion_delitos.csv",
     },
     {
-        "url": "https://docs.google.com/spreadsheets/d/1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw/export?format=csv&id=1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw&gid=0",
+        # "url": "https://docs.google.com/spreadsheets/d/1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw/export?format=csv&id=1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw&gid=0",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKt77WirBKasmPLEuP1yMJW5GLsyKBYPUgA7EnAnTlM6YZ9sSP4qNSA_WsNOBIQA/pub?output=csv",
         "filepath": settings.BASE_DIR / "external/correcion_salas.csv",
     },
     {
-        "url": "https://docs.google.com/spreadsheets/d/1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I/export?format=csv&id=1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I&gid=0",
+        # "url": "https://docs.google.com/spreadsheets/d/1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I/export?format=csv&id=1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I&gid=0",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoWFRqs1PVOtMI0E1POZcja09EqE6XTx67J0bfH5NQOzCSwOtygEXrZdCUODbdCA/pub?output=csv",
         "filepath": settings.BASE_DIR / "external/organismos_estatales.csv",
     },
     {
