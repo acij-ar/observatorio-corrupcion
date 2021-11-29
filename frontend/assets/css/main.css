@@ -1,0 +1,417 @@
+/*
+  Some base style
+*/
+@font-face {
+  font-family: 'BisionBold';
+  src: url('~@/assets/fonts/Bison-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'MontserratRegular';
+  src: url('~@/assets/fonts/Montserrat/Montserrat-Regular.ttf');
+}
+
+h1, h2, h3, h4 {
+  font-family: 'BisionBold';
+}
+
+h2.title.is-1 {
+  text-transform: uppercase;
+}
+
+.ref-banner, 
+.ref-banner:visited, 
+.ref-banner:active,
+.ref-banner:hover {
+  float:right;
+  color: white;
+  font-weight: bold;
+  font-size: 120%;  
+}
+
+.p-style {
+  font-weight: inherit !important;
+  text-align: initial;
+}
+
+.ul-style {
+  margin-left: 15px;
+}
+
+p {
+  font-weight: bold;
+  font-family: 'MontserratRegular';
+}
+
+img.border {
+  border: 6px solid black;
+}
+
+/* d3 texts */
+text {
+  font-family: MontserratRegular;
+  font-size: 0.75rem;
+}
+
+.input::placeholder, .taginput .taginput-container.is-focusable::placeholder, .textarea::placeholder {
+    color: rgb(54, 54, 54);
+}
+
+.d {
+  padding-bottom: 25px;
+}
+
+.container {
+  padding-top: 40px;
+}
+
+/*
+  General day and night mode
+*/
+
+body.day {
+  background-color: #f5f5f5;
+}
+
+body.night {
+  background-color: #061f2f;
+}
+
+body.day h2,
+body.day p,
+body.day .tabs a {
+  color: black;
+}
+
+body.night h2,
+body.night p,
+body.night .tabs a {
+  color: white;
+}
+
+/*
+  Common hero banner
+*/
+.hero {
+  color: white;
+  background-color: #292935;
+  background-image: url("~@/assets/portada-1.jpg");
+  background-size: 100%;
+  background-position: center center;
+  background-attachment: fixed;  
+}
+
+.hero_secondary {
+  color: white;
+  background-color: #292935;
+  background-image: url("~@/assets/1280x250.jpg");
+  background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 250px !important;
+  background-attachment: scroll;
+}
+
+body.night .hero {
+  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.7), rgba(46, 49, 65, 0.4)), url("~@/assets/portada-1.jpg");
+}
+
+body.night .hero_secondary {
+  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.7), rgba(46, 49, 65, 0.4)), url("~@/assets/1280x250.jpg");
+}
+
+.hero h1, .hero h2 {
+  color: white;
+}
+
+.hero_secondary h1, .hero_secondary h2 {
+  color: white;
+}
+
+.hero-body {
+  padding-bottom: 2rem;
+  padding-top: 5rem;
+}
+
+.hero-foot .container {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.hero-foot ul {
+  display: inline-flex;
+}
+
+.hero-foot .tabs ul li a {
+  color: white;
+}
+
+.hero-foot ul li a {
+  border: 0;
+  font-size: 1.3rem;
+  font-family: BisionBold;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.hero-foot ul li a:hover {
+  background: transparent;
+  color: whitesmoke;
+  border-width: 4px;
+}
+
+.hero-foot ul li a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 4px;
+  background: #c80000;
+  transition: width .3s;
+}
+
+.hero-foot ul li a:hover::after {
+  width: 100%;
+}
+
+body.day .modal-card p,
+body.night .modal-card p {
+  color: black;
+}
+
+/*
+  =======================================================================
+  Home hot cases, entities and magistrates
+  =======================================================================
+*/
+.hvrbox {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	max-width: 100%;
+	height: auto;
+  box-sizing: border-box;
+}
+
+.hvrbox img {
+	display: block;
+}
+
+.hvrbox .hvrbox-layer_top {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	padding: 15px;
+	transition: all 0.4s ease-in-out 0s;
+}
+
+.hvrbox:hover .hvrbox-layer_top {
+	opacity: 1;
+}
+
+.hvrbox .hvrbox-text {
+	text-align: center;
+	font-size: 1.2rem;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+/*
+  D3 tooltip
+  ==========
+*/
+#tooltip {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  color: black;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+#tooltip p#value strong {
+  color: #c80000;
+}
+
+/*
+  Plots night and day mode
+  ========================
+*/
+/* Axis text */
+body.day .tick text,
+body.day .axis text,
+body.day text.notation {
+  fill: black;
+}
+
+body.night .tick text,
+body.night .axis text,
+body.night text.notation {
+  fill: white;
+}
+
+/* Labels */
+body.day svg .labels rect {
+  fill: white;
+  stroke: black;
+  stroke-width: 3px;
+}
+
+body.day svg .labels .legend text {
+  fill: black;
+}
+
+body.day svg .labels .legend circle {
+  stroke: black;
+  stroke-width: 2;
+}
+
+body.night svg .labels rect {
+  fill: #0a121b;
+  stroke: white;
+  stroke-width: 3px;
+}
+
+body.night svg .labels .legend text {
+  fill: white;
+}
+
+body.night svg .labels .legend circle {
+  stroke: white;
+  stroke-width: 2;
+}
+
+/* Nodes border */
+body.day svg .nodes circle {
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+body.night svg .nodes circle {
+  stroke: white;
+  stroke-width: 1.5px;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+/*
+  Table day night mode
+  ====================
+*/
+.table-wrapper {
+  overflow-x: auto;
+  transform:rotateX(180deg);
+}
+
+.table-wrapper table {
+  transform:rotateX(180deg);
+}
+
+body.day table {
+  color: black;
+  background-color: white;
+}
+
+body.night table {
+  color: white;
+  background-color: #0a121b;
+}
+
+body.day .table thead td,
+body.day .table thead th {
+  color: #363636;
+}
+
+body.night .table thead td,
+body.night .table thead th {
+  color: white;
+}
+
+body.day .pagination-previous,
+body.day .pagination-next,
+body.day .pagination-link {
+  border-color: #dbdbdb;
+  color: #363636
+}
+
+body.day .pagination-link.is-current {
+  background-color: black;
+  color: white;
+}
+
+body.night .pagination-previous,
+body.night .pagination-next,
+body.night .pagination-link {
+  border-color: white;
+  color: white;
+}
+
+body.night .pagination-link.is-current {
+  background-color: white;
+  color: black;
+}
+
+
+/*
+  Set custom columns on the table
+*/
+#sentencias-table td.chevron-cell a {
+  display: none;
+}
+
+#tablaCasos th.is-sortable:nth-child(8) {
+  min-width: 300px;
+}
+
+#tablaCasos th.is-sortable:nth-child(9) {
+  min-width: 300px;
+}
+
+/*
+
+*/
+.horizontal-center {
+  justify-content: center;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.is-expanded,
+.is-expanded .control {
+  width: 100%;
+}
+
+/* el input en los popup api/embeber */
+.label,
+.control {
+  display: inline-flex;
+  width: 100%;
+}
