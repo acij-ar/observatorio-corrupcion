@@ -95,6 +95,11 @@ df_descriptions = pd.read_csv(
 df_cases = df_cases.join(
     df_descriptions.set_index('expediente'), on='expediente'
 )
+df_cases.columns = [
+    'nombre' if c == 'nombre_causa' else c
+    for c in df_cases.columns
+]
+df_cases.nombre = df_cases.nombre.fillna(df_cases.expediente)
 
 # Add crimes
 crimes = []
