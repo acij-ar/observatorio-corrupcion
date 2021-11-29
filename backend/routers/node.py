@@ -110,6 +110,19 @@ def query_entity(parameters, args):
 
         entidad['querellantes'] = commons
 
+    if 'causas' in entidad:
+        for i, cases in enumerate(entidad['causas']):
+            judge = [j for j in cases['involucrados'] if j['relacion'] == 'juez']
+            if judge:
+                entidad['causas'][i]['juez'] = judge[0]
+            else:
+                entidad['causas'][i]['juez'] = {'nombre': '', '_key': ''}
+            prosecutor = [p for p in cases['involucrados'] if p['relacion'] == 'fiscal']
+            if prosecutor:
+                entidad['causas'][i]['fiscal'] = prosecutor[0]
+            else:
+                entidad['causas'][i]['fiscal'] = {'nombre': '', '_key': ''}
+
     if args['show'] != 'full':
         entidad = {key: entidad[key] for key in entidad.keys()
                    if key not in ['causas', 'relaciones']}
