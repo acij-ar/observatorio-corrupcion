@@ -293,8 +293,13 @@ export default{
     },
     parseData: function () {
       // Prepareted the data
-      var data = this.cases.slice()
-      data.forEach(d => { d.anio_comienzo = parseInt(d.anio_comienzo) })
+      let data = this.cases.slice()
+      data = data.map(d => {
+        d.relacion = d.relacion.replace(/denunciado|imputado|procesado|denunciado/, 'investigado/a')
+        return d
+      })
+
+      // data.forEach(d => { d.anio_comienzo = parseInt(d.anio_comienzo) })
 
       // Sort the data by multiple fields. Ty to
       // https://bytemaster.io/javascript-object-multi-property-sort

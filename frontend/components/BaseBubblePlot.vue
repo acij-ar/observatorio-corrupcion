@@ -82,7 +82,7 @@ export default {
         .attr('clip-path', d => 'url(#clip-' + d.data.name.replace(/ /g, '_') + ')')
         .selectAll('tspan')
         .attr('font-family', 'MontserratRegular')        
-        .data(d => `Cantidad: ${d.value}`)
+        .data(d => `${d.value}`)
         .enter().append('tspan')
           .attr('x', (d, i, nodes) => `${i - nodes.length / 2}em`)
           .attr('y', d => 0)

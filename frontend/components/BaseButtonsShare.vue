@@ -37,11 +37,6 @@ import { downloadEntityBio, downloadEntityCases, downloadCasesResolution,
 
 export default {
   name: 'ShareButtons',
-  data () {
-    return {
-      node: this.$route.params.node
-    }
-  },
   props: {
     section: {
       type: String,
@@ -86,7 +81,7 @@ export default {
 
     },
     openApiDialog () {
-      this.$dialog.prompt({
+      this.$buefy.dialog.prompt({
         title: 'API',
         message: 'Link a nuestra API sobre Causas de Corrucion',
         confirmText: 'Copiar',
@@ -96,10 +91,10 @@ export default {
           placeholder: 'URL',
           type: 'text',
           id: 'copy-api-' + this.section,
-          value: apiUrl + 'nodo/nodos_entidades/' + this.$route.params.node
+          value: apiUrl + 'nodo/nodos_entidades/' + this.$route.query.nombre
         },
         onConfirm: (value) => {
-          this.$toast.open({
+          this.$buefy.toast.open({
             message: 'Link copiado al portapapeles.',
             type: 'is-success'
           })
@@ -108,7 +103,7 @@ export default {
       })
     },
     openEmbeberDialog () {
-      this.$dialog.prompt({
+      this.$buefy.dialog.prompt({
         title: 'Embeber',
         message: 'Url para embeber',
         confirmText: 'Copiar',
@@ -121,7 +116,7 @@ export default {
           value: this.generateLink()
         },
         onConfirm: (value) => {
-          this.$toast.open({
+          this.$buefy.toast.open({
             message: 'Link copiado al portapapeles.',
             type: 'is-success'
           })
@@ -157,7 +152,10 @@ export default {
       var svgString = this.getSVGString(svg.node())
 
       function save (dataBlob, filesize) {
-        let pngName = (that.title + '_' + that.node + '.png').replace(/ /, '_').replace(/-/, '_')
+        const pngName = (`${that.title} ${that.$route.query.nombre}.png`)
+          .replace(/ /, '_')
+          .replace(/-/, '_')
+          .toLowerCase()
         saveAs(dataBlob, pngName) // FileSaver.js function
       }
 
