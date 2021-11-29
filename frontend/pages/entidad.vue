@@ -32,10 +32,10 @@
     <!-- A quien querella -->
     <entity-querella :entity="entity" v-if="entity.tipo === 'organismo estatal'"></entity-querella>
     <!-- Cases table -->
-    <!-- <entity-cases-table :entity="entity"></entity-cases-table> -->
+    <entity-cases-table :entity="entity"></entity-cases-table>
 
     <!-- Graph -->
-    <!-- <graph></graph> -->
+    <graph></graph>
   </div>
 </template>
 
