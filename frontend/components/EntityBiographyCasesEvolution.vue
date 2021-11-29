@@ -110,7 +110,8 @@ export default{
         { start: 2003, end: 2007, color: '#b8b8ff', color2: 'blue', president: 'FPV', textColor: 'white' },
         { start: 2007, end: 2011, color: '#b8b8ff', color2: 'blue', president: 'FPV', textColor: 'white'  },
         { start: 2011, end: 2015, color: '#b8b8ff', color2: 'blue', president: 'FPV', textColor: 'white'  },
-        { start: 2015, end: 2019, color: '#ffffb0', color2: 'yellow', president: 'Cambiemos', textColor: 'black'  }
+        { start: 2015, end: 2019, color: '#ffffb0', color2: 'yellow', president: 'Cambiemos', textColor: 'black'  },
+        { start: 2019, end: 2023, color: '#b8b8ff', color2: 'blue', president: 'Todos', textColor: 'white'  }
       ]
 
       let indexS = dataBarPresidents.findIndex(d => (d.start <= xMin) && (xMin <= d.end))
