@@ -5,26 +5,24 @@
         :data="cases"></base-buttons-share>
 
       <b-table :data="cases">
-        <template slot-scope="props">
-          <b-table-column field="index" label="Ranking">
-              {{ props.index + 1 }}
-          </b-table-column>
+        <b-table-column field="index" label="Ranking" v-slot="props">
+          {{ props.index + 1 }}
+        </b-table-column>
 
-          <b-table-column field="anio_comienzo" label="Cantidad de años abierto">
-              {{ new Date().getFullYear() - props.row.anio_comienzo }}
-          </b-table-column>
+        <b-table-column field="anio_comienzo" label="Cantidad de años abierto" v-slot="props">
+          {{ new Date().getFullYear() - props.row.anio_comienzo }}
+        </b-table-column>
 
-          <b-table-column field="expediente" label="Expediente">
-            <nuxt-link
-            :to="{ name: 'expediente', query: { nombre: props.row._key }}">
-              {{ props.row.nombre }}
-            </nuxt-link>
-          </b-table-column>
+        <b-table-column field="expediente" label="Expediente" v-slot="props">
+          <nuxt-link
+          :to="{ name: 'expediente', query: { nombre: props.row._key }}">
+            {{ props.row.nombre }}
+          </nuxt-link>
+        </b-table-column>
 
-          <b-table-column field="caratula" label="Caratula">
-              {{ props.row.caratula }}
-          </b-table-column>
-        </template>
+        <b-table-column field="caratula" label="Caratula" v-slot="props">
+          {{ props.row.caratula }}
+        </b-table-column>
       </b-table>
 
     </div>

@@ -10,20 +10,18 @@
 
             <div class="column is-6">
               <b-table :data="casesEnd">
-                <template slot-scope="props">
-                  <b-table-column field="bin" label="Duracion">
-                      <div class="box" :style="{'background-color': colors[props.index]}"></div>
-                      {{ props.row.bin }}
-                  </b-table-column>
+                <b-table-column field="bin" label="Duracion" v-slot="props">
+                  <div class="box" :style="{'background-color': colors[props.index]}"></div>
+                  {{ props.row.bin }}
+                </b-table-column>
 
-                  <b-table-column field="value" label="Cantidad">
-                      {{ props.row.value }}
-                  </b-table-column>
+                <b-table-column field="value" label="Cantidad" v-slot="props">
+                  {{ props.row.value }}
+                </b-table-column>
 
-                  <b-table-column field="percent" label="Porcentaje">
-                      {{ props.row.p }}
-                  </b-table-column>
-                </template>
+                <b-table-column field="percent" label="Porcentaje" v-slot="props">
+                  {{ props.row.p }}
+                </b-table-column>
               </b-table>
             </div>
 
@@ -40,20 +38,18 @@
 
             <div class="column is-6">
               <b-table :data="casesOpen">
-                <template slot-scope="props">
-                  <b-table-column field="bin" label="Duracion">
-                      <div class="box" :style="{'background-color': colors[props.index]}"></div>
-                      {{ props.row.bin }}
-                  </b-table-column>
+                <b-table-column field="bin" label="Duracion" v-slot="props">
+                  <div class="box" :style="{'background-color': colors[props.index]}"></div>
+                  {{ props.row.bin }}
+                </b-table-column>
 
-                  <b-table-column field="value" label="Cantidad">
-                      {{ props.row.value }}
-                  </b-table-column>
+                <b-table-column field="value" label="Cantidad" v-slot="props">
+                  {{ props.row.value }}
+                </b-table-column>
 
-                  <b-table-column field="percent" label="Porcentaje">
-                      {{ props.row.p }}
-                  </b-table-column>
-                </template>
+                <b-table-column field="percent" label="Porcentaje" v-slot="props">
+                  {{ props.row.p }}
+                </b-table-column>
               </b-table>
             </div>
 
@@ -94,6 +90,7 @@ export default {
     getData: function () {
       d3.json(apiUrl + 'estadisticas/duracion')
         .then(dataJson => {
+          console.log(dataJson)
           let f = d3.format('.1f')
 
           this.casesEnd = dataJson.resultado.terminadas.map(d => {

@@ -15,15 +15,13 @@
         :per-page=10
         default-sort="nombre">
 
-        <template slot-scope="props">
-          <b-table-column field="nombre" label="Nombre" sortable>
-            <router-link :to="calcLink(props.row)">{{ props.row.nombre }}</router-link>
-          </b-table-column>
+        <b-table-column field="nombre" label="Nombre" sortable v-slot="props">
+          <router-link :to="calcLink(props.row)">{{ props.row.nombre }}</router-link>
+        </b-table-column>
 
-          <b-table-column field="relacion" label="Relacion" sortable>
-            {{ props.row.relacion }}
-          </b-table-column>
-        </template>
+        <b-table-column field="relacion" label="Relacion" sortable v-slot="props">
+          {{ props.row.relacion }}
+        </b-table-column>
       </b-table>
 
     </div>
