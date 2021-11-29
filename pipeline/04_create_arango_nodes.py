@@ -135,7 +135,7 @@ for index, row in df_cases.iterrows():
         radications.append([])
 
     # Obtengo el juez y fiscal federal
-    t = 'JUZGADO NACIONAL DE PRIMERA INSTANCIA EN LO CRIMINAL Y CORRECCIONAL FEDERAL N° '
+    t = 'JUZGADO NACIONAL DE PRIMERA INSTANCIA EN LO CRIMINAL Y CORRECCIONAL FEDERAL N '
     if not df_filter[df_filter.organo_nombre.str.startswith(t)].empty:
         fiscal = df_filter[df_filter.organo_nombre.str.startswith(t)].iloc[0]['fiscal']
         juez = df_filter[df_filter.organo_nombre.str.startswith(t)].iloc[0]['juez_1']
