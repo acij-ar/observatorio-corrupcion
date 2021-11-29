@@ -55,7 +55,7 @@ export function getCases () {
       this.cases.foto = this.cases.nombre_causa != '' ? this.cases.link + '.jpg' : 'nn.png'
 
       this.cases.resoluciones = this.cases.resoluciones.map(d => {
-        let f = d.fecha_resolucion.split('/')
+        let f = d.fecha.split('/')
         d.fecha_resolucion = new Date(f[2], f[1], f[0])
 
         return d
