@@ -107,6 +107,11 @@ def query_graph(parameters):
 
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
     results = [r for r in data][0]
+    results['nodes'] = [node for node in results['nodes'] if node['id']]
+    results['links'] = [
+        link for link in results['links']
+        if 'nodos_magistrados/SIN_DATO' not in [link['source'], link['target']]
+    ]
 
     return {'grafo': results,
             'execution_time': data.statistics()['execution_time']}
