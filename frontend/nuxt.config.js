@@ -40,7 +40,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/font-awesome'
+    '~/plugins/font-awesome',
+    '~/plugins/portal',
   ],
 
   /*
