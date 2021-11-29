@@ -1,6 +1,7 @@
 <template>
   <div>
     <section id="banner" class="hero is-fullheight">
+      <the-nav-bar />
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -46,9 +47,11 @@
 import debounce from 'debounce'
 import { HTTP } from '@/assets/utils'
 
+import TheNavBar from '@/components/TheNavBar'
 import HomeHot from '~/components/HomeHot'
 
 export default {
+  layout: 'home',
   head () {
     return {
       title: 'Inicio'
@@ -65,7 +68,8 @@ export default {
     }
   },
   components: {
-    HomeHot
+    TheNavBar,
+    HomeHot,
   },
   watch: {
     entitySelected: function () {
@@ -133,5 +137,19 @@ export default {
 
 body.night .autocomplete-option {
   color: black;
+}
+
+#banner {
+  color: white;
+  background-color: #292935;
+  background-image: url("~@/assets/portada-1.jpg"), linear-gradient(#5fd0ee 50%,#01b2a8 0);
+  background-size: 100%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+#banner .title {
+  color: white;
 }
 </style>

@@ -1,29 +1,23 @@
 <template>
   <div>
-    <section class="hero_secondary">
-      <!-- Hero body -->
+    <portal to="header">
       <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 v-if="entity" class="title is-2">
-            {{ this.entity.nombre }}
-          </h1>
-        </div>
+        <h1 v-if="entity" class="title is-2">
+          {{ this.entity.nombre }}
+        </h1>
       </div>
 
-      <!-- Hero footer -->
-      <div class="hero-foot">
+      <div class="hero-footer">
         <nav class="tabs">
-          <div class="container">
-            <ul>
-              <li><a href="#biografia">Biografia</a></li>
-              <li><a href="#estadisticas">Estadisticas</a></li>
-              <li><a href="#causas">Causas de corrupcion</a></li>
-              <li><a href="#conexiones">Conexiones</a></li>
-            </ul>
-          </div>
+          <ul>
+            <li><a href="#biografia">Biografia</a></li>
+            <li><a href="#estadisticas">Estadisticas</a></li>
+            <li><a href="#causas">Causas de corrupcion</a></li>
+            <li><a href="#conexiones">Conexiones</a></li>
+          </ul>
         </nav>
       </div>
-    </section>
+    </portal>
 
     <!-- Biography -->
     <entity-biography :entity="entity"></entity-biography>

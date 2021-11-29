@@ -1,33 +1,28 @@
 <template>
   <div>
-    <section class="hero_secondary">
-      <!-- Hero body -->
+    <portal to="header">
       <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 v-if="magistrate" class="title is-2">
-            {{ this.magistrate.nombre }}
-          </h1>
+        <h1 v-if="magistrate" class="title is-2">
+          {{ this.magistrate.nombre }}
+        </h1>
 
-          <h2 v-if="magistrate" class="title is-3">
-            {{ this.magistrate.subtipo }}
-          </h2>
-        </div>
+        <h2 v-if="magistrate" class="title is-3">
+          {{ this.magistrate.subtipo }}
+        </h2>
       </div>
 
       <!-- Hero footer -->
-      <div class="hero-foot">
+      <div class="hero-footer">
         <nav class="tabs">
-          <div class="container">
-            <ul>
-              <li><a href="#biografia">Biografia</a></li>
-              <li><a href="#casos">Causas importante</a></li>
-              <li><a href="#investigados">Mas investigados</a></li>
-              <li><a href="#duracion">Duracion de las causas</a></li>
-            </ul>
-          </div>
+          <ul>
+            <li><a href="#biografia">Biografia</a></li>
+            <li><a href="#casos">Causas importante</a></li>
+            <li><a href="#investigados">Mas investigados</a></li>
+            <li><a href="#duracion">Duracion de las causas</a></li>
+          </ul>
         </nav>
       </div>
-    </section>
+    </portal>
 
     <magistrate-biography :magistrate="magistrate"></magistrate-biography>
     <magistrate-cases :magistrate="magistrate"></magistrate-cases>

@@ -1,9 +1,8 @@
 <template>
-  <div class="default">
-    <the-nav-bar/>
+  <div>
     <nuxt/>
-    <the-contact/>
-    <the-footer/>
+    <the-contact></the-contact>
+    <the-footer></the-footer>
 
     <!-- Tooltip for the plots -->
     <div id="tooltip" class="hidden"><p id="value"></p></div>
@@ -11,13 +10,11 @@
 </template>
 
 <script>
-import TheNavBar from '@/components/TheNavBar'
 import TheContact from '@/components/TheContact'
 import TheFooter from '@/components/TheFooter'
 
 export default {
   components: {
-    TheNavBar,
     TheContact,
     TheFooter
   }

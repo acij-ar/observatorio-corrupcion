@@ -46,24 +46,42 @@
             </div>
           </div>
         </div>
-
       </div><!--/container -->
     </nav>
+    <div class="hero">
+      <div class="container has-text-centered">
+        <portal-target name="header" />
+      </div>
+    </div>
   </header>
 </template>
 
 <script>
 export default {
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.theme
+      }
+    }
+  },
   data () {
     return {
+      theme: null,
       isSwitched: false
     }
   },
   watch: {
     isSwitched: function () {
-      this.$emit('changeCSSMode', this.isSwitched === true ? 'night' : 'day')
+      this.theme = this.isSwitched === true ? 'night' : 'day'
+      localStorage.setItem('theme', this.theme)
     }
-  }
+  },
+  mounted () {
+    const localTheme = localStorage.getItem('theme')
+    this.theme = ['night', 'day'].includes(localTheme) ? localTheme : 'day'
+    this.isSwitched = this.theme === 'night'
+  },
 }
 </script>
 

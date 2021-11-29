@@ -1,33 +1,28 @@
 <template>
   <div>
-    <section class="hero_secondary">
-      <!-- Hero body -->
-      <div class="hero-body">
-        <div v-if="Object.keys(cases).length !== 0" class="container has-text-centered">
-          <h1 class="title is-2">
-            {{ this.cases.nombre }}
-          </h1>
+    <portal to="header">
+      <div v-if="cases" class="hero-body">
+        <h1 class="title is-2">
+          {{ this.cases.nombre }}
+        </h1>
 
-          <h2 v-if="cases.nombre !== cases.expediente" class="title is-3">
-            {{ this.cases.expediente }}
-          </h2>
-        </div>
+        <h2 v-if="cases.nombre !== cases.expediente" class="title is-3">
+          {{ this.cases.expediente }}
+        </h2>
       </div>
 
       <!-- Hero footer -->
-      <div class="hero-foot">
+      <div class="hero-footer">
         <nav class="tabs">
-          <div class="container">
-            <ul>
-              <li><a href="#descripcion">Descripcion</a></li>
-              <li><a href="#involucrados">Involucrados</a></li>
-              <li><a href="#resoluciones">Resoluciones</a></li>
-              <li><a href="#conexiones">Conexiones</a></li>
-            </ul>
-          </div>
+          <ul>
+            <li><a href="#descripcion">Descripcion</a></li>
+            <li><a href="#involucrados">Involucrados</a></li>
+            <li><a href="#resoluciones">Resoluciones</a></li>
+            <li><a href="#conexiones">Conexiones</a></li>
+          </ul>
         </nav>
       </div>
-    </section>
+    </portal>
 
     <!-- Cases Description -->
     <cases-description :cases="cases"></cases-description>
@@ -79,7 +74,7 @@ export default {
 
     if (from.path === to.path) {
       next()
-      this.getCase()
+      this.getCases()
     }
 
     next()

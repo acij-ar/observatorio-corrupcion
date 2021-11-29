@@ -61,10 +61,6 @@ text {
   padding-bottom: 25px;
 }
 
-.container {
-  padding-top: 40px;
-}
-
 /*
   General day and night mode
 */
@@ -92,61 +88,41 @@ body.night .tabs a {
 /*
   Common hero banner
 */
-.hero {
+.default .hero {
   color: white;
   background-color: #292935;
-  background-image: url("~@/assets/portada-1.jpg");
-  background-size: 100%;
-  background-position: center center;
-  background-attachment: fixed;  
-}
-
-.hero_secondary {
-  color: white;
-  background-color: #292935;
-  background-image: url("~@/assets/1280x250.jpg");
+  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.3), rgba(46, 49, 65, 0)), url("~@/assets/1280x250.jpg");
   background-size: 100%;
   background-position: center center;
   background-repeat: no-repeat;
-  height: 250px !important;
   background-attachment: scroll;
+  min-height: 250px;
 }
 
-body.night .hero {
+body.night .default .hero {
   background-image: linear-gradient(to top, rgba(46, 49, 65, 0.7), rgba(46, 49, 65, 0.4)), url("~@/assets/portada-1.jpg");
 }
 
-body.night .hero_secondary {
-  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.7), rgba(46, 49, 65, 0.4)), url("~@/assets/1280x250.jpg");
-}
 
-.hero h1, .hero h2 {
+.default .hero h1,
+.default .hero h2 {
   color: white;
 }
 
-.hero_secondary h1, .hero_secondary h2 {
-  color: white;
-}
-
-.hero-body {
+.default .hero-body {
   padding-bottom: 2rem;
   padding-top: 5rem;
 }
 
-.hero-foot .container {
-  text-align: center;
-  padding-bottom: 20px;
-}
-
-.hero-foot ul {
+.default .hero-footer ul {
   display: inline-flex;
 }
 
-.hero-foot .tabs ul li a {
+.default .hero-footer .tabs ul li a {
   color: white;
 }
 
-.hero-foot ul li a {
+.default .hero-footer ul li a {
   border: 0;
   font-size: 1.3rem;
   font-family: BisionBold;
@@ -155,13 +131,13 @@ body.night .hero_secondary {
   display: inline-block;
 }
 
-.hero-foot ul li a:hover {
+.default .hero-footer ul li a:hover {
   background: transparent;
   color: whitesmoke;
   border-width: 4px;
 }
 
-.hero-foot ul li a::after {
+.default .hero-footer ul li a::after {
   content: '';
   display: block;
   width: 0;
@@ -170,7 +146,7 @@ body.night .hero_secondary {
   transition: width .3s;
 }
 
-.hero-foot ul li a:hover::after {
+.default .hero-footer ul li a:hover::after {
   width: 100%;
 }
 
