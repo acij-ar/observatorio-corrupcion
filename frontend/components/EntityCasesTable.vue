@@ -24,114 +24,108 @@
       </b-field>
 
       <b-table
-        id="tablaCasos"
-        ref="table"
         :data="casesFilter"
         detailed
         :paginated=true
         :per-page="perPage"
         detail-key="expediente"
-        @details-open="(row, index) => $toast.open(`Detalles caso ${row.expediente}`)"
-        default-sort="anio_comienzo">
+        @details-open="(row, index) => $buefy.toast.open(`Detalles caso ${row.expediente}`)"
+        default-sort="anio_comienzo"
+      >
+        <b-table-column field="anio_comienzo" label="Año Comienzo" sortable v-slot="props">
+          {{ props.row.anio_comienzo }}
+        </b-table-column>
 
-        <template slot-scope="props">
-          <b-table-column field="anio_comienzo" label="Año Comienzo" sortable>
-            {{ props.row.anio_comienzo }}
-          </b-table-column>
+        <b-table-column field="expediente" label="Expediente" v-slot="props">
+          <nuxt-link v-if="props.row.expediente"
+          :to="{ name: 'expediente', query: { nombre: props.row._key }}">
+            {{ props.row.nombre }}
+          </nuxt-link>
+        </b-table-column>
 
-          <b-table-column field="expediente" label="Expediente">
-            <nuxt-link v-if="props.row.expediente"
-            :to="{ name: 'expediente', query: { nombre: props.row._key }}">
-              {{ props.row.nombre }}
+        <b-table-column field="juez" label="Juez/a" sortable v-slot="props">
+          <nuxt-link v-if="props.row.juez"
+          :to="{ name: 'magistrado', query: { nombre: props.row.juez.key }}">
+            {{ props.row.juez.nombre }}
+          </nuxt-link>
+        </b-table-column>
+
+        <b-table-column field="fiscal" label="Fiscal" sortable v-slot="props">
+          <nuxt-link v-if="props.row.fiscal"
+          :to="{ name: 'magistrado', query: { nombre: props.row.fiscal.key }}">
+            {{ props.row.fiscal.nombre }}
+          </nuxt-link>
+        </b-table-column>
+
+        <b-table-column field="delitos" label="Delitos" v-slot="props">
+          <span v-for="delito in props.row.delitos" :key="delito.id">
+            {{ delito }} --
+          </span>
+        </b-table-column>
+
+        <b-table-column field="relacion" label="Relacion" sortable v-slot="props">
+          {{ props.row.relacion.toUpperCase() }}
+        </b-table-column>
+
+        <b-table-column field="estado" label="Estado" sortable v-slot="props">
+          {{ props.row.estado }}
+        </b-table-column>
+
+        <b-table-column field="denunciante" label="Denunciante" sortable v-slot="props">
+          <span v-if="involved.relacion === 'denunciante'" v-for="involved in props.row.involucrados" :key="involved.id">
+            <nuxt-link :to="{ name: 'entidad', query: { nombre: involved.key }}">
+              {{ involved.nombre }} --
             </nuxt-link>
-          </b-table-column>
+          </span>
+        </b-table-column>
 
-          <b-table-column field="juez" label="Juez/a" sortable>
-            <nuxt-link v-if="props.row.juez"
-            :to="{ name: 'magistrado', query: { nombre: props.row.juez.key }}">
-              {{ props.row.juez.nombre }}
-            </nuxt-link>
-          </b-table-column>
-
-          <b-table-column field="fiscal" label="Fiscal" sortable>
-            <nuxt-link v-if="props.row.fiscal"
-            :to="{ name: 'magistrado', query: { nombre: props.row.fiscal.key }}">
-              {{ props.row.fiscal.nombre }}
-            </nuxt-link>
-          </b-table-column>
-
-          <b-table-column field="delitos" label="Delitos">
-            <span v-for="delito in props.row.delitos" :key="delito.id">
-              {{ delito }} --
-            </span>
-          </b-table-column>
-
-          <b-table-column field="relacion" label="Relacion" sortable>
-            {{ props.row.relacion.toUpperCase() }}
-          </b-table-column>
-
-          <b-table-column field="estado" label="Estado" sortable>
-            {{ props.row.estado }}
-          </b-table-column>
-
-          <b-table-column field="denunciante" label="Denunciante" sortable>
-            <span v-if="involved.relacion === 'denunciante'" v-for="involved in props.row.involucrados" :key="involved.id">
+        <b-table-column field="querellante" label="Querellante" sortable v-slot="props">
+          <div v-if="getQuerella(props.row.involucrados).length > 0">
+            <span v-for="involved in getQuerella(props.row.involucrados)" :key="involved.id">
               <nuxt-link :to="{ name: 'entidad', query: { nombre: involved.key }}">
                 {{ involved.nombre }} --
               </nuxt-link>
             </span>
-          </b-table-column>
+          </div>
+          <div v-else>
+            <span>El CIJ no contiene información al respecto</span>
+          </div>
+        </b-table-column>
 
-          <b-table-column field="querellante" label="Querellante" sortable>
-            <div v-if="getQuerella(props.row.involucrados).length > 0">
-              <span v-for="involved in getQuerella(props.row.involucrados)" :key="involved.id">
-                <nuxt-link :to="{ name: 'entidad', query: { nombre: involved.key }}">
-                  {{ involved.nombre }} --
-                </nuxt-link>
-              </span>
-            </div>
-            <div v-else>
-              <span>El CIJ no contiene información al respecto</span>
-            </div>
-          </b-table-column>
+        <b-table-column field="ultima_actualizacion" label="Ultima Actualizacion" centered v-slot="props">
+          <span v-if="props.row.ultima_actualizacion">
+            {{ props.row.ultima_actualizacion }}
+          </span>
+          <span v-else>
+            El CIJ no contiene información al respecto
+          </span>
+        </b-table-column>
 
-          <b-table-column field="ultima_actualizacion" label="Ultima Actualizacion" centered>
-            <span v-if="props.row.ultima_actualizacion">
-              {{ props.row.ultima_actualizacion }}
-            </span>
-            <span v-else>
-              El CIJ no contiene información al respecto
-            </span>
-          </b-table-column>
-
-          <b-table-column field="resuelve_texto" label="Resolucion">
-            <span @click="toggle(props.row)" class="aa">Ver investigados</span>
-          </b-table-column>
-        </template>
+        <b-table-column field="resuelve_texto" label="Resolucion" v-slot="props">
+          <span @click="toggle(props.row)" class="aa">Ver investigados</span>
+        </b-table-column>
 
         <template slot="detail" slot-scope="props">
-          <b-table
-            :data=props.row.involucrados
-            :paginated=true
-            :per-page=5
-            default-sort="nombre"
-            :row-class="(row, index) => ['juez', 'fiscal', 'denunciante'].includes(row.relacion) ? 'hidden-row' : ''">
-
-            <template slot-scope="propsDetail">
-              <b-table-column field="nombre" label="Nombre" sortable>
-                <nuxt-link :to="{ name: 'entidad-node', params: { node: propsDetail.row.key }}">
+          <div id="detailsTable">
+            <b-table
+              :data=props.row.involucrados
+              :paginated=true
+              :per-page=5
+              default-sort="nombre"
+              :row-class="(row, index) => ['juez', 'fiscal', 'denunciante'].includes(row.relacion) ? 'hidden-row' : ''"
+            >
+              <b-table-column field="nombre" label="Nombre" sortable v-slot="propsDetail">
+                <nuxt-link :to="{ name: 'entidad', query: { nombre: propsDetail.row.key }}">
                   {{ propsDetail.row.nombre }}
                 </nuxt-link>
               </b-table-column>
 
-              <b-table-column field="relacion" label="Relacion" sortable>
+              <b-table-column field="relacion" label="Relacion" sortable v-slot="propsDetail">
                 {{ propsDetail.row.relacion }}
               </b-table-column>
-            </template>
-
-          </b-table>
+            </b-table>
+          </div>
         </template>
-
       </b-table>
 
     </div><!--/.container -->
@@ -204,5 +198,9 @@ export default {
 .aa {
   color: blue;
   cursor: pointer;
+}
+
+#detailsTable {
+  max-width: 90vw;
 }
 </style>
