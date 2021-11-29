@@ -44,14 +44,25 @@ def query_graph(parameters):
         FOR v, e, p IN 0..@deep ANY @node GRAPH "grafo"
             PRUNE v.nombre == 'DEFENSORIA PUBLICA OFICIAL'
             OPTIONS {bfs: true}
-            RETURN DISTINCT v
+            RETURN DISTINCT {
+                _key: v._key,
+                id: v._id,
+                nombre: v.nombre,
+                tipo: v.tipo,
+                subtipo: v.subtipo,
+                metricas: v.metricas
+            }
         )
 
     LET links = (
         FOR v, e, p IN 1..@deep ANY @node GRAPH "grafo"
             PRUNE v.nombre == 'DEFENSORIA PUBLICA OFICIAL'
             OPTIONS {bfs: true}
-            RETURN DISTINCT e
+            RETURN DISTINCT {
+                source: e._from,
+                target: e._to,
+                tipo: e.tipo
+            }
         )
 
     return {nodes, links}
@@ -61,13 +72,24 @@ def query_graph(parameters):
     LET nodes = (
         FOR v, e, p IN 0..@deep ANY @node GRAPH "grafo"
             OPTIONS {bfs: true}
-            RETURN DISTINCT v
+            RETURN DISTINCT {
+                _key: v._key,
+                id: v._id,
+                nombre: v.nombre,
+                tipo: v.tipo,
+                subtipo: v.subtipo,
+                metricas: v.metricas
+            }
         )
 
     LET links = (
         FOR v, e, p IN 1..@deep ANY @node GRAPH "grafo"
             OPTIONS {bfs: true}
-            RETURN DISTINCT e
+            RETURN DISTINCT {
+                source: e._from,
+                target: e._to,
+                tipo: e.tipo
+            }
         )
 
     return {nodes, links}
@@ -85,37 +107,6 @@ def query_graph(parameters):
 
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
     results = [r for r in data][0]
-
-    nodes = [node for node in results['nodes'] if node]
-    links = [link for link in results['links'] if link]
-
-    # Only return the necesary data
-    resultado_nodes = []
-    for node in nodes:
-        id = node['_id']
-        print(id)
-        nombre=""
-        tipo=""
-        subtipo=""
-        metricas=""
-        if 'nombre' in node:
-            nombre=node['nombre']
-        if 'tipo' in node:
-            tipo=node['tipo']
-        if 'subtipo' in node:
-            subtipo=node['subtipo']
-        if 'metricas' in node:
-            metricas=node['metricas']
-        if nombre != "":
-            resultado_nodes.append({'id': id, 'nombre': nombre,'tipo': tipo, 'subtipo': subtipo,'metricas': metricas})        
-
-    links = [{'source': link['_from'], 'target': link['_to'],
-              'tipo': link['tipo']} for link in links]
-
-    results = {
-        'nodes': nodes,
-        'links': links
-    }
 
     return {'grafo': results,
             'execution_time': data.statistics()['execution_time']}
