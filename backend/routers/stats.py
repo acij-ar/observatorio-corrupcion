@@ -120,22 +120,21 @@ def query_top_judges():
 
         // Casos cerrados
         LET c = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminada == true AND cases.juez == judge
+            FILTER cases.terminado == true AND cases.juez == judge
             RETURN 1)
 
         // Casos abiertos
         LET a = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminada == false AND cases.juez == judge
+            FILTER cases.terminado == false AND cases.juez == judge
             RETURN 1)
 
         // A juicio oral
         LET d = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminada == true AND cases.estado IN ['ELEVACION A JUICIO ORAL PARCIAL', 'ELEVACION A JUICIO ORAL TOTAL'] AND cases.juez == judge
+            FILTER cases.terminado == true AND cases.estado IN ['ELEVACION A JUICIO ORAL PARCIAL', 'ELEVACION A JUICIO ORAL TOTAL'] AND cases.juez == judge
             RETURN 1)
 
-        RETURN { juez: judge, total: t, juicio_oral: d, casos_cerrados: c, casos_abiertos: a}
+        RETURN { juez: {nombre: judge}, total: t, juicio_oral: d, casos_cerrados: c, casos_abiertos: a}
     """
-
     data = arangoDB.aql.execute(query)
     result = [r for r in data]
 
@@ -192,7 +191,7 @@ def query_crimes():
 def query_old_cases():
     query = """
     FOR case IN nodos_causas
-        FILTER case.terminada == false
+        FILTER case.terminado == false
         SORT case.anio_comienzo ASC
         LIMIT 10
         RETURN case
@@ -208,7 +207,7 @@ def query_duration():
     # Causas cerradas
     query = """
     FOR case IN nodos_causas
-        FILTER case.terminada == true
+        FILTER case.terminado == true
         RETURN DATE_YEAR(DATE_NOW()) - case.anio_comienzo
     """
     data = arangoDB.aql.execute(query)
@@ -225,7 +224,7 @@ def query_duration():
     # Causas abiertas
     query = """
     FOR case IN nodos_causas
-        FILTER case.terminada == false
+        FILTER case.terminado == false
         RETURN DATE_YEAR(DATE_NOW()) - case.anio_comienzo
     """
     data = arangoDB.aql.execute(query)
