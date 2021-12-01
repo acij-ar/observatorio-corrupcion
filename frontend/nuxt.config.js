@@ -1,7 +1,7 @@
 const pkg = require('./package')
 
 module.exports = {
-  mode: 'spa',
+  ssr: false,
 
   server: {
     port: 3000, // default: 3000
@@ -48,10 +48,16 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [,
-    // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
-    ['nuxt-matomo', { matomoUrl: '//analytics.conocimientoabierto.org/', siteId: 4 }]
+    // ['nuxt-matomo', { matomoUrl: '//analytics.conocimientoabierto.org/', siteId: 4 }]
   ],
+
+  buildModules: [
+    '@nuxtjs/google-analytics'
+  ],
+  googleAnalytics: {
+    id: 'UA-213809731-1'
+  },
 
   /*
   ** Build configuration
