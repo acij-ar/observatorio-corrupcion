@@ -112,31 +112,44 @@ def query_top_judges():
     query = """
     LET judges = UNIQUE(FOR case IN nodos_causas RETURN case.juez)
 
-    FOR judge IN judges
+    FOR judge_name IN judges
         // Total de casos que tiene
         LET t = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.juez == judge
+            FILTER cases.juez == judge_name
             RETURN 1)
 
         // Casos cerrados
         LET c = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminado == true AND cases.juez == judge
+            FILTER cases.terminado == true AND cases.juez == judge_name
             RETURN 1)
 
         // Casos abiertos
         LET a = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminado == false AND cases.juez == judge
+            FILTER cases.terminado == false AND cases.juez == judge_name
             RETURN 1)
 
         // A juicio oral
         LET d = LENGTH(FOR cases IN nodos_causas
-            FILTER cases.terminado == true AND cases.estado IN ['ELEVACION A JUICIO ORAL PARCIAL', 'ELEVACION A JUICIO ORAL TOTAL'] AND cases.juez == judge
+            // FILTER cases.terminado == true AND cases.estado IN ['ELEVACION A JUICIO ORAL PARCIAL', 'ELEVACION A JUICIO ORAL TOTAL'] AND cases.juez == judge_name
+            FILTER cases.estado IN ['ELEVACION A JUICIO ORAL PARCIAL', 'ELEVACION A JUICIO ORAL TOTAL'] AND cases.juez == judge_name
             RETURN 1)
 
-        RETURN { juez: {nombre: judge}, total: t, juicio_oral: d, casos_cerrados: c, casos_abiertos: a}
+        LET judge = (
+            FOR jj IN nodos_magistrados
+                FILTER jj.nombre == judge_name
+                RETURN jj
+        )
+
+        RETURN { juez: {nombre: judge_name, organo_nombre: judge[0].organo_nombre}, total: t, juicio_oral: d, casos_cerrados: c, casos_abiertos: a}
     """
     data = arangoDB.aql.execute(query)
-    result = [r for r in data]
+    result = []
+
+    for r in data:
+        if r['juez']['nombre'] != 'sin dato':
+            s = r['juez']['organo_nombre'].split()
+            r['juez']['nombre'] = f"Juzgado Nº {s[-1]} ({r['juez']['nombre']})"
+        result.append(r)
 
     return {'resultado': result,
             'execution_time': data.statistics()['execution_time']}

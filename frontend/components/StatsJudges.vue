@@ -15,7 +15,7 @@
 
 <script>
 import * as d3 from 'd3'
-import { apiUrl, renameJudges } from '~/assets/utils'
+import { apiUrl } from '~/assets/utils'
 
 import Bar from '~/components/PlotBar'
 import BaseButtonsShare from '~/components/BaseButtonsShare'
@@ -31,19 +31,13 @@ export default {
     BaseButtonsShare
   },
   mounted () {
-    // Get initial data
     this.getData()
   },
   methods: {
     getData: function () {
       d3.json(apiUrl + 'estadisticas/jueces')
         .then(dataJson => {
-          this.data = dataJson.resultado.map(d => {
-            let name = Object.keys(renameJudges).includes(d.juez.nombre) ? renameJudges[d.juez.nombre]
-              : d.juez.nombre
-
-            return {name: name, value: d.total }
-          })
+          this.data = dataJson.resultado.map(d => ({ name: d.juez.nombre, value: d.total }))
           this.data.sort((a, b) => a.value - b.value )
         })
     }

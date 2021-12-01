@@ -56,7 +56,7 @@ def query_entity(parameters, args):
 
             LET involucrados = (
                 FOR v2, e2 IN 1..1 ANY v._id GRAPH 'grafo'
-                    RETURN {nombre: v2.nombre, key: v2._key, relacion: e2.tipo}
+                    RETURN {nombre: v2.nombre, key: v2._key, organo_nombre: v2.organo_nombre, relacion: e2.tipo}
             )
 
             RETURN {
@@ -64,8 +64,6 @@ def query_entity(parameters, args):
                 anio_comienzo: v.anio_comienzo,
                 expediente: v.expediente,
                 nombre: v.nombre,
-                // juez: v.juez,
-                // fiscal: v.fiscal,
                 delitos: v.delitos,
                 estado: v.estado,
                 ultima_actualizacion: v.ultima_actualizacion,
@@ -114,14 +112,28 @@ def query_entity(parameters, args):
         for i, cases in enumerate(entidad['causas']):
             judge = [j for j in cases['involucrados'] if j['relacion'] == 'juez']
             if judge:
-                entidad['causas'][i]['juez'] = judge[0]
+                s = judge[0]['organo_nombre'].split()
+                entidad['causas'][i]['juez'] = {
+                    "nombre": f"Juzgado Nº {s[-1]} ({judge[0]['nombre']})",
+                    "key": judge[0]["key"],
+                }
             else:
                 entidad['causas'][i]['juez'] = {'nombre': '', '_key': ''}
             prosecutor = [p for p in cases['involucrados'] if p['relacion'] == 'fiscal']
             if prosecutor:
-                entidad['causas'][i]['fiscal'] = prosecutor[0]
+                s = prosecutor[0]['organo_nombre'].split()
+                entidad['causas'][i]['fiscal'] = {
+                    "nombre": f"Fiscalía Nº {s[2]} ({prosecutor[0]['nombre']})",
+                    "key": judge[0]["key"],
+                }
             else:
                 entidad['causas'][i]['fiscal'] = {'nombre': '', '_key': ''}
+
+            entidad['causas'][i]['involucrados'] = [
+                invo
+                for invo in cases['involucrados']
+                if invo['relacion'] not in ['juez', 'fiscal']
+            ]
 
     if args['show'] != 'full':
         entidad = {key: entidad[key] for key in entidad.keys()
@@ -189,7 +201,8 @@ def query_magistrate(parameters, args):
     # Get the most commont investigate
     query = """
     FOR v, e IN 1..2 ANY @node GRAPH 'grafo'
-        FILTER e.tipo == "investigado/a"
+        // FILTER e.tipo == "investigado/a"
+        FILTER e.tipo IN ['imputado', 'procesado', 'denunciado']
         RETURN v.nombre
     """
     entities = arangoDB.aql.execute(query, bind_vars=bind_vars)
@@ -202,7 +215,7 @@ def query_magistrate(parameters, args):
     query = """
     FOR v, e IN 1..1 ANy @node GRAPH 'grafo'
         FILTER e.tipo == 'juez'
-        FILTER v.terminada == false
+        FILTER v.terminado == false
         RETURN DATE_YEAR(DATE_NOW()) - v.anio_comienzo
     """
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
@@ -223,7 +236,7 @@ def query_magistrate(parameters, args):
     query = """
     FOR v, e IN 1..1 ANy @node GRAPH 'grafo'
         FILTER e.tipo == 'juez'
-        FILTER v.terminada == true
+        FILTER v.terminado == true
         RETURN DATE_YEAR(DATE_NOW()) - v.anio_comienzo
     """
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
@@ -244,7 +257,6 @@ def query_magistrate(parameters, args):
     query = """
     FOR node, edge IN 1..1 ANY @node GRAPH 'grafo'
         FILTER node.tipo == "expediente judicial"
-        FILTER node.nombre != node.expediente
 
         LET denunciantes = (FOR node2, edge2 IN 1..1 ANY node GRAPH 'grafo'
             FILTER edge2.tipo == 'denunciante'
