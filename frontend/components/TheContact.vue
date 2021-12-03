@@ -1,7 +1,7 @@
 <template>
   <section id="contacto">
     <div class="container has-text-centered">
-      <p class="title is-4">
+      <p class="title is-5">
         Si querés hacernos algún comentario, avisar de errores de la base u otra cuestión relevante,
         o bien tenes alguna duda sobre el sitio escribinos a:
         <a href="mailto:causasdecorrupcion@acij.org.ar">causasdecorrupcion@acij.org.ar</a>

@@ -1,27 +1,45 @@
 <template>
   <header>
-    <h2 class="title is-1">{{ title }} <slot></slot></h2>
+    <h2
+      class="title is-size-3-mobile is-size-3-tablet is-size-2-desktop is-size-1-widescreen"
+    >
+      {{ title }}
+      <slot />
+    </h2>
     <div class="is-pulled-right buttonsShare">
 
       <!-- Dowload data -->
-      <button v-if="data" class="button" @click="downloadData">
+      <button
+        v-if="data"
+        class="button"
+        @click="downloadData"
+      >
         Descargar datos
       </button>
 
       <!-- API -->
-      <button class="button" @click="openApiDialog">
+      <button
+        class="button"
+        @click="openApiDialog"
+      >
         API
       </button>
 
       <!-- Embeber -->
-      <button class="button" @click="openEmbeberDialog">
+      <button
+        class="button"
+        @click="openEmbeberDialog"
+      >
         Embeber
       </button>
 
-      <button v-if="plotName" class="button" @click="downloadAsPNG">
+      <button
+        v-if="plotName"
+        class="button"
+        @click="downloadAsPNG"
+      >
         Descargar grafico
       </button>
-
     </div><!--/buttonsShare -->
   </header>
 </template>
@@ -29,11 +47,18 @@
 <script>
 import * as d3 from 'd3'
 import { saveAs } from 'file-saver'
-import { apiUrl } from '@/assets/utils'
 
-import { downloadEntityBio, downloadEntityCases, downloadCasesResolution,
-  downloadCasesInvolved, downloadStats, downloadStatsOral,
-  downloadStatsOld, downloadGraph } from '~/assets/js/downloadData'
+import { apiUrl } from '@/assets/utils'
+import {
+  downloadEntityBio,
+  downloadEntityCases,
+  downloadCasesResolution,
+  downloadCasesInvolved,
+  downloadStats,
+  downloadStatsOral,
+  downloadStatsOld,
+  downloadGraph
+} from '@/assets/js/downloadData'
 
 export default {
   name: 'ShareButtons',
@@ -54,7 +79,7 @@ export default {
     }
   },
   methods: {
-    downloadData: function () {
+    downloadData() {
       if (this.section === 'biografia') {
         downloadEntityBio(this.data, this.$route.query.nombre)
       } else if (this.section === 'causas') {
@@ -78,7 +103,6 @@ export default {
       } else if (this.section === 'conexiones') {
         downloadGraph(this.data, this.$route.query.nombre)
       }
-
     },
     openApiDialog () {
       this.$buefy.dialog.prompt({
@@ -268,6 +292,12 @@ export default {
 header {
   padding-top: 50px;
   padding-bottom: 50px;
+  display: inline-grid;
+  grid-template-columns: 1fr;
+}
+
+header h2 {
+  margin: 0;
 }
 
 header h2, .buttonsShare {
@@ -275,16 +305,45 @@ header h2, .buttonsShare {
 }
 
 .buttonsShare {
-  padding-left: 20px;
+  margin-left: -12px;
 }
 
 button {
   border-radius: 0;
-  margin-left: 10px;
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-family: BisionBold;
   text-transform: uppercase;
+  margin: 10px 0 0 10px;
+}
+
+@media screen and (min-width: 769px) {
+  header {
+    width: 100%;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+  }
+
+  button {
+    font-size: 1.3rem;
+    margin: 0 0 0 10px;
+  }
+
+  .buttonsShare {
+    margin-left: 0;
+    padding-left: 20px;
+  }
+}
+
+@media screen and (min-width: 1215px) {
+  button {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (min-width: 1407px) {
+  button {
+    font-size: 1.6rem;
+  }
 }
 
 /* Day Button */
