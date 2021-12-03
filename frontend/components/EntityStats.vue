@@ -17,11 +17,11 @@
         </b-tab-item>
 
         <b-tab-item label="Relación con las causas">
-          <base-bubble-plot id="relacionCausas" :data="countRelations"></base-bubble-plot>
+          <bubble id="relacionCausas" :data="countRelations" />
         </b-tab-item>
 
         <b-tab-item label="Causas segun delito">
-          <base-bubble-plot id="delitos" :data="countCrimes"></base-bubble-plot>
+          <bubble id="delitos" :data="countCrimes" />
 
           <p>
             Nota: El gráfico anterior muestra la cantidad de causas en las que se le imputa
@@ -36,8 +36,8 @@
 
 <script>
 import * as d3 from 'd3'
-import Bar from '@/components/PlotBar'
-import BaseBubblePlot from '@/components/BaseBubblePlot'
+import Bar from '@/components/Charts/Bar'
+import Bubble from '@/components/Charts/Bubble'
 import BaseButtonsShare from '@/components/BaseButtonsShare'
 
 export default {
@@ -60,7 +60,7 @@ export default {
   },
   components: {
     Bar,
-    BaseBubblePlot,
+    Bubble,
     BaseButtonsShare,
   },
   watch: {

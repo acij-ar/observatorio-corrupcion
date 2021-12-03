@@ -1,24 +1,31 @@
 <template>
-  <section id="juiciosOral">
-    <div class="container">
-      <base-buttons-share section="juiciosOral" title="Causas por juez/a"
-        :data="data" plotName="judgesCount"></base-buttons-share>
+  <section id="juiciosOral" class="container">
+    <buttons-share
+      :data="data"
+      title="Causas por juez/a"
+      section="juiciosOral"
+      plotName="judgesCount"
+    />
 
-      <p>
-        Proporcion de causas que llegan a juicio oral.
-      </p>
+    <p>
+      Proporcion de causas que llegan a juicio oral.
+    </p>
 
-      <bar-stacked v-if="data.length !== 0" id="juicioOral" :data="data"></bar-stacked>
-    </div>
+    <bar-stacked
+      v-if="data.length !== 0"
+      id="juicioOral"
+      :data="data"
+      :height="600"
+    />
   </section>
 </template>
 
 <script>
 import * as d3 from 'd3'
-import { apiUrl } from '~/assets/utils'
 
-import BarStacked from '~/components/PlotBarStacked'
-import BaseButtonsShare from '~/components/BaseButtonsShare'
+import { apiUrl } from '@/assets/utils'
+import BarStacked from '@/components/Charts/BarStacked'
+import ButtonsShare from '@/components/BaseButtonsShare'
 
 export default {
   data () {
@@ -28,26 +35,25 @@ export default {
   },
   components: {
     BarStacked,
-    BaseButtonsShare
+    ButtonsShare,
   },
   mounted () {
     this.getData()
   },
   methods: {
-    getData: function () {
-      d3.json(apiUrl + 'estadisticas/jueces')
-        .then(dataJson => {
-          let data = dataJson.resultado.map(d => ({
-            name: d.juez.nombre,
-            juicio_oral: d.juicio_oral,
-            resto: d.total - d.juicio_oral,
-            total: d.total
-          }))
+    async getData() {
+      const data = (await d3.json(`${apiUrl}estadisticas/jueces`))
+        .resultado
+        .map(d => ({
+          name: d.juez.nombre,
+          juicio_oral: d.juicio_oral,
+          resto: d.total - d.juicio_oral,
+          total: d.total
+        }))
 
-          data.sort((a, b) => b.total - a.total)
-          data.columns = ['name', 'juicio_oral', 'resto']
-          this.data = data
-        })
+      data.sort((a, b) => b.total - a.total)
+      data.columns = ['name', 'juicio_oral', 'resto']
+      this.data = data
     }
   }
 }

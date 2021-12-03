@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Bar from '~/components/PlotBar'
+import Bar from '~/components/Charts/Bar'
 import BaseButtonsShare from '~/components/BaseButtonsShare'
 
 export default {

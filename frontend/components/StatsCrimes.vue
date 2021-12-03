@@ -1,19 +1,22 @@
 <template>
-  <section id="crimenes">
-    <div class="container">
-      <base-buttons-share section="crimenes" title="Top de delitos"
-        :data="data" plotName="topCrimes"></base-buttons-share>
+  <section id="crimenes" class="container">
+    <buttons-share
+      :data="data"
+      title="Top de delitos"
+      section="crimenes"
+      plotName="topCrimes"
+    />
 
-      <base-bubble-plot v-if="data.length > 0" id="delitos" :data="data"></base-bubble-plot>
-    </div>
+    <bubble v-if="data.length > 0" id="delitos" :data="data" />
   </section>
 </template>
 
 <script>
 import * as d3 from 'd3'
+
 import { apiUrl } from '@/assets/utils'
-import BaseBubblePlot from '~/components/BaseBubblePlot'
-import BaseButtonsShare from '~/components/BaseButtonsShare'
+import Bubble from '@/components/Charts/Bubble'
+import ButtonsShare from '@/components/BaseButtonsShare'
 
 export default {
   data () {
@@ -22,20 +25,17 @@ export default {
     }
   },
   components: {
-    BaseBubblePlot,
-    BaseButtonsShare
+    Bubble,
+    ButtonsShare,
   },
   mounted () {
     this.getData()
   },
   methods: {
-    getData: function () {
-      d3.json(apiUrl + 'estadisticas/delitos')
-        .then(dataJson => {
-          this.data = dataJson.resultado.map(d => {
-            return { name: d.crimen, value: d.cantidad }
-          })
-        })
+    async getData() {
+      this.data = (await d3.json(`${apiUrl}estadisticas/delitos`))
+        .resultado
+        .map(d => ({ name: d.crimen, value: d.cantidad }))
     }
   }
 }
