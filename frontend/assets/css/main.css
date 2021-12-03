@@ -47,10 +47,16 @@ img.border {
   border: 6px solid black;
 }
 
+@media screen and (max-width: 1023px) {
+  .container {
+    margin: 0 1.5rem;
+  }
+}
+
 /* d3 texts */
 text {
   font-family: MontserratRegular;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
 }
 
 .input::placeholder, .taginput .taginput-container.is-focusable::placeholder, .textarea::placeholder {
