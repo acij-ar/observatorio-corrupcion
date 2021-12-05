@@ -1,100 +1,77 @@
 <template>
-  <section id="conexiones">
-    <div class="container">
-      <base-buttons-share v-if="graph !== null" section="conexiones" title="Conexiones"
-        :data="graph.links" plotName="chart"></base-buttons-share>
+  <section id="conexiones" class="container pb-6">
+      <buttons-share
+        v-if="graph !== null"
+        :data="graph.links"
+        title="Conexiones"
+        section="conexiones"
+        plotName="chart"
+      />
 
       <p>
         Hacé doble click sobre el nodo para visitar el perfil correspondiente.
       </p>
 
-      <svg id="chart"></svg>
-
-    </div><!--/container -->
+      <svg id="chart" />
   </section>
 </template>
 
 <script>
 import * as d3 from 'd3'
+
 import { apiUrl } from '@/assets/utils'
-import BaseButtonsShare from '@/components/BaseButtonsShare'
+import ButtonsShare from '@/components/BaseButtonsShare'
 
 export default {
+  props: {
+    width: {
+      type: Number,
+      default: 1600,
+    },
+    height: {
+      type: Number,
+      default: 800,
+    },
+    margin: {
+      type: Object,
+      default: () => ({ top: 20, right: 20, bottom: 20, left: 20 })
+    },
+  },
   data () {
     return {
-      // Chart config
       svg: null,
-      chart: null,
-      svgSize: {width: null, height: null},
-      margin: {top: 20, right: 150, bottom: 20, left: 20},
-
-      zoom: null,
 
       // Graph data
+      zoom: null,
       simulation: null,
       graph: null,
       link: null,
       node: null,
       linkedByIndex: {},
-
       mainNodes: [],
-
-      // Page state
-      isError: false,
-      isLoading: true,
-      errors: []
     }
   },
   components: {
-    BaseButtonsShare
+    ButtonsShare,
   },
   mounted () {
-    // Svg size
-    var w = document.getElementsByClassName('container')[0].offsetWidth
-    this.svgSize = {
-      width: w - this.margin.left - this.margin.right,
-      height: Math.min(w, 800) - this.margin.top - this.margin.bottom
-    }
-
     this.svg = d3.select('#chart')
-      .attr('width', this.svgSize.width + this.margin.left + this.margin.right)
-      .attr('height', this.svgSize.height + this.margin.top + this.margin.bottom)
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", [0, 0, this.width, this.height])
+      .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
 
-    this.chart = this.svg
+    this.svg
       .append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+      .attr('class', 'zoom')
 
-    this.chart.append('g')
+    this.svg.select('.zoom')
+      .append('g')
       .attr('class', 'links')
 
-    this.chart.append("g")
+    this.svg.select('.zoom')
+      .append("g")
       .attr("class", "nodes")
-
-    //
-    let collection = this.$route.name === 'entidad' ? 'nodos_entidades/'
-      : this.$route.name === 'expediente' ? 'nodos_causas/'
-        : this.$route.name === 'magistrado' ? 'nodos_magistrados/'
-          : ''
-
-    // En el caso de que sea dentro de embeber obtengo la colleccion en base al query parameter
-    if (this.$route.path === '/embeber') {
-      let area = this.$route.query.area
-
-      collection = area === 'entidad' ? 'nodos_entidades/'
-        : area === 'expediente' ? 'nodos_causas/'
-          : area === 'magistrado' ? 'nodos_magistrados/'
-            : ''
-    }
-
-    // Get the data
-    let url = apiUrl + 'grafo/' + collection + this.$route.query.nombre + '?profundidad=2'
-    d3.json(url)
-      .then(data => { this.graph = data.grafo })
-      .catch(error => {
-        this.errors.push(error)
-        this.isError = true
-        this.isLoading = false
-      })
 
     let colors = {
       'expediente judicial': '#e41a1c',
@@ -108,8 +85,9 @@ export default {
     colors[name] = '#06b4ab'
 
     // Append legend
-    let labels = this.svg.append('g')
+    this.svg.append('g')
       .attr('class', 'labels')
+      .attr('transform', 'translate(20, 20)')
       .append('rect')
 
     let legend = this.svg.select('.labels')
@@ -123,12 +101,12 @@ export default {
 
     legend.append('circle')
       .attr('r', 7)
-      .attr('cx', this.svgSize.width + 120)
+      .attr('cx', this.width - 120)
       .attr('cy', 10)
       .style('fill', d => colors[d])
 
     legend.append('text')
-      .attr('x', this.svgSize.width + 120 - 24)
+      .attr('x', this.width - 120 - 24)
       .attr('y', 9)
       .attr('dy', '.35em')
       .style('text-anchor', 'end')
@@ -140,45 +118,36 @@ export default {
       .each(function(d) { bbox = [this.getBBox()] })
       .data(bbox)
       .select('rect')
-      .attr('x', d => d.x - 15)
+      .attr('x', d => d.x - 30)
       .attr('y', d => 2)
-      .attr('width', d => d.width + 30)
+      .attr('width', d => d.width + 50)
       .attr('height', d => d.height + 20)
 
-    //add zoom capabilities
+    // Add zoom capabilities
     this.zoom = d3.zoom()
-        .on('zoom', zoom_actions)
+      .on('zoom', zoom_actions)
 
     this.zoom(this.svg)
 
-    //Zoom functions
+    // Zoom functions
     let that = this
-    function zoom_actions(){
-      that.chart.attr('transform', d3.event.transform)
+    function zoom_actions() {
+      that.svg
+        .select('.zoom')
+        .attr('transform', d3.event.transform)
     }
+
+    this.getData()
   },
   watch: {
     '$route.query' (to, from) {
-      let collection = this.$route.name === 'entidad' ? 'nodos_entidades/'
-        : this.$route.name === 'expediente' ? 'nodos_causas/'
-          : this.$route.name === 'magistrado' ? 'nodos_magistrados/'
-            : ''
-
-      // Get the data
-      let url = apiUrl + 'grafo/' + collection + this.$route.query.nombre + '?profundidad=2'
-      d3.json(url)
-        .then(data => { this.graph = data.grafo })
-        .catch(error => {
-          this.errors.push(error)
-          this.isError = true
-          this.isLoading = false
-        })
+      this.getData()
     },
     graph: function () {
       // "Reset" the graph
       this.zoom.transform(this.svg, d3.zoomIdentity)
-      this.chart.select('.links').selectAll('line').remove()
-      this.chart.select('.nodes').selectAll('g').remove()
+      this.svg.select('.links').selectAll('line').remove()
+      this.svg.select('.nodes').selectAll('g').remove()
 
       let top = parseInt(10 * this.graph.nodes.length / 100)
       top = top > 30 ? 30 : top
@@ -201,19 +170,21 @@ export default {
       this.simulation = d3.forceSimulation()
         .force('link', d3.forceLink().id(d => d.id))
         .force('charge', d3.forceManyBody().strength(-100))
-        .force('center', d3.forceCenter(this.svgSize.width / 2, this.svgSize.height / 2))
+        .force('center', d3.forceCenter(this.width / 2, this.height / 2))
         .force('collide', d3.forceCollide().radius(d => 2 * radioScale(d.metricas.degree)))
 
-      this.link = this.chart.select('.links')
+      this.link = this.svg.select('.links')
         .selectAll('line')
         .data(this.graph.links)
-        .enter().append('line')
+        .enter()
+        .append('line')
         .attr('stroke-width', 4)
 
-      this.node = this.chart.select('.nodes')
+      this.node = this.svg.select('.nodes')
         .selectAll("g")
         .data(this.graph.nodes)
-        .enter().append("g")
+        .enter()
+        .append("g")
 
       let circles = this.node.append("circle")
         .attr('r', d => radioScale(d.metricas.degree))
@@ -248,7 +219,8 @@ export default {
         .nodes(this.graph.nodes)
         .on('tick', this.ticked)
 
-      this.simulation.force('link')
+      this.simulation
+        .force('link')
         .links(this.graph.links)
 
       // Calculate matrix of connectios
@@ -258,6 +230,28 @@ export default {
     }
   },
   methods: {
+    getData () {
+      let collection = this.$route.name === 'entidad' ? 'nodos_entidades/'
+      : this.$route.name === 'expediente' ? 'nodos_causas/'
+        : this.$route.name === 'magistrado' ? 'nodos_magistrados/'
+          : ''
+
+      // En el caso de que sea dentro de embeber obtengo la
+      // colleccion en base al query parameter
+      if (this.$route.path === '/embeber') {
+        let area = this.$route.query.area
+
+        collection = area === 'entidad' ? 'nodos_entidades/'
+          : area === 'expediente' ? 'nodos_causas/'
+            : area === 'magistrado' ? 'nodos_magistrados/'
+              : ''
+      }
+
+      // Get the data
+      const url = apiUrl + 'grafo/' + collection + this.$route.query.nombre + '?profundidad=2'
+      d3.json(url)
+        .then(data => { this.graph = data.grafo })
+    },
     color: function (d) {
       let nodeType = d.tipo === 'magistrado' ? d.subtipo
         : ['persona', 'empresa', 'entidad', 'ong'].includes(d.tipo) ? 'entidad'

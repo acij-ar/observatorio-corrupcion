@@ -154,7 +154,7 @@ export default {
         .call(d3.axisLeft(y))
         .selectAll('text')
         .text(d => d.toUpperCase())
-        .call(wrapText, this.margin.left, 1.2)
+        .call(wrapText, this.margin.left - 10, 1.2)
 
       // Remove domain and lines on axis
       // this.svg.select('.axis-y')

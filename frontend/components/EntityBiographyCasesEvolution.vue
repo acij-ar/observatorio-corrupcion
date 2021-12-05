@@ -16,16 +16,6 @@
 import * as d3 from 'd3'
 
 export default{
-  name: 'CasesEvolution',
-  data () {
-    return {
-      // SVG
-      svg: null,
-      g: null,
-      svgSize: {width: 0, height: 0},
-      margin: {top: 30, right: 160, bottom: 30, left: 60}
-    }
-  },
   props: {
     cases: {
       type: Array,
@@ -34,6 +24,24 @@ export default{
     name: {
       type: String,
       required: true
+    },
+    width: {
+      type: Number,
+      default: 1200,
+    },
+    height: {
+      type: Number,
+      default: 450,
+    },
+    margin: {
+      type: Object,
+      default: () => ({ top: 20, right: 160, bottom: 20, left: 60 })
+    },
+  },
+  data () {
+    return {
+      svg: null,
+      yLabel: 'Cantidad de Causas'
     }
   },
   watch: {
@@ -42,55 +50,41 @@ export default{
     }
   },
   mounted () {
-    // Create the base svg elements
-    // SVG size
-    let divW = document.getElementsByClassName('columns')[0].clientWidth
-    this.svgSize = {
-      width: divW - this.margin.left - this.margin.right,
-      height: (divW / 3) - this.margin.top - this.margin.bottom
-    }
-
-    // Set SVG
     this.svg = d3.select('#casesEvolution')
-      .attr('width', this.svgSize.width + this.margin.left + this.margin.right)
-      .attr('height', this.svgSize.height + this.margin.top + this.margin.bottom)
-
-    this.g = this.svg.append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
-
-    // Append x-axis
-    this.g.append('g')
-      .attr('class', 'axis axis-x')
-      .attr('transform', `translate(0, ${this.svgSize.height})`)
-
-    // Append y-axis
-    this.g.append('g')
-      .attr('class', 'axis axis-y')
-      .append('text')
-      .attr('fill', '#000')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 0)
-      .attr('dy', '-2.5em')
-      .attr('text-anchor', 'end')
-      .text('Cantidad de Causas')
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", [0, 0, this.width, this.height])
+      .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
 
     // Append base elements
-    this.g.append('g')
+    this.svg.append('g')
       .attr('class', 'bars')
+      .attr('stroke-width', 1.5)
+      .attr('stroke', 'white')
 
-    this.g.append('g')
+    this.svg.append('g')
       .attr('class', 'bars-head')
 
-    this.g.append('g')
+    this.svg.append('g')
       .attr('class', 'bars-text')
 
-    this.g.append('g')
+    this.svg.append('g')
       .attr('class', 'dots')
+
+    // Append x-axis
+    this.svg.append('g')
+      .attr('class', 'axis axis-x')
+      .attr('transform', `translate(0, ${this.height - this.margin.bottom})`)
+
+    // Append y-axis
+    this.svg.append('g')
+      .attr('class', 'axis axis-y')
+      .attr('transform', `translate(${this.margin.left}, 0)`)
 
     // Append legend
     this.svg.append('g')
       .attr('class', 'labels')
-      .attr('transform', 'translate(200, 0)')
+      .attr('transform', `translate(-20, 20)`)
       .append('rect')
 
     this.draw()
@@ -124,17 +118,17 @@ export default{
 
       //
       let x = d3.scaleLinear()
-        .range([0, this.svgSize.width])
         .domain([xStart, xEnd])
+        .range([this.margin.left, this.width - this.margin.right])
 
       let y = d3.scaleLinear()
-        .range([this.svgSize.height, 0])
-        .domain([0.5, yMax])
+        .domain([0.75, yMax])
+        .range([this.height - this.margin.bottom, this.margin.top])
 
       let format = d3.format('d')
 
       // Bar head
-      let barHead = this.g.select('.bars-head')
+      let barHead = this.svg.select('.bars-head')
         .selectAll('.bar')
         .data(dataBarPresidents)
 
@@ -143,7 +137,7 @@ export default{
         .attr('class', 'bar')
         .merge(barHead)
         .attr('x', d => x(d.start))
-        .attr('y', d => -this.margin.top)
+        .attr('y', d => 0)
         .attr('width', d => x(d.start + 4) - x(d.start))
         .attr('height', d => this.margin.top)
         .style('fill', d => d.color2)
@@ -152,7 +146,7 @@ export default{
         .remove()
 
       // Bar head text
-      let barText = this.g.select('.bars-text')
+      let barText = this.svg.select('.bars-text')
         .selectAll('text')
         .data(dataBarPresidents)
 
@@ -160,7 +154,7 @@ export default{
         .append('text')
         .merge(barText)
         .attr('x', d => x(d.start + (d.end - d.start) / 2))
-        .attr('y', d => -this.margin.top / 2)
+        .attr('y', d => this.margin.top * 0.5)
         .attr('dy', '0.35em')
         .attr('text-anchor', 'middle')
         .style('fill', d => d.textColor)
@@ -170,7 +164,7 @@ export default{
         .remove()
 
       // Bar for president periode
-      let bar = this.g.select('.bars')
+      let bar = this.svg.select('.bars')
         .selectAll('.bar')
         .data(dataBarPresidents)
 
@@ -182,14 +176,14 @@ export default{
         .attr('x', d => x(d.start))
         .attr('y', d => y(yMax))
         .attr('width', d => x(d.start + 4) - x(d.start))
-        .attr('height', d => this.svgSize.height - y(yMax))
+        .attr('height', d => this.height - this.margin.bottom - y(yMax))
         .style('fill', d => d.color)
 
       bar.exit()
         .remove()
 
       // Append circles
-      let dots = this.g.select('.dots')
+      let dots = this.svg.select('.dots')
         .selectAll('.dot')
         .data(data)
 
@@ -210,20 +204,26 @@ export default{
         .remove()
 
       // Update x-axis
-      this.g.select('.axis-x')
+      this.svg.select('.axis-x')
         .call(d3.axisBottom(x).tickFormat(format))
+        .select('.domain').remove()
 
       // Update y-yxis
-      this.g.select('.axis-y')
+      this.svg.select('.axis-y')
         .call(d3.axisLeft(y).tickFormat(value => {
           return Math.floor(value) == value ? value : ''
         }))
-
-      // Remove domain on axis
-      d3.selectAll('.axis').select('.domain').remove()
-      d3.selectAll('.axis').select('g').remove()
-      d3.selectAll('.axis').selectAll('line').remove()
-
+        .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick line").clone()
+          .attr("x2", this.width - this.margin.left - this.margin.right)
+          .attr("stroke-opacity", 0.1))
+        .call(g => g.append("text")
+          .attr("x", -150)
+          .attr("y", -30)
+          .attr("fill", "currentColor")
+          .attr("text-anchor", "start")
+          .attr('transform', 'rotate(-90)')
+          .text(this.yLabel))
 
       // Remove old labels
       this.svg.select('.labels')
@@ -247,12 +247,12 @@ export default{
 
       legend.append('circle')
         .attr('r', 8)
-        .attr('cx', this.svgSize.width)
+        .attr('cx', this.width)
         .attr('cy', 10)
         .style('fill', d => colors[d])
 
       legend.append('text')
-        .attr('x', this.svgSize.width - 20)
+        .attr('x', this.width - 20)
         .attr('y', 9)
         .attr('dy', '.35em')
         .style('text-anchor', 'end')
@@ -299,8 +299,6 @@ export default{
         d.relacion = d.relacion.replace(/denunciado|imputado|procesado|denunciado/, 'investigado/a')
         return d
       })
-
-      // data.forEach(d => { d.anio_comienzo = parseInt(d.anio_comienzo) })
 
       // Sort the data by multiple fields. Ty to
       // https://bytemaster.io/javascript-object-multi-property-sort
