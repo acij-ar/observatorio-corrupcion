@@ -2,12 +2,12 @@
 	<section id="acercade" class="has-text-centered">
 		<div class="container">
 	      <h2 class="title is-2">¿Qué es el Observatorio de Causas de Corrupción?</h2>
-	      <p class="p-style">	      
+	      <p class="p-style">
 	      	El Observatorio de Causas de Corrupción fue creado en el año 2016 como una iniciativa de ACIJ. En su primera versión mostraba información sobre más de 50 de las causas de mayor relevancia de las últimas dos décadas.
 	      </p>
 	  	  <br>
 	      <p class="p-style">
-	      	A partir de este relanzamiento, la plataforma mejora la cantidad de causas, así como la información disponible sobre cada una de ellas. Gracias al trabajo conjunto de ACIJ y Conocimiento Abierto, el sitio permite ahora visualizar la información de la totalidad de las causas de corrupción que actualmente se encuentran en trámite en los fueros Nacional en lo Criminal y Correccional Federal, Penal Económico Federal y de Casación Penal con asiento en la Ciudad Autónoma de Buenos Aires. La plataforma toma la información disponible sobre causas y expedientes del Observatorio de Corrupción del Centro de Información Judicial (CIJ), dependiente de la Corte Suprema de Justicia de la Nación. Esta información es complementada con la totalidad de la base datos de causas y sentencias disponible en el CIJ.
+	      	A partir de este relanzamiento, la plataforma mejora la cantidad de causas, así como la información disponible sobre cada una de ellas. Gracias al trabajo conjunto de ACIJ y Conocimiento Abierto, el sitio permite ahora visualizar la información de la totalidad de las causas de corrupción que actualmente se encuentran en trámite en los fueros Nacional en lo Criminal y Correccional Federal, Penal Económico Federal y de Casación Penal con asiento en la Ciudad Autónoma de Buenos Aires. La plataforma toma la información disponible sobre causas y expedientes del Observatorio de Corrupción del Centro de Información Judicial (CIJ), dependiente de la Corte Suprema de Justicia de la Nación. Esta información es complementada con la totalidad de la base de datos de causas y sentencias disponible en el CIJ.
 	      </p>
 	  	  <br>
 	  	  <p class="p-style">
@@ -24,7 +24,7 @@
 		  </p>
 		  <br>
 		  <p class="p-style">
-			Como respuesta a este contexto venimos trabajando desde hace varios años en el seguimiento de las principales causas de corrupción en Argentina y denunciando la falta de avance en las investigaciones. Esta experiencia nos ha demostrado que uno de los principales obstáculos para terminar con la impunidad es la falta de información y su escasa accesibilidad para la ciudadanía. Como consecuencia, resulta imposible para la sociedad llevar a cabo un control del sistema justicia en delitos de corrupción. 
+			Como respuesta a este contexto venimos trabajando desde hace varios años en el seguimiento de las principales causas de corrupción en Argentina y denunciando la falta de avance en las investigaciones. Esta experiencia nos ha demostrado que uno de los principales obstáculos para terminar con la impunidad es la falta de información y su escasa accesibilidad para la ciudadanía. Como consecuencia, resulta imposible para la sociedad llevar a cabo un control del sistema de justicia en delitos de corrupción.
 		  </p>
 		  <br>
 		  <p class="p-style">
@@ -37,7 +37,7 @@
 		  </p>
 		  <br>
 		  <p class="p-style">
-		  	<ul class="ul-style">		  		
+		  	<ul>
 			<li type="disc">Que en el hecho investigado intervenga un/a funcionario/a público en ejercicio de sus funciones.</li>
 			<li type="disc">Que el hecho investigado estuviera vinculado con la actividad propia de una repartición pública.</li>
 			<li type="disc">Que el hecho investigado se refiera a obra o servicio público.</li>
@@ -65,7 +65,7 @@
 		  <h2 class="title is-2">Estadísticas generales</h2>
 		  <p class="p-style">
 			<b>El Observatorio de Causas de Corrupción cuenta con</b> una sección en la que hay estadísticas generales elaboradas a partir del universo de causas que tiene el sitio. Allí se pueden encontrar estadísticas sobre:
-			<ul class="ul-style">
+			<ul>
 			<li type="disc">Personas que más veces denunciaron delitos, que fueron o son querellantes, o las que más veces aparecen como investigadas.</li>
 			<li type="disc">La cantidad de causas abiertas por año.</li>
 			<li type="disc">Cantidad de casos de corrupción abiertos por juez/a de primera instancia.</li>

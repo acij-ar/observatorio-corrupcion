@@ -28,6 +28,9 @@
     "vue-ui-preloader": "^1.1.0"
   },
   "devDependencies": {
-    "@nuxtjs/google-analytics": "^2.4.0"
+    "@nuxtjs/google-analytics": "^2.4.0",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "sass": "^1.44.0",
+    "sass-loader": "^10.2.0"
   }
 }

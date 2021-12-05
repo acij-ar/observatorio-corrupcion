@@ -12,13 +12,13 @@
       <div class="columns">
         <div class="column is-2 is-offset-4 horizontal-center">
           <a href="https://acij.org.ar/" target="_blank">
-            <img src="@/assets/logo_acij.png" class="b" />
+            <img src="@/assets/img/logo_acij.png" class="b" />
           </a>
         </div><!--/column -->
 
         <div class="column is-3 horizontal-center">
           <a href="http://conocimientoabierto.org/" target="_blank">
-            <img src="@/assets/logo_fca.png" class="a" />
+            <img src="@/assets/img/logo_fca.png" class="a" />
           </a>
         </div><!--/column -->
       </div><!--/columns -->

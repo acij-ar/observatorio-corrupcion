@@ -1,53 +1,43 @@
 <template>
   <header>
-    <nav class="navbar f">
-      <div class="container">
-
-        <div class="navbar-brand">
+    <b-navbar class="container is-fluid">
+      <template #brand>
+        <b-navbar-item tag="router-link" to="/">
           <nuxt-link to="/" class="navbar-item">
-            <img src="~@/assets/logo_observatorio.png" alt="logo observatorio de causas de Corrupcion" />
+            <img src="~@/assets/img/logo_observatorio.png" alt="logo observatorio de causas de Corrupcion" />
           </nuxt-link>
-          <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+        </b-navbar-item>
+      </template>
+      <template #end>
+        <nuxt-link to="/" class="navbar-item">
+          Inicio
+        </nuxt-link>
+        <router-link to="/estadisticas" class="navbar-item">
+          Estadísticas
+        </router-link>
+        <router-link to="/acerca-de" class="navbar-item">
+          Acerca de
+        </router-link>
+        <router-link to="/glosario" class="navbar-item">
+          Glosario
+        </router-link>
+        <router-link to="/nosotros" class="navbar-item">
+          Nosotros
+        </router-link>
+        <a class="navbar-item" href="https://github.com/acij-ar/cij-scraper/raw/master/cij.zip">
+          Datos
+        </a>
+        <a class="social-item gitlab" href="https://github.com/acij-ar/cij-scraper" target="_blank">
+          <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }"/>
+        </a>
+        <div class="aa">
+          <font-awesome-icon :icon="{ prefix: 'far', iconName: 'sun' }"/>
+          <b-switch v-model="isSwitched" size="is-small"></b-switch>
+          <font-awesome-icon :icon="{ prefix: 'far', iconName: 'moon' }"/>
         </div>
+      </template>
+    </b-navbar>
 
-        <div id="navbarMenuHeroA" class="navbar-menu">
-          <div class="navbar-end">
-            <nuxt-link to="/" class="navbar-item">
-              Inicio
-            </nuxt-link>
-            <router-link to="/estadisticas" class="navbar-item">
-              Estadísticas
-            </router-link>
-            <router-link to="/acercade" class="navbar-item">
-              Acerca de
-            </router-link>
-            <a class="navbar-item">
-              Glosario
-            </a>
-            <a class="navbar-item">
-              Nosotros
-            </a>
-            <a class="navbar-item">
-              API
-            </a>
-            <a class="social-item gitlab">
-              <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'gitlab' }"/>
-            </a>
-
-            <!-- Change to light or dark mode -->
-            <div class="aa">
-              <font-awesome-icon :icon="{ prefix: 'far', iconName: 'sun' }"/>
-              <b-switch v-model="isSwitched" size="is-small"></b-switch>
-              <font-awesome-icon :icon="{ prefix: 'far', iconName: 'moon' }"/>
-            </div>
-          </div>
-        </div>
-      </div><!--/container -->
-    </nav>
     <div class="hero">
       <div class="container has-text-centered">
         <portal-target name="header" />
@@ -85,35 +75,52 @@ export default {
 }
 </script>
 
-<style scoped>
-.f {
+<style lang="scss">
+.navbar {
   position: absolute;
   left: 0;
   right: 0;
   background: transparent;
 }
 
-.navbar-item img {
-  max-height: 3.5rem;
+.navbar-burger {
+  &:hover {
+    color: white;
+  }
+  span {
+    height: 2px;
+    color: white;
+    &:hover {
+      color: white;
+    }
+  }
 }
+
+// .navbar-item 
 
 /*
   Links
 */
 .navbar-item {
   padding-top: 25px;
+
+  img {
+    max-height: 3.5rem;
+  }
 }
 
-.navbar-brand a.navbar-item {
-  padding-top: 10px;
+.navbar-brand {
+  a.navbar-item {
+    padding-top: 10px;
+  }
+  a.navbar-item::after,
+  a.navbar-item.nuxt-link-exact-active::after {
+    height: 0px;
+  }
 }
 
-.navbar-brand a.navbar-item.nuxt-link-exact-active::after,
-.navbar-brand a.navbar-item::after {
-  height: 0px;
-}
-
-a.navbar-item, a.navbar-item.nuxt-link-exact-active {
+a.navbar-item,
+a.navbar-item.nuxt-link-exact-active {
   color: whitesmoke;
   font-size: 1.1rem;
   font-weight: bold;
@@ -126,9 +133,12 @@ a.navbar-item.nuxt-link-exact-active::after {
   display: block;
   width: 100%;
   height: 4px;
-  background: #d63533;
+  background: $red;
 }
-
+a.navbar-item:focus,
+a.navbar-item:focus-within {
+  background: transparent;
+}
 a.navbar-item:hover {
   background: transparent;
   color: whitesmoke;
@@ -140,7 +150,7 @@ a.navbar-item::after {
   display: block;
   width: 0;
   height: 4px;
-  background: #d63533;
+  background: $red;
   transition: width .3s;
 }
 
@@ -156,12 +166,8 @@ a.navbar-item:hover::after {
   position: relative;
 }
 
-.twitter:hover {
-  color: #1da1f2;
-}
-
 .gitlab:hover {
-  color: #fc6d26;
+  color: $red;
 }
 
 .navbar-menu div.aa {
@@ -171,5 +177,31 @@ a.navbar-item:hover::after {
 
 .navbar-menu div.aa svg {
   color: white;
+}
+
+@media screen and (max-width: #{$width-table}) {
+  .navbar-end {
+    width: 100%;
+    display: inline-grid;
+    justify-items: center;
+  }
+
+  .day {
+    .navbar-menu {
+      background-color: $body-day;
+      box-shadow: 0 8px 16px rgb(10 10 10 / 20%);
+      .navbar-item,
+      svg,
+      div.aa svg {
+        color: black;
+      }
+    }
+  }
+  .night {
+    .navbar-menu {
+      background-color: $body-dark;
+      box-shadow: 0 8px 16px rgb(250 250 250 / 20%);
+    }
+  }
 }
 </style>

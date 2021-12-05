@@ -1,14 +1,54 @@
 /*
-  Some base style
+  =======================================================================
+  General vars
+  =======================================================================
+*/
+$red: #d63533;
+$blue: #3273dc;
+$body-day: white;
+$body-dark: #061f2f;
+$width-mobile: 768px;
+$width-table: 1023px;
+$width-desktop: 1215px;
+$width-widescreen: 1407px;
+$width-fullhd: 1408px;
+
+@mixin is-table {
+  @media screen and (min-width: #{$width-table}) {
+    @content;
+  }
+}
+
+@mixin is-desktop {
+  @media screen and (min-width: #{$width-desktop}) {
+    @content;
+  }
+}
+
+@mixin is-widescreen {
+  @media screen and (min-width: #{$width-widescreen}) {
+    @content;
+  }
+}
+
+@mixin is-fullhd {
+  @media screen and (min-width: #{$width-fullhd}) {
+    @content;
+  }
+}
+
+/*
+  =======================================================================
+  Base style
+  =======================================================================
 */
 @font-face {
   font-family: 'BisionBold';
   src: url('~@/assets/fonts/Bison-Bold.ttf');
 }
 
-@font-face {
-  font-family: 'MontserratRegular';
-  src: url('~@/assets/fonts/Montserrat/Montserrat-Regular.ttf');
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
 h1, h2, h3, h4 {
@@ -19,48 +59,83 @@ h2.title.is-1 {
   text-transform: uppercase;
 }
 
-.ref-banner, 
-.ref-banner:visited, 
-.ref-banner:active,
-.ref-banner:hover {
-  float:right;
-  color: white;
-  font-weight: bold;
-  font-size: 120%;  
-}
-
-.p-style {
-  font-weight: inherit !important;
-  text-align: initial;
-}
-
-.ul-style {
-  margin-left: 15px;
-}
-
-p {
-  font-weight: bold;
-  font-family: 'MontserratRegular';
+a {
+  color: $blue;
+  &:visited,
+  &:active {
+    color: $blue;
+  }
+  &:hover {
+    color: $red;
+  }
 }
 
 img.border {
   border: 6px solid black;
 }
 
+section > svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.description {
+  p {
+    font-weight: inherit !important;
+    text-align: initial;
+    padding-bottom: 1.5rem;
+  }
+  ul {
+    margin-left: 15px;
+  }
+}
+
 @media screen and (max-width: 1023px) {
-  .container {
+  :not(.navbar).container {
     margin: 0 1.5rem;
   }
 }
 
-/* d3 texts */
-text {
-  font-family: MontserratRegular;
-  font-size: 0.85rem;
+/*
+  =======================================================================
+  General day and night mode
+  =======================================================================
+*/
+
+body {
+  &.day {
+    background-color: #f5f5f5;
+    transition: background 500ms;
+    h2,
+    p,
+    .tabs a {
+      color: black;
+    }
+  }
+
+  &.night {
+    background-color: #061f2f;
+    h2,
+    p,
+    .tabs a {
+      color: white;
+    }
+    .autocomplete-option {
+      color: black;
+    }
+  }
 }
 
-.input::placeholder, .taginput .taginput-container.is-focusable::placeholder, .textarea::placeholder {
-    color: rgb(54, 54, 54);
+body.day .modal-card p,
+body.night .modal-card p {
+  color: black;
+}
+
+/* el input en los popup api/embeber */
+.label,
+.control {
+  display: inline-flex;
+  width: 100%;
 }
 
 .d {
@@ -68,97 +143,94 @@ text {
 }
 
 /*
-  General day and night mode
-*/
-
-body.day {
-  background-color: #f5f5f5;
-}
-
-body.night {
-  background-color: #061f2f;
-}
-
-body.day h2,
-body.day p,
-body.day .tabs a {
-  color: black;
-}
-
-body.night h2,
-body.night p,
-body.night .tabs a {
-  color: white;
-}
-
-/*
+  =======================================================================
   Common hero banner
+  =======================================================================
 */
-.default .hero {
-  color: white;
-  background-color: #292935;
-  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.3), rgba(46, 49, 65, 0)), url("~@/assets/1280x250.jpg");
-  background-size: 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  min-height: 250px;
+
+.day {
+  .home.hero {
+    background-image: linear-gradient(to top, rgb(1 4 20 / 37%), rgb(115 130 211 / 13%)), url("~@/assets/img/portada.jpg");
+  }
+  :not(.home).hero {
+    background-position: center right;
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.3), rgba(46, 49, 65, 0)), url("~@/assets/img/banner.jpg");
+  }
 }
 
-body.night .default .hero {
-  background-image: linear-gradient(to top, rgba(46, 49, 65, 0.7), rgba(46, 49, 65, 0.4)), url("~@/assets/portada-1.jpg");
+@include is-desktop {
+  .day {
+    :not(.home).hero {
+      background-size: 100%;
+    }
+  }
 }
 
-
-.default .hero h1,
-.default .hero h2 {
-  color: white;
+.night {
+  .home.hero {
+    background-image: linear-gradient(0deg, rgba(46,49,65,.7), rgba(46,49,65,.4)), url("~@/assets/img/portada.jpg");
+  }
+  :not(.home).hero {
+    background-size: 100%;
+    background-position: center;
+    background-image: linear-gradient(0deg, rgba(46,49,65,.7), rgba(46,49,65,.4)), url("~@/assets/img/portada.jpg");
+  }
 }
 
-.default .hero-body {
-  padding-bottom: 2rem;
-  padding-top: 5rem;
+.default {
+  .hero {
+    h1,
+    h2 {
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  :not(.home).hero {
+    color: white;
+    min-height: 250px;
+    background-color: #292935;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+  .hero-body {
+    padding-bottom: 2rem;
+    padding-top: 5rem;
+  }
+  .hero-footer ul {
+    display: inline-flex;
+  }
+  .hero-footer .tabs ul li a {
+    color: white;
+  }
+  .hero-footer ul li a {
+   border: 0;
+   font-size: 1.3rem;
+   font-family: BisionBold;
+   text-transform: uppercase;
+   display: inline-block;
+   &:hover {
+     background: transparent;
+     color: whitesmoke;
+     border-width: 4px;
+   }
+   &::after {
+     content: '';
+     display: block;
+     width: 0;
+     height: 4px;
+     background: $red;
+     transition: width .3s;
+   }
+   &:hover::after {
+     width: 100%;
+   }
+  }
 }
 
-.default .hero-footer ul {
-  display: inline-flex;
-}
-
-.default .hero-footer .tabs ul li a {
-  color: white;
-}
-
-.default .hero-footer ul li a {
-  border: 0;
-  font-size: 1.3rem;
-  font-family: BisionBold;
-  font-weight: bold;
-  text-transform: uppercase;
+.autocomplete-option {
   display: inline-block;
-}
-
-.default .hero-footer ul li a:hover {
-  background: transparent;
-  color: whitesmoke;
-  border-width: 4px;
-}
-
-.default .hero-footer ul li a::after {
-  content: '';
-  display: block;
-  width: 0;
-  height: 4px;
-  background: #c80000;
-  transition: width .3s;
-}
-
-.default .hero-footer ul li a:hover::after {
-  width: 100%;
-}
-
-body.day .modal-card p,
-body.night .modal-card p {
-  color: black;
+  padding-left: 10px;
 }
 
 /*
@@ -209,6 +281,13 @@ body.night .modal-card p {
 }
 
 
+/* d3 texts */
+text {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
 /*
   D3 tooltip
   ==========
@@ -236,7 +315,7 @@ body.night .modal-card p {
 }
 
 #tooltip p#value strong {
-  color: #c80000;
+  color: $red;
 }
 
 /*
@@ -388,12 +467,5 @@ body.night .pagination-link.is-current {
 
 .is-expanded,
 .is-expanded .control {
-  width: 100%;
-}
-
-/* el input en los popup api/embeber */
-.label,
-.control {
-  display: inline-flex;
   width: 100%;
 }

@@ -20,7 +20,10 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href:"https://fonts.gstatic.com", crossorigin: true },
+      { href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap", rel: "stylesheet" }
     ]
   },
 
@@ -33,8 +36,12 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '~/assets/css/main.css'
+    '~/assets/scss/main.scss'
   ],
+
+  styleResources: {
+    scss: ['./assets/scss/*.scss']
+  },
 
   /*
   ** Plugins to load before mounting the App
@@ -49,7 +56,7 @@ module.exports = {
   */
   modules: [,
     'nuxt-buefy',
-    // ['nuxt-matomo', { matomoUrl: '//analytics.conocimientoabierto.org/', siteId: 4 }]
+    '@nuxtjs/style-resources',
   ],
 
   buildModules: [

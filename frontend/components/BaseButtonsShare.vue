@@ -298,6 +298,7 @@ header {
 
 header h2 {
   margin: 0;
+  font-weight: 500;
 }
 
 header h2, .buttonsShare {
