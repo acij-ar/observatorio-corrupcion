@@ -69,7 +69,8 @@ export default {
   },
   methods: {
     calc: function () {
-      this.title = this.entity.tipo === 'organismo estatal' ? 'Descripcion' : 'Biografia'
+      this.title = this.entity.tipo === 'organismo estatal' ? 'Descripción' : 'Biografía'
+      this.countRelations = []
 
       // Relation count
       let temp = []
