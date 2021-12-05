@@ -15,7 +15,7 @@
       <div class="hero-footer">
         <nav class="tabs">
           <ul>
-            <li><a href="#descripcion">Descripcion</a></li>
+            <li><a href="#descripcion">Descripción</a></li>
             <li><a href="#involucrados">Involucrados</a></li>
             <li><a href="#resoluciones">Resoluciones</a></li>
             <li><a href="#conexiones">Conexiones</a></li>

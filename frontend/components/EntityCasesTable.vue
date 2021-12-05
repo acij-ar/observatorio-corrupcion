@@ -1,9 +1,13 @@
 <template>
   <section id="causas">
+    <div class="container">
+      <buttons-share
+        :data="entity.causas"
+        title="Causas de Corrupción"
+        section="causas"
+      />
+    </div>
     <div class="container is-fluid">
-      <base-buttons-share section="causas" title="Causas de Corrupcion"
-        :data="entity.causas" class="container"></base-buttons-share>
-
       <p>
         La tabla se puede filtrar por nombre del expediente, juez/a, fiscal, delitos o denunciantes. 
       </p>
@@ -15,10 +19,10 @@
 
         <b-field>
           <b-select v-model="perPage">
-            <option value="5">5 filas por pagina</option>
-            <option value="10">10 filas por pagina</option>
-            <option value="25">25 filas por pagina</option>
-            <option value="50">50 filas por pagina</option>
+            <option value="5">5 filas por página</option>
+            <option value="10">10 filas por página</option>
+            <option value="25">25 filas por página</option>
+            <option value="50">50 filas por página</option>
           </b-select>
         </b-field>
       </b-field>
@@ -133,7 +137,7 @@
 </template>
 
 <script>
-import BaseButtonsShare from '@/components/BaseButtonsShare'
+import ButtonsShare from '@/components/BaseButtonsShare'
 
 export default {
   data () {
@@ -151,7 +155,7 @@ export default {
     }
   },
   components: {
-    BaseButtonsShare
+    ButtonsShare
   },
   watch: {
     entity: function () {

@@ -17,12 +17,12 @@
         default-sort="fecha_resolucion"
         id="sentencias-table"
       >
-        <b-table-column field="fecha_resolucion" label="Fecha resolucion" sortable v-slot="props">
+        <b-table-column field="fecha_resolucion" label="Fecha resolución" sortable v-slot="props">
           {{ props.row.fecha_resolucion.getDate() + '/' + props.row.fecha_resolucion.getMonth()
               + '/' + props.row.fecha_resolucion.getFullYear()  }}
         </b-table-column>
 
-        <b-table-column field="camara" label="Camara" sortable v-slot="props">
+        <b-table-column field="camara" label="Cámara" sortable v-slot="props">
           {{ props.row.camara }}
         </b-table-column>
 
@@ -30,7 +30,7 @@
           {{ props.row.sala }}
         </b-table-column>
 
-        <b-table-column field="resuelve_texto" label="Resolucion" v-slot="props">
+        <b-table-column field="resuelve_texto" label="Resolución" v-slot="props">
           {{ props.row.resuelve_texto.length > 300 ? props.row.resuelve_texto.slice(0, 300) + ' ... '
               : props.row.resuelve_texto }}
           <span v-if="props.row.resuelve_texto.length > 300" @click="toggle(props.row)" class="aa">[Leer mas]</span>

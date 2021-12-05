@@ -17,8 +17,8 @@
           <ul>
             <li><a href="#biografia">Biografia</a></li>
             <li><a href="#casos">Causas importante</a></li>
-            <li><a href="#investigados">Mas investigados</a></li>
-            <li><a href="#duracion">Duracion de las causas</a></li>
+            <li><a href="#investigados">Más investigados/as</a></li>
+            <li><a href="#duracion">Duración de las causas</a></li>
           </ul>
         </nav>
       </div>

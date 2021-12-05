@@ -7,22 +7,21 @@
         Sobre la totalidad de causas, abiertas o cerradas, en la que figura {{ this.entity.nombre }}
       </p>
 
-      <b-tabs>
-        <b-tab-item label="Causas segun juez/a de instrucción de la causa">
-          <bar id="segunJuez" :data="countJudge" :maxVal="maxVal"></bar>
+      <b-tabs @input="tabChange($event)">
+        <b-tab-item label="Causas según juez/a de instrucción de la causa">
+          <bar id="segunJuez" :data="countJudge" :maxVal="maxVal" :height="500"></bar>
         </b-tab-item>
 
-        <b-tab-item label="Causas segun fiscal">
-          <bar id="segunFiscal" :data="countFiscal" :maxVal="maxVal"></bar>
+        <b-tab-item label="Causas según fiscal">
+          <bar id="segunFiscal" :data="countFiscal" :maxVal="maxVal" :height="500"></bar>
         </b-tab-item>
 
         <b-tab-item label="Relación con las causas">
           <bubble id="relacionCausas" :data="countRelations" />
         </b-tab-item>
 
-        <b-tab-item label="Causas segun delito">
+        <b-tab-item label="Causas según delito">
           <bubble id="delitos" :data="countCrimes" />
-
           <p>
             Nota: El gráfico anterior muestra la cantidad de causas en las que se le imputa
             cada uno de estos delitos. En cada causas se le puede imputar más de un delito.
@@ -123,6 +122,9 @@ export default {
 
       this.maxVal = d3.max([this.countJudge[this.countJudge.length - 1].value,
                             this.countFiscal[this.countFiscal.length - 1].value])
+    },
+    tabChange(e) {
+      this.calc()
     }
   }
 }

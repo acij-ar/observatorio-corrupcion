@@ -2,7 +2,7 @@
   <section id="causasMasAntiguas" class="container">
     <buttons-share
       :data="cases"
-      title="Causas abiertas mas antiguas"
+      title="Causas abiertas más antiguas"
       section="casosViejos"
     />
 
@@ -22,7 +22,7 @@
         </nuxt-link>
       </b-table-column>
 
-      <b-table-column field="caratula" label="Caratula" v-slot="props">
+      <b-table-column field="caratula" label="Carátula" v-slot="props">
         {{ props.row.caratula }}
       </b-table-column>
     </b-table>

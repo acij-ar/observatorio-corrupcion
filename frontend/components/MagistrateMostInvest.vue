@@ -1,7 +1,7 @@
 <template>
   <section id="investigados">
     <div v-if="Object.keys(magistrate).length !== 0" class="container">
-      <base-buttons-share section="invenstigados" title="10 mas investigados"
+      <base-buttons-share section="invenstigados" title="10 más investigados/as"
         plotName="masIvenstigados"></base-buttons-share>
 
       <bar id="masIvenstigados" :data="magistrate.mas_investigados"></bar>

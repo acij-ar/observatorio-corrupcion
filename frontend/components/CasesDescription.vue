@@ -1,7 +1,7 @@
 <template>
   <section id="descripcion">
     <div v-if="Object.keys(cases).length !== 0" class="container">
-      <base-buttons-share section="resumen" title="Resumen"></base-buttons-share>
+      <base-buttons-share section="resumen" title="Descripción"></base-buttons-share>
 
       <div class="columns is-tablet">
         <div class="column is-5">
@@ -15,11 +15,11 @@
 
         <div class="column is-6 s">
           <p>
-            <span class="title is-5">Caratula:</span> {{ this.cases.caratula }}
+            <span class="title is-5">Carátula:</span> {{ this.cases.caratula }}
           </p>
 
           <p>
-            <span class="title is-5">Fecha comienzo:</span> {{ this.cases.anio_comienzo }}
+            <span class="title is-5">Fecha de comienzo:</span> {{ this.cases.anio_comienzo }}
           </p>
 
           <p>

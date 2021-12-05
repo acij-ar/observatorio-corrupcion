@@ -8,7 +8,7 @@
     />
 
     <p>
-      Cantidad de casos de corrupcion abiertos por juez/a.
+      Cantidad de casos de corrupción abiertos por juez/a.
     </p>
 
     <bar id="judgeCount" :data="data" :height="600" />

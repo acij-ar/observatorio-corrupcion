@@ -8,7 +8,7 @@
       />
 
       <p>
-        Cantidad de causas de corrupcion segun el año de comienzo desde el 2013.
+        Cantidad de causas de corrupción segun el año de comienzo desde el 2013.
       </p>
 
       <bar-vertical id="casesByYear" :data="data" yLabel="" />

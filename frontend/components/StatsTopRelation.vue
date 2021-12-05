@@ -2,7 +2,7 @@
   <section id="topPorRelacion" class="container">
     <buttons-share
       :data="data"
-      title="Personas mas"
+      title="Personas más"
       section="topRelacion"
       plotName="relations"
     >

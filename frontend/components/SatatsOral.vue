@@ -8,7 +8,7 @@
     />
 
     <p>
-      Proporcion de causas que llegan a juicio oral.
+      Proporción de causas que llegan a juicio oral.
     </p>
 
     <bar-stacked

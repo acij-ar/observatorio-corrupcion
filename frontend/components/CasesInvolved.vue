@@ -1,7 +1,7 @@
 <template>
   <section id="involucrados">
     <div v-if="Object.keys(cases).length !== 0" class="container">
-      <base-buttons-share section="involucrados" title="Involucrados" :data="cases.involucrados"></base-buttons-share>
+      <base-buttons-share section="involucrados" title="Personas involucradas" :data="cases.involucrados"></base-buttons-share>
 
       <div class="block">
         <b-checkbox v-for="value in options" :key="value" v-model="checkBoxs" :native-value="value">

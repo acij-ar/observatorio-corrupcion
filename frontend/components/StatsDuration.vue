@@ -2,17 +2,17 @@
   <section id="duration" class="container">
     <buttons-share
       section="duracionCausas"
-      title="Cantidad de causas por duracion"
+      title="Cantidad de causas por duración"
     />
 
     <b-tabs>
       <!-- Tab 1 -->
-      <b-tab-item label="Instruccion abierta">
+      <b-tab-item label="Instrucción abierta">
         <div class="columns">
 
           <div class="column is-6">
             <b-table :data="casesEnd">
-              <b-table-column field="bin" label="Duracion" v-slot="props">
+              <b-table-column field="bin" label="Duración" v-slot="props">
                 <div class="is-inline-flex">
                   <div class="box" :style="{'background-color': colors[props.index]}"></div>
                   {{ props.row.bin }}
@@ -37,12 +37,12 @@
       </b-tab-item>
 
       <!-- Tab 2 -->
-      <b-tab-item label="Instruccion cerrada">
+      <b-tab-item label="Instrucción cerrada">
         <div class="columns">
 
           <div class="column is-6">
             <b-table :data="casesOpen">
-              <b-table-column field="bin" label="Duracion" v-slot="props">
+              <b-table-column field="bin" label="Duración" v-slot="props">
                 <div class="is-inline-flex">
                   <div class="box" :style="{'background-color': colors[props.index]}"></div>
                   {{ props.row.bin }}
