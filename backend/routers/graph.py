@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse, abort
 
+from plugins import cache
 from session import arangoDB
 
 
@@ -17,6 +18,7 @@ class Graph(Resource):
     # Valid collections
     collections = [collection['name'] for collection in arangoDB.collections()]
 
+    @cache.cached(query_string=True)
     def get(self, collection, document):
         print(collection, self.collections)
 

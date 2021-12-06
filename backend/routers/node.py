@@ -3,6 +3,7 @@ import collections
 import numpy as np
 from flask_restful import Resource, reqparse, abort
 
+from plugins import cache
 from session import arangoDB
 
 
@@ -22,6 +23,7 @@ class Node(Resource):
     # Valid collections
     collections = [collection['name'] for collection in arangoDB.collections()]
 
+    @cache.cached(query_string=True)
     def get(self, collection, document):
         # Check if the collection is valid
         if collection not in self.collections:
@@ -111,7 +113,7 @@ def query_entity(parameters, args):
     if 'causas' in entidad:
         for i, cases in enumerate(entidad['causas']):
             judge = [j for j in cases['involucrados'] if j['relacion'] == 'juez']
-            if judge:
+            if judge and judge[0]['nombre'] != None:
                 s = judge[0]['organo_nombre'].split()
                 entidad['causas'][i]['juez'] = {
                     "nombre": f"Juzgado Nº {s[-1]} ({judge[0]['nombre']})",
@@ -120,7 +122,7 @@ def query_entity(parameters, args):
             else:
                 entidad['causas'][i]['juez'] = {'nombre': '', '_key': ''}
             prosecutor = [p for p in cases['involucrados'] if p['relacion'] == 'fiscal']
-            if prosecutor:
+            if prosecutor and prosecutor[0]['nombre'] != None:
                 s = prosecutor[0]['organo_nombre'].split()
                 entidad['causas'][i]['fiscal'] = {
                     "nombre": f"Fiscalía Nº {s[2]} ({prosecutor[0]['nombre']})",

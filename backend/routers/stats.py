@@ -1,6 +1,7 @@
 import numpy as np
 from flask_restful import Resource, reqparse, abort
 
+from plugins import cache
 from session import arangoDB
 
 
@@ -18,6 +19,7 @@ class TopByRelation(Resource):
     # Valid metrics
     metrics = ['denunciante', 'querellante', 'sobreseido', 'investigado']
 
+    @cache.cached(query_string=True)
     def get(self, metric):
         args = top_parser.parse_args()
         args['metric'] = metric

@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 
+from plugins import cache
 from session import arangoDB
 
 
@@ -29,6 +30,7 @@ class Search(Resource):
     """
 
     """
+    @cache.cached(query_string=True)
     def get(self):
         args = search_parser.parse_args()
         result = query_search_fulltext(args)
