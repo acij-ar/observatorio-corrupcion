@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+  ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        API_URL: ${API_URL}
+    env_file:
+      - .env
+    ports:
+      - 80:80
+
+  backend:
+    build: ./backend
+    command: /bin/bash -c "sleep 5 && gunicorn --workers=2 --threads=4 --worker-class=gthread --access-logfile=- --log-level=debug --bind=0.0.0.0:5000 main:app"
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+
+  db:
+    image: arangodb:3.7.3
+    environment:
+      ARANGO_ROOT_PASSWORD: ${ARANGO_PASSWORD}
+    volumes:
+      - arangodb:/var/lib/arangodb3
+    ports:
+      - 8529:8529
+
+  redis:
+    image: redis:6.2
+
+volumes:
+  arangodb:

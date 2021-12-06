@@ -60,10 +60,23 @@ module.exports = {
   ],
 
   buildModules: [
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    'nuxt-compress',
   ],
   googleAnalytics: {
     id: 'UA-213809731-1'
+  },
+  'nuxt-compress': {
+    gzip: {
+      threshold: 8192,
+    },
+    brotli: {
+      threshold: 8192,
+    },
+  },
+
+  env: {
+    apiUrl: process.env.API_URL
   },
 
   /*
