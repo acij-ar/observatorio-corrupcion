@@ -1,17 +1,9 @@
-/*
-  Commons functions, values
-*/
 import * as d3 from 'd3'
 import axios from 'axios'
 
-// baseUrl and apiUrl depending if production or not
-export const apiUrl = process.env.NODE_ENV === 'production'
-  ? 'http://api.causasdecorrupcion.org/v1/'
-  : 'http://0.0.0.0:5000/v1/'
-
-export const baseUrl = process.env.NODE_ENV === 'production'
-  ? '/'
-  : '/'
+export const apiUrl = process.env.apiUrl
+export const baseUrl = '/'
+console.log(apiUrl)
 
 export const HTTP = axios.create({
   baseURL: apiUrl
@@ -74,7 +66,7 @@ export function getCases () {
 }
 
 export function getMagistrate () {
-  HTTP.get(`nodo/nodos_magistrados/${this.$route.query.nombre}`)
+  HTTP.get(`nodo/nodos_magistrados/${this.$route.query.nombre}?show=full`)
     .then(response => {
       this.magistrate = response.data.magistrado
 
@@ -94,7 +86,7 @@ export function getMagistrate () {
     })
 }
 
-export function wrapText (text, width, lineHeight=1.1, dy=1) {
+export function wrapText (text, width, dy=1) {
   /*
   Break long label in multiple lines.
   This code was take from https://bl.ocks.org/mbostock/7555321
@@ -105,31 +97,33 @@ export function wrapText (text, width, lineHeight=1.1, dy=1) {
     let words = text.text().split(/\s+/).reverse()
     let word
     let line = []
-    let lineNumber = 0
-    // let lineHeight = 1.1
     let y = text.attr('y')
     let x = text.attr('x') || 0
-    // let dy = 1
 
     let tspan = text.text(null)
       .append('tspan')
       .attr('x', x)
       .attr('y', y)
-      // .attr('dy', dy + 'em')
       .attr('dy', '0em')
+
+    let first = true
 
     // eslint-disable-next-line
     while (word = words.pop()) {
       line.push(word)
       tspan.text(line.join(' '))
       if (tspan.node().getComputedTextLength() - x > width) {
+        if (first) {
+          tspan.attr('dy', '-0.3em')
+          first = false
+        }
+
         line.pop()
         tspan.text(line.join(' '))
         line = [word]
         tspan = text.append('tspan')
           .attr('x', x)
           .attr('y', y)
-          // .attr('dy', ++lineNumber * lineHeight + dy + 'em')
           .attr('dy', dy + 'em')
           .text(word)
       }

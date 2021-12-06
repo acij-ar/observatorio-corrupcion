@@ -3,18 +3,18 @@
     <portal to="header">
       <div class="hero-body">
         <h1 class="title">
-          Estadisticas Generales
+          Estadísticas Generales
         </h1>
       </div>
     </portal>
 
-    <stats-top-relation></stats-top-relation>
-    <stats-cases-by-year></stats-cases-by-year>
-    <stats-judges></stats-judges>
-    <satats-oral></satats-oral>
-    <stats-crimes></stats-crimes>
-    <stats-old-cases></stats-old-cases>
-    <stats-duration></stats-duration>
+    <stats-top-relation />
+    <stats-cases-by-year />
+    <stats-judges />
+    <satats-oral />
+    <stats-crimes />
+    <stats-old-cases />
+    <stats-duration />
   </div>
 </template>
 
@@ -22,10 +22,10 @@
 import StatsTopRelation from '@/components/StatsTopRelation'
 import StatsCasesByYear from '@/components/StatsCasesByYear'
 import StatsJudges from '@/components/StatsJudges'
-import SatatsOral from '~/components/SatatsOral'
-import StatsCrimes from '~/components/StatsCrimes'
-import StatsOldCases from '~/components/StatsOldCases'
-import StatsDuration from '~/components/StatsDuration'
+import SatatsOral from '@/components/SatatsOral'
+import StatsCrimes from '@/components/StatsCrimes'
+import StatsOldCases from '@/components/StatsOldCases'
+import StatsDuration from '@/components/StatsDuration'
 
 export default {
   head () {

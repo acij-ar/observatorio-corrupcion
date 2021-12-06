@@ -19,28 +19,21 @@
       </div>
     </portal>
 
-    <!-- Biography -->
-    <entity-biography :entity="entity"></entity-biography>
-    <!-- Stats -->
-    <entity-stats :entity="entity"></entity-stats>
-    <!-- A quien querella -->
-    <entity-querella :entity="entity" v-if="entity.tipo === 'organismo estatal'"></entity-querella>
-    <!-- Cases table -->
-    <entity-cases-table :entity="entity"></entity-cases-table>
-
-    <!-- Graph -->
-    <graph></graph>
+    <entity-biography :entity="entity" />
+    <entity-stats :entity="entity" />
+    <entity-querella :entity="entity" v-if="entity.tipo === 'organismo estatal'" />
+    <entity-cases-table :entity="entity" />
+    <graph />
   </div>
 </template>
 
 <script>
-import { getEntity } from '~/assets/utils'
-
-import Graph from '~/components/BaseGraph'
-import EntityBiography from '~/components/EntityBiography'
-import EntityStats from '~/components/EntityStats'
-import EntityQuerella from '~/components/EntityQuerella'
-import EntityCasesTable from '~/components/EntityCasesTable'
+import { getEntity } from '@/assets/utils'
+import Graph from '@/components/BaseGraph'
+import EntityStats from '@/components/EntityStats'
+import EntityQuerella from '@/components/EntityQuerella'
+import EntityBiography from '@/components/EntityBiography'
+import EntityCasesTable from '@/components/EntityCasesTable'
 
 export default {
   head () {
@@ -60,10 +53,10 @@ export default {
   },
   components: {
     Graph,
-    EntityBiography,
     EntityStats,
     EntityQuerella,
-    EntityCasesTable
+    EntityBiography,
+    EntityCasesTable,
   },
   created () {
     this.getEntity()
@@ -74,9 +67,9 @@ export default {
     if (from.name === to.name) {
       next()
       this.getEntity()
+    } else {
+      next()
     }
-
-    next()
   },
   methods: {
     getEntity: getEntity

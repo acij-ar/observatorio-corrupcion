@@ -9,52 +9,48 @@
         :data="magistrate.casos_importantes"
         :paginated=true
         :per-page="perPage"
-        default-sort="anio_comienzo">
+        default-sort="anio_comienzo"
+      >
+        <b-table-column field="anio_comienzo" label="Año Comienzo" sortable v-slot="props">
+          {{ props.row.anio_comienzo }}
+        </b-table-column>
 
-        <template slot-scope="props">
-          <b-table-column field="anio_comienzo" label="Año Comienzo" sortable>
-            {{ props.row.anio_comienzo }}
-          </b-table-column>
+        <b-table-column field="expediente" label="Expediente" v-slot="props">
+          <nuxt-link :to="{ name: 'expediente', query: { nombre: props.row.key }}">
+            {{ props.row.nombre }}
+          </nuxt-link>
+        </b-table-column>
 
-          <b-table-column field="expediente" label="Expediente">
-            <nuxt-link :to="{ name: 'expediente', query: { nombre: props.row.key }}">
-              {{ props.row.nombre }}
+        <b-table-column field="fiscal" label="Fiscal" sortable v-slot="props">
+          <nuxt-link :to="{ name: 'magistrado', query: { nombre: props.row.fiscal.key }}">
+            {{ props.row.fiscal.nombre }}
+          </nuxt-link>
+        </b-table-column>
+
+        <b-table-column field="denunciante" label="Denunciante" sortable v-slot="props">
+          <span v-for="involved in props.row.denunciantes" :key="involved.id">
+            <nuxt-link :to="{ name: 'entidad', query: { nombre: involved }}">
+              {{ involved.replace(/_/g, ' ') }} --
             </nuxt-link>
-          </b-table-column>
+          </span>
+        </b-table-column>
 
-          <b-table-column field="fiscal" label="Fiscal" sortable>
-            <nuxt-link :to="{ name: 'magistrado', query: { nombre: props.row.fiscal.key }}">
-              {{ props.row.fiscal.nombre }}
+        <b-table-column field="querellante" label="Querellante" sortable v-slot="props">
+          <span v-for="involved in props.row.querellantes" :key="involved.id">
+            <nuxt-link :to="{ name: 'entidad', query: { nombre: involved }}">
+              {{ involved.replace(/_/g, ' ') }} --
             </nuxt-link>
-          </b-table-column>
+          </span>
+        </b-table-column>
 
-          <b-table-column field="denunciante" label="Denunciante" sortable>
-            <span v-for="involved in props.row.denunciantes" :key="involved.id">
-              <nuxt-link :to="{ name: 'entidad', query: { nombre: involved }}">
-                {{ involved.replace(/_/g, ' ') }} --
-              </nuxt-link>
-            </span>
-          </b-table-column>
+        <b-table-column field="estado" label="Estado" sortable v-slot="props">
+          {{ props.row.estado }}
+        </b-table-column>
 
-          <b-table-column field="querellante" label="Querellante" sortable>
-            <span v-for="involved in props.row.querellantes" :key="involved.id">
-              <nuxt-link :to="{ name: 'entidad', query: { nombre: involved }}">
-                {{ involved.replace(/_/g, ' ') }} --
-              </nuxt-link>
-            </span>
-          </b-table-column>
-
-          <b-table-column field="estado" label="Estado" sortable>
-            {{ props.row.estado }}
-          </b-table-column>
-
-          <b-table-column field="ultima_actualizacion" label="Ultima Actualizacion" centered>
-            {{ props.row.ultima_actualizacion }}
-          </b-table-column>
-        </template>
-
+        <b-table-column field="ultima_actualizacion" label="Ultima Actualización" centered v-slot="props">
+          {{ props.row.ultima_actualizacion }}
+        </b-table-column>
       </b-table>
-
     </div>
   </section>
 </template>
