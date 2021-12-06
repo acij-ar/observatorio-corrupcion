@@ -1,11 +1,11 @@
 <template>
   <div>
-    <section id="banner" class="hero is-fullheight">
+    <section class="home hero is-fullheight">
       <the-nav-bar />
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            Observatorio de Causas de Corrupcion
+            Observatorio de Causas de Corrupción
           </h1>
 
           <b-field>
@@ -31,15 +31,15 @@
             </b-autocomplete>
           </b-field>
 
-          <a class="ref-banner" href="/acercade?sector=1">
+          <router-link to="/acerca-de">
             ¿Qué tipo de información podés encontrar en este Observatorio?
-          </a>
+          </router-link>
 
         </div>
       </div>
     </section>
 
-    <home-hot></home-hot>
+    <home-hot />
   </div>
 </template>
 
@@ -129,27 +129,39 @@ export default {
 }
 </script>
 
-<style>
-.autocomplete-option {
-  display: inline-block;
-  padding-left: 10px;
-}
-
-body.night .autocomplete-option {
-  color: black;
-}
-
-#banner {
+<style lang="scss" scoped>
+.home {
   color: white;
   background-color: #292935;
-  background-image: url("~@/assets/portada-1.jpg"), linear-gradient(#5fd0ee 50%,#01b2a8 0);
-  background-size: 100%;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-attachment: scroll;
-}
+  background-attachment: fixed;
 
-#banner .title {
-  color: white;
+  .title {
+    color: white;
+  }
+
+  a {
+    float:right;
+    color: white;
+    font-weight: bold;
+    font-size: 120%;
+    &:visited,
+    &:active,
+    &:hover {
+      color: white;
+    }
+    &::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 4px;
+      background: $red;
+       transition: width .3s;
+    }
+    &:hover::after {
+      width: 100%;
+    }
+  }
 }
 </style>
