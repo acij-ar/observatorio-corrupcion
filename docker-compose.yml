@@ -14,7 +14,7 @@ services:
 
   backend:
     build: ./backend
-    command: /bin/bash -c "sleep 5 && gunicorn --workers=2 --threads=4 --worker-class=gthread --bind=0.0.0.0:5000 main:app"
+    command: /bin/bash -c "sleep 5 && gunicorn --workers=2 --threads=4 --worker-class=gthread --access-logfile=- --log-level=debug --bind=0.0.0.0:5000 main:app"
     env_file:
       - .env
     volumes:
