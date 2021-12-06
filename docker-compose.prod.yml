@@ -11,6 +11,7 @@ services:
       - .env
     ports:
       - 80:80
+    restart: always
 
   backend:
     build: ./backend
@@ -23,6 +24,7 @@ services:
       - 5000:5000
     depends_on:
       - db
+    restart: always
 
   db:
     image: arangodb:3.7.3
@@ -32,9 +34,11 @@ services:
       - arangodb:/var/lib/arangodb3
     ports:
       - 8529:8529
+    restart: always
 
   redis:
     image: redis:6.2
+    restart: always
 
 volumes:
   arangodb:
