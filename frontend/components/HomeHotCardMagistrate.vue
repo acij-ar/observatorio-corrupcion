@@ -1,0 +1,44 @@
+<template>
+  <div v-if="magistrate" class="column is-3">
+    <div class="hvrbox">
+      <nuxt-link :to="{ name: 'magistrado', query: { nombre: magistrate._key }}">
+        <img :src="baseUrl + 'fotos_magistrados/' + magistrate.nombre + '.jpg'"
+          :alt="magistrate.nombre" class="hvrbox-layer_bottom" />
+
+        <div class="hvrbox-layer_top">
+          <div class="hvrbox-text">{{ this.magistrate.nombre }}</div>
+        </div>
+      </nuxt-link>
+    </div>
+  </div>
+</template>
+
+<script>
+import { HTTP, baseUrl } from '~/assets/utils'
+
+export default {
+  data () {
+    return {
+      baseUrl: baseUrl,
+      magistrate: null
+    }
+  },
+  props: {
+    name: {
+      type: String,
+      require: true
+    }
+  },
+  mounted: function () {
+    this.getData()
+  },
+  methods: {
+    getData: function () {
+      HTTP.get(`nodo/nodos_magistrados/${this.name}?show=short`)
+        .then(response => {
+          this.magistrate = response.data.magistrado
+        })
+    }
+  }
+}
+</script>

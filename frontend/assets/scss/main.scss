@@ -1,0 +1,471 @@
+/*
+  =======================================================================
+  General vars
+  =======================================================================
+*/
+$red: #d63533;
+$blue: #3273dc;
+$body-day: white;
+$body-dark: #061f2f;
+$width-mobile: 768px;
+$width-table: 1023px;
+$width-desktop: 1215px;
+$width-widescreen: 1407px;
+$width-fullhd: 1408px;
+
+@mixin is-table {
+  @media screen and (min-width: #{$width-table}) {
+    @content;
+  }
+}
+
+@mixin is-desktop {
+  @media screen and (min-width: #{$width-desktop}) {
+    @content;
+  }
+}
+
+@mixin is-widescreen {
+  @media screen and (min-width: #{$width-widescreen}) {
+    @content;
+  }
+}
+
+@mixin is-fullhd {
+  @media screen and (min-width: #{$width-fullhd}) {
+    @content;
+  }
+}
+
+/*
+  =======================================================================
+  Base style
+  =======================================================================
+*/
+@font-face {
+  font-family: 'BisionBold';
+  src: url('~@/assets/fonts/Bison-Bold.ttf');
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'BisionBold';
+}
+
+h2.title.is-1 {
+  text-transform: uppercase;
+}
+
+a {
+  color: $blue;
+  &:visited,
+  &:active {
+    color: $blue;
+  }
+  &:hover {
+    color: $red;
+  }
+}
+
+img.border {
+  border: 6px solid black;
+}
+
+section > svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.description {
+  p {
+    font-weight: inherit !important;
+    text-align: initial;
+    padding-bottom: 1.5rem;
+  }
+  ul {
+    margin-left: 15px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  :not(.navbar).container {
+    margin: 0 1.5rem;
+  }
+}
+
+/*
+  =======================================================================
+  General day and night mode
+  =======================================================================
+*/
+
+body {
+  &.day {
+    background-color: #f5f5f5;
+    transition: background 500ms;
+    h2,
+    p,
+    .tabs a {
+      color: black;
+    }
+  }
+
+  &.night {
+    background-color: #061f2f;
+    h2,
+    p,
+    .tabs a {
+      color: white;
+    }
+    .autocomplete-option {
+      color: black;
+    }
+  }
+}
+
+body.day .modal-card p,
+body.night .modal-card p {
+  color: black;
+}
+
+/* el input en los popup api/embeber */
+.label,
+.control {
+  display: inline-flex;
+  width: 100%;
+}
+
+.d {
+  padding-bottom: 25px;
+}
+
+/*
+  =======================================================================
+  Common hero banner
+  =======================================================================
+*/
+
+.day {
+  .home.hero {
+    background-image: linear-gradient(to top, rgb(1 4 20 / 37%), rgb(115 130 211 / 13%)), url("~@/assets/img/portada.jpg");
+  }
+  :not(.home).hero {
+    background-position: center right;
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.3), rgba(46, 49, 65, 0)), url("~@/assets/img/banner.jpg");
+  }
+}
+
+@include is-desktop {
+  .day {
+    :not(.home).hero {
+      background-size: 100%;
+    }
+  }
+}
+
+.night {
+  .home.hero {
+    background-image: linear-gradient(0deg, rgba(46,49,65,.7), rgba(46,49,65,.4)), url("~@/assets/img/portada.jpg");
+  }
+  :not(.home).hero {
+    background-size: 100%;
+    background-position: center;
+    background-image: linear-gradient(0deg, rgba(46,49,65,.7), rgba(46,49,65,.4)), url("~@/assets/img/portada.jpg");
+  }
+}
+
+.default {
+  .hero {
+    h1,
+    h2 {
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  :not(.home).hero {
+    color: white;
+    min-height: 250px;
+    background-color: #292935;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+  .hero-body {
+    padding-bottom: 2rem;
+    padding-top: 5rem;
+  }
+  .hero-footer ul {
+    display: inline-flex;
+  }
+  .hero-footer .tabs ul li a {
+    color: white;
+  }
+  .hero-footer ul li a {
+   border: 0;
+   font-size: 1.3rem;
+   font-family: BisionBold;
+   text-transform: uppercase;
+   display: inline-block;
+   &:hover {
+     background: transparent;
+     color: whitesmoke;
+     border-width: 4px;
+   }
+   &::after {
+     content: '';
+     display: block;
+     width: 0;
+     height: 4px;
+     background: $red;
+     transition: width .3s;
+   }
+   &:hover::after {
+     width: 100%;
+   }
+  }
+}
+
+.autocomplete-option {
+  display: inline-block;
+  padding-left: 10px;
+}
+
+/*
+  =======================================================================
+  Home hot cases, entities and magistrates
+  =======================================================================
+*/
+.hvrbox {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	max-width: 100%;
+	height: auto;
+  box-sizing: border-box;
+}
+
+.hvrbox img {
+	display: block;
+}
+
+.hvrbox .hvrbox-layer_top {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	padding: 15px;
+	transition: all 0.4s ease-in-out 0s;
+}
+
+.hvrbox:hover .hvrbox-layer_top {
+	opacity: 1;
+}
+
+.hvrbox .hvrbox-text {
+	text-align: center;
+	font-size: 1.2rem;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+/* d3 texts */
+text {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+/*
+  D3 tooltip
+  ==========
+*/
+#tooltip {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  color: black;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+#tooltip p#value strong {
+  color: $red;
+}
+
+/*
+  Plots night and day mode
+  ========================
+*/
+/* Axis text */
+body.day .tick text,
+body.day .axis text,
+body.day text.notation {
+  fill: black;
+}
+
+body.night .tick text,
+body.night .axis text,
+body.night text.notation {
+  fill: white;
+}
+
+/* Labels */
+body.day svg .labels rect {
+  fill: white;
+  stroke: black;
+  stroke-width: 3px;
+}
+
+body.day svg .labels .legend text {
+  fill: black;
+}
+
+body.day svg .labels .legend circle {
+  stroke: black;
+  stroke-width: 2;
+}
+
+body.night svg .labels rect {
+  fill: #0a121b;
+  stroke: white;
+  stroke-width: 3px;
+}
+
+body.night svg .labels .legend text {
+  fill: white;
+}
+
+body.night svg .labels .legend circle {
+  stroke: white;
+  stroke-width: 2;
+}
+
+/* Nodes border */
+body.day svg .nodes circle {
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+body.night svg .nodes circle {
+  stroke: white;
+  stroke-width: 1.5px;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+/*
+  Table day night mode
+  ====================
+*/
+.table-wrapper {
+  overflow-x: auto;
+  transform:rotateX(180deg);
+}
+
+.table-wrapper table {
+  transform:rotateX(180deg);
+}
+
+body.day table {
+  color: black;
+  background-color: white;
+}
+
+body.night table {
+  color: white;
+  background-color: #0a121b;
+}
+
+body.day .table thead td,
+body.day .table thead th {
+  color: #363636;
+}
+
+body.night .table thead td,
+body.night .table thead th {
+  color: white;
+}
+
+body.day .pagination-previous,
+body.day .pagination-next,
+body.day .pagination-link {
+  border-color: #dbdbdb;
+  color: #363636
+}
+
+body.day .pagination-link.is-current {
+  background-color: black;
+  color: white;
+}
+
+body.night .pagination-previous,
+body.night .pagination-next,
+body.night .pagination-link {
+  border-color: white;
+  color: white;
+}
+
+body.night .pagination-link.is-current {
+  background-color: white;
+  color: black;
+}
+
+
+/*
+  Set custom columns on the table
+*/
+#sentencias-table td.chevron-cell a {
+  display: none;
+}
+
+#tablaCasos th.is-sortable:nth-child(8) {
+  min-width: 300px;
+}
+
+#tablaCasos th.is-sortable:nth-child(9) {
+  min-width: 300px;
+}
+
+/*
+
+*/
+.horizontal-center {
+  justify-content: center;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.is-expanded,
+.is-expanded .control {
+  width: 100%;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "observatorio-corrupcion",
+  "version": "0.8.0",
+  "description": "Frontend para el observatorio de corrupción",
+  "author": "Franco N Bellomo <fnbellomo@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.7",
+    "@fortawesome/free-brands-svg-icons": "^5.4.2",
+    "@fortawesome/free-regular-svg-icons": "^5.9.0",
+    "@fortawesome/free-solid-svg-icons": "^5.10.2",
+    "@fortawesome/vue-fontawesome": "^0.1.2",
+    "axios": "^0.24.0",
+    "cross-env": "^5.2.0",
+    "d3": "^5.7.0",
+    "debounce": "^1.2.0",
+    "file-saver": "^2.0.0-rc.4",
+    "nuxt": "^2.15.8",
+    "nuxt-buefy": "^0.4.13",
+    "portal-vue": "^2.1.7"
+  },
+  "devDependencies": {
+    "@nuxtjs/google-analytics": "^2.4.0",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "nuxt-compress": "^5.0.0",
+    "sass": "^1.44.0",
+    "sass-loader": "^10.2.0"
+  }
+}

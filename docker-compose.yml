@@ -1,6 +1,29 @@
 version: '3.6'
 
 services:
+  frontend:
+    build: ./frontend
+    command: npm run dev
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+      - node_modules_frontend:/app/node_modules
+    ports:
+      - 3000:3000
+
+  backend:
+    build: ./backend
+    command: /bin/bash -c "sleep 5 && gunicorn --workers=2 --threads=4 --worker-class=gthread --access-logfile=- --log-level=debug --bind=0.0.0.0:5000 main:app"
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+
   scraper:
     build: ./scraper
     volumes:
@@ -27,6 +50,10 @@ services:
     ports:
       - 8529:8529
 
+  redis:
+    image: redis:6.2
+
 volumes:
+  node_modules_frontend:
   node_modules:
   arangodb:

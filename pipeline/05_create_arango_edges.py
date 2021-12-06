@@ -20,7 +20,7 @@ rows = [
     {
         "_from": 'nodos_entidades/' + row.implicado,
         "_to": 'nodos_causas/' + row.expediente,
-        "_tipo": row.relacion,
+        "tipo": row.relacion,
     }
     for i, row in df_involves.iterrows()
 ]

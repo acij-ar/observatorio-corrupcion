@@ -95,6 +95,11 @@ df_descriptions = pd.read_csv(
 df_cases = df_cases.join(
     df_descriptions.set_index('expediente'), on='expediente'
 )
+df_cases.columns = [
+    'nombre' if c == 'nombre_causa' else c
+    for c in df_cases.columns
+]
+df_cases.nombre = df_cases.nombre.fillna(df_cases.expediente)
 
 # Add crimes
 crimes = []
@@ -135,7 +140,7 @@ for index, row in df_cases.iterrows():
         radications.append([])
 
     # Obtengo el juez y fiscal federal
-    t = 'JUZGADO NACIONAL DE PRIMERA INSTANCIA EN LO CRIMINAL Y CORRECCIONAL FEDERAL N° '
+    t = 'JUZGADO NACIONAL DE PRIMERA INSTANCIA EN LO CRIMINAL Y CORRECCIONAL FEDERAL N '
     if not df_filter[df_filter.organo_nombre.str.startswith(t)].empty:
         fiscal = df_filter[df_filter.organo_nombre.str.startswith(t)].iloc[0]['fiscal']
         juez = df_filter[df_filter.organo_nombre.str.startswith(t)].iloc[0]['juez_1']

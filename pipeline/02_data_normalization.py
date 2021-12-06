@@ -147,7 +147,7 @@ def remove_dr_dra(name: str) -> str:
     """
     Elimino el DR y DRA del nombre del fiscal
     """
-    name = name.replace('Fiscal ', '')
+    name = name.upper().replace('FISCAL ', '')
     if name.startswith('DR '):
         return name[3:]
     elif name.startswith('DRA '):
@@ -286,6 +286,15 @@ for index, row in correct_cameras.iterrows():
     )
 df_radication.sala_c = df_radication.sala_c.apply(fix_camera)
 
+#
+df_radication["_fiscal"] = df_radication.fiscal.copy()
+correct_magistrate = pd.read_csv(
+    settings.BASE_DIR / 'external/correccion_magistrados.csv'
+).fillna("")
+for index, row in correct_magistrate.iterrows():
+    df_radication.fiscal = df_radication.fiscal.str.replace(
+        row.nombre_original, row.nombre_correcto
+    )
 
 data = []
 for index, row in df_radication.iterrows():
@@ -329,9 +338,7 @@ df_judges = pd.DataFrame(data, columns=[
     'camara', 'organo_tipo', 'organo_nombre', 'juez_1', 'juez_2', 'juez_3'
 ])
 df_radication = df_radication.drop(columns=['sala_c'])
-df_radication = pd.merge(
-    df_radication, df_judges, right_index=True, left_index=True
-)
+df_radication = pd.concat([df_radication, df_judges], axis=1)
 df_radication.fiscalia = df_radication.fiscalia.fillna("").apply(fix_fiscalia)
 df_radication.fiscal = df_radication.fillna("").apply(fix_fiscal, axis=1)
 
