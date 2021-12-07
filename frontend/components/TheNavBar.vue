@@ -24,10 +24,10 @@
         <router-link to="/nosotros" class="navbar-item">
           Nosotros
         </router-link>
-        <a class="navbar-item" href="https://github.com/acij-ar/cij-scraper/raw/master/cij.zip">
+        <a class="navbar-item" href="https://github.com/acij-ar/observatorio-corrupcion/raw/master/cij.zip">
           Datos
         </a>
-        <a class="social-item gitlab" href="https://github.com/acij-ar/cij-scraper" target="_blank">
+        <a class="social-item gitlab" href="https://github.com/acij-ar/observatorio-corrupcion" target="_blank">
           <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }"/>
         </a>
         <div class="aa">
