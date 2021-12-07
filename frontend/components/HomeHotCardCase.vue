@@ -2,9 +2,11 @@
   <div v-if="cases" class="column is-3">
     <div class="hvrbox">
       <nuxt-link :to="{ name: 'expediente', query: { nombre: cases._key }}">
-        <img :src="baseUrl + 'fotos_causas/' + cases._key + '.jpg'" :alt="cases.foto"
-          class="hvrbox-layer_bottom" />
-
+        <img
+          :src="`https://raw.githubusercontent.com/acij-ar/observatorio-corrupcion/master/fotos/causas/${cases._key}.jpg`"
+          :alt="`foto de la causa ${cases.nombre}`"
+          class="hvrbox-layer_bottom"
+        />
         <div class="hvrbox-layer_top">
           <div v-if="this.cases" class="hvrbox-text">{{ this.cases.nombre }}</div>
         </div>
