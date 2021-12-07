@@ -27,6 +27,9 @@
         <a class="navbar-item" href="https://github.com/acij-ar/observatorio-corrupcion/raw/master/cij.zip">
           Datos
         </a>
+        <a class="navbar-item" :href="`${backendUrl}swagger-ui/`" target="_blank">
+          API
+        </a>
         <a class="social-item gitlab" href="https://github.com/acij-ar/observatorio-corrupcion" target="_blank">
           <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }"/>
         </a>
@@ -47,6 +50,8 @@
 </template>
 
 <script>
+import { apiUrl } from '@/assets/utils'
+
 export default {
   head () {
     return {
@@ -58,7 +63,8 @@ export default {
   data () {
     return {
       theme: null,
-      isSwitched: false
+      isSwitched: false,
+      backendUrl: apiUrl.replace('/v1', ''),
     }
   },
   watch: {
