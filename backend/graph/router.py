@@ -1,33 +1,32 @@
-from flask_restful import Resource, reqparse, abort
+from flask_restful import Resource, abort
+from flask_apispec import marshal_with, doc, use_kwargs
+from flask_apispec.views import MethodResource
 
 from plugins import cache
 from session import arangoDB
+from graph import schemas
 
 
-# Graph query parameters parser
-graph_parser = reqparse.RequestParser()
-graph_parser.add_argument(
-    'profundidad', type=int, required=False, default=2
-)
+class Graph(MethodResource, Resource):
+    valid_collections = [
+        'nodos_causas',
+        'nodos_entidades',
+        'nodos_magistrados',
+    ]
 
-
-class Graph(Resource):
-    """
-
-    """
-    # Valid collections
-    collections = [collection['name'] for collection in arangoDB.collections()]
-
+    @doc(description='Grafo', tags=['Grafo'])
+    @use_kwargs(schemas.Query, location="query")
+    @marshal_with(schemas.GraphResult)
     @cache.cached(query_string=True)
-    def get(self, collection, document):
-        print(collection, self.collections)
-
+    def get(self, collection, document, profundidad=2):
         # Check if the collection is valid
-        if collection not in self.collections:
+        if collection not in self.valid_collections:
             abort(404, message=f'La coleccion "{collection}" no existe')
 
-        args = graph_parser.parse_args()
-        args['node'] = collection + '/' + document.replace(' ', '_')
+        args = {
+            'node': collection + '/' + document.replace(' ', '_'),
+            'profundidad': profundidad,
+        }
         result = query_graph(args)
 
         # Check if the node name is valid
@@ -38,9 +37,6 @@ class Graph(Resource):
 
 
 def query_graph(parameters):
-    """
-
-    """
     query1 = """
     LET nodes = (
         FOR v, e, p IN 0..@deep ANY @node GRAPH "grafo"

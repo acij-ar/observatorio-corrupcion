@@ -1,53 +1,67 @@
 import collections
 
 import numpy as np
-from flask_restful import Resource, reqparse, abort
+from flask_restful import Resource, abort
+from flask_apispec import marshal_with, doc, use_kwargs
+from flask_apispec.views import MethodResource
 
 from plugins import cache
 from session import arangoDB
+from node import schemas
 
 
-# Node query parameters parser
-node_parser = reqparse.RequestParser()
-
-node_parser.add_argument(
-    'show', type=str, required=False, default='full',
-    help='Mostrar todo la info del nodo o solo un resumen'
-)
-
-
-class Node(Resource):
-    """
-
-    """
-    # Valid collections
-    collections = [collection['name'] for collection in arangoDB.collections()]
-
+class CasesNode(MethodResource, Resource):
+    @doc(description='Obtener una causa', tags=['Nodos'])
+    @use_kwargs(schemas.Query, location="query")
+    @marshal_with(schemas.CasesNode)
     @cache.cached(query_string=True)
-    def get(self, collection, document):
-        # Check if the collection is valid
-        if collection not in self.collections:
-            text = f"Invalid collection name. Bust by in {valid_collections}"
-            abort(404, message=text)
-
+    def get(self, document: str, show: str = 'full'):
         document = ' '.join(document.split())
         if not document:
             text = "El nombre del nodo tiene que ser especificado"
             abort(404, message=text)
 
-        args = node_parser.parse_args()
         document = document.replace(' ', '_').replace('-', '_')
-        parameters = {'node': collection + '/' + document}
+        parameters = {'node': f'nodos_causas/{document}'}
 
-        if collection == 'nodos_entidades':
-            return query_entity(parameters, args)
-        elif collection == 'nodos_causas':
-            return query_cases(parameters, args)
-        else:
-            return query_magistrate(parameters, args)
+        return query_cases(parameters, show)
 
 
-def query_entity(parameters, args):
+class EntityNode(MethodResource, Resource):
+    @doc(description='Obtener una entidad', tags=['Nodos'])
+    @use_kwargs(schemas.Query, location="query")
+    @marshal_with(schemas.EntityNode)
+    @cache.cached(query_string=True)
+    def get(self, document: str, show: str = 'full'):
+        document = ' '.join(document.split())
+        if not document:
+            text = "El nombre del nodo tiene que ser especificado"
+            abort(404, message=text)
+
+        document = document.replace(' ', '_').replace('-', '_')
+        parameters = {'node': f'nodos_entidades/{document}'}
+
+        return query_entity(parameters, show)
+
+
+class MagistrateNode(MethodResource, Resource):
+    @doc(description='Obtener un magistrado', tags=['Nodos'])
+    @use_kwargs(schemas.Query, location="query")
+    @marshal_with(schemas.MagistrateNode)
+    @cache.cached(query_string=True)
+    def get(self, document: str, show: str = 'full'):
+        document = ' '.join(document.split())
+        if not document:
+            text = "El nombre del nodo tiene que ser especificado"
+            abort(404, message=text)
+
+        document = document.replace(' ', '_').replace('-', '_')
+        parameters = {'node': f'nodos_magistrados/{document}'}
+
+        return query_magistrate(parameters, show)
+
+
+def query_entity(parameters, show):
     """
 
     """
@@ -84,7 +98,7 @@ def query_entity(parameters, args):
         'node': parameters['node']
     }
 
-    if args['show'] == 'full':
+    if show == 'full':
         query = query_full
     else:
         query = query_sort
@@ -92,7 +106,7 @@ def query_entity(parameters, args):
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
     entidad = [r for r in data][0] or {}
 
-    if args['show'] == 'full' and entidad['tipo'] == 'organismo estatal':
+    if show == 'full' and entidad['tipo'] == 'organismo estatal':
         query = """
         FOR v, e IN 1..1 ANY @node GRAPH 'grafo'
             FILTER e.tipo == 'querellante'
@@ -105,9 +119,10 @@ def query_entity(parameters, args):
         entities = [r for r in entities]
 
         counter = collections.Counter(entities)
-        commons = [{'name': i[0], 'value': i[1]}
-                   for i in counter.most_common(10)]
-
+        commons = [
+            {'name': i[0], 'value': i[1]}
+            for i in counter.most_common(10)
+        ]
         entidad['querellantes'] = commons
 
     if 'causas' in entidad:
@@ -137,15 +152,19 @@ def query_entity(parameters, args):
                 if invo['relacion'] not in ['juez', 'fiscal']
             ]
 
-    if args['show'] != 'full':
-        entidad = {key: entidad[key] for key in entidad.keys()
-                   if key not in ['causas', 'relaciones']}
+    if show != 'full':
+        entidad = {
+            key: entidad[key] for key in entidad.keys()
+            if key not in ['causas', 'relaciones']
+        }
 
-    return {'entidad': entidad,
-            'execution_time': data.statistics()['execution_time']}
+    return {
+        'entidad': entidad,
+        'execution_time': data.statistics()['execution_time']
+    }
 
 
-def query_cases(parameters, args):
+def query_cases(parameters, show):
     """
 
     """
@@ -160,7 +179,7 @@ def query_cases(parameters, args):
 
     query_sort = "RETURN DOCUMENT(@node)"
 
-    if args['show'] == 'full':
+    if show == 'full':
         query = query_full
     else:
         query = query_sort
@@ -171,15 +190,17 @@ def query_cases(parameters, args):
     data = arangoDB.aql.execute(query, bind_vars=bind_vars)
     cases = [r for r in data][0] or {}
 
-    if args['show'] != 'full':
+    if show != 'full':
         cases = {key: cases[key] for key in cases.keys()
                  if key not in ['delitos', 'resoluciones', 'radicaciones', 'hechos']}
 
-    return {'causa': cases,
-            'execution_time': data.statistics()['execution_time']}
+    return {
+        'causa': cases,
+        'execution_time': data.statistics()['execution_time']
+    }
 
 
-def query_magistrate(parameters, args):
+def query_magistrate(parameters, show):
     bind_vars = {
         'node': parameters['node']
     }
@@ -192,7 +213,7 @@ def query_magistrate(parameters, args):
     magistrate = [r for r in data][0]
     execution_time = data.statistics()['execution_time']
 
-    if args['show'] != 'full':
+    if show != 'full':
         magistrate = {key: magistrate[key] for key in magistrate.keys()
                       if key in ['_key', 'nombre', 'bio', 'tipo',
                                  'subtipo', 'metricas']}
