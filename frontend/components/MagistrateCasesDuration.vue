@@ -57,7 +57,7 @@ export default {
     magistrate: function () {
       let data = []
 
-      // if (this.magistrate.histo_causas_abiertas.length !== 0) {
+      if (this.magistrate.histo_causas_abiertas.length !== 0) {
         data = [
           {name: 'abiertas',
           '≤ 3 años': this.magistrate.histo_causas_abiertas[0].value,
@@ -80,7 +80,7 @@ export default {
           { label: '6 a 10 años', open: data[0]['6 a 10 años'], close: data[1]['6 a 10 años'] },
           { label: '> 10 años', open: data[0]['> 10 años'], close: data[1]['> 10 años'] },
         ]
-      // }
+      }
 
       this.data = data
     }
