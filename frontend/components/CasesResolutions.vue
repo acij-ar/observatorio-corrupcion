@@ -15,6 +15,7 @@
         :paginated=true
         :per-page=5
         default-sort="fecha_resolucion"
+        default-sort-direction="desc"
         id="sentencias-table"
       >
         <b-table-column field="fecha_resolucion" label="Fecha resolución" sortable v-slot="props">
@@ -37,7 +38,7 @@
         </b-table-column>
 
         <b-table-column field="pdf_nombre" label="PDF" v-slot="props">
-          <a :href="props.row.pdf_link" target="_blank">{{ props.row.pdf_nombre }}</a>
+          <a :href="props.row.pdf_url" target="_blank">{{ props.row.pdf_nombre }}</a>
         </b-table-column>
 
         <template slot="detail" slot-scope="props">
