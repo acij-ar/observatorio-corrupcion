@@ -6,7 +6,10 @@
       <div class="columns is-tablet">
         <div class="column is-5">
           <figure class="image">
-            <img :src="getLogoUrl(baseUrl,cases._key)"/>
+            <img
+              :src="`https://raw.githubusercontent.com/acij-ar/observatorio-corrupcion/master/fotos/causas/${cases._key}.jpg`"
+              :alt="`foto de la causa ${cases.nombre}`"
+            />
           </figure>
           <p style="font-size: 0.9rem;">
             Fuente de la foto: {{ this.cases.fuente_foto }}
@@ -35,15 +38,9 @@
 </template>
 
 <script>
-import { baseUrl } from '~/assets/utils'
 import BaseButtonsShare from '~/components/BaseButtonsShare'
 
 export default {
-  data () {
-    return {
-      baseUrl: baseUrl
-    }
-  },
   props: {
     cases: {
       type: Object,
@@ -53,21 +50,6 @@ export default {
   components: {
     BaseButtonsShare
   },
-  methods: {
-    getLogoUrl: function (base,key) {          
-      var path = window.location.origin;
-      var image = new Image();
-      var url_image = path+'/fotos_causas/'+key+'.jpg';
-      image.src = url_image;
-      let imagen = "";    
-      if (image.width <= 1) {                
-          imagen = base+"fotos_causas/unnamed.png";
-      } else {          
-          imagen = base+"fotos_causas/"+key+".jpg";
-      }
-      return imagen;      
-    }
-  }
 }
 </script>
 

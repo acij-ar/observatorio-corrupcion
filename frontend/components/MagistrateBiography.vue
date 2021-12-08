@@ -6,7 +6,11 @@
       <div class="columns is-tablet">
         <div class="column is-4">
           <figure class="image is-1by1">
-            <img :src="`${baseUrl}fotos_magistrados/${magistrate.nombre}.jpg`" class="border" />
+            <img
+              :src="`https://raw.githubusercontent.com/acij-ar/observatorio-corrupcion/master/fotos/magistrados/${magistrate.nombre}.jpg`"
+              :alt="`foto del magistrado ${magistrate.nombre}`"
+              class="border"
+            />
           </figure>
 
           <div class="justi" v-if="magistrate.link_justiciopedia">
@@ -29,16 +33,14 @@
 </template>
 
 <script>
-import { baseUrl } from '~/assets/utils'
 import BaseButtonsShare from '~/components/BaseButtonsShare'
 
 export default {
   data () {
     return {
-      baseUrl: baseUrl,
-      showFullBio: false
+      showFullBio: false,
     }
-  },  
+  },
   props: {
     magistrate: {
       type: Object,

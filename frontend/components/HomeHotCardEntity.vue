@@ -16,12 +16,11 @@
 </template>
 
 <script>
-import { HTTP, baseUrl } from '@/assets/utils'
+import { HTTP } from '@/assets/utils'
 
 export default {
   data () {
     return {
-      baseUrl: baseUrl,
       entity: null
     }
   },

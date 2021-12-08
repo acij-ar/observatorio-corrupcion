@@ -6,7 +6,11 @@
       <div v-if="entity.tipo !== 'organismo estatal'" class="columns is-tablet">
         <div v-if="entity.foto !== ''" class="column is-4">
           <figure class="image is-1by1">
-            <img :src="baseUrl + 'fotos_entidades/' + entity.foto" class="border" />
+            <img
+              :src="`https://raw.githubusercontent.com/acij-ar/observatorio-corrupcion/master/fotos/entidades/${entity.foto}`"
+              :alt="`foto de ${entity.nombre}`"
+              class="border"
+            />
           </figure>
         </div>
 
@@ -39,16 +43,13 @@
 </template>
 
 <script>
-import { baseUrl } from '~/assets/utils'
 import BaseButtonsShare from '~/components/BaseButtonsShare'
 import CasesEvolution from '~/components/EntityBiographyCasesEvolution'
 
 export default {
   data () {
     return {
-      baseUrl: baseUrl,
       title: '',
-
       countRelations: []
     }
   },
