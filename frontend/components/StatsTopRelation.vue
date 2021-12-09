@@ -4,7 +4,7 @@
       :data="data"
       title="Personas más"
       section="topRelacion"
-      plotName="relations"
+      plotName="topRelacion"
     >
       <b-field class="is-inline-block">
           <b-select placeholder="Selecciona una metrica" v-model="selectedMetric">
@@ -37,7 +37,7 @@ export default {
       metrics: [
         { value: 'denunciante', text: 'denunciantes' },
         { value: 'querellante', text: 'querellantes' },
-        { value: 'investigado', text: 'investigadas' },
+        // { value: 'investigado', text: 'investigadas' },
       ]
     }
   },

@@ -4,9 +4,9 @@
       :data="data"
       title="Top de delitos"
       section="crimenes"
-      plotName="topCrimes"
+      plotName="delitos"
     />
-
+    <p>Posando el mouse sobre cada círculo podes ver a qué delito corresponde</p>
     <bubble v-if="data.length > 0" id="delitos" :data="data" />
   </section>
 </template>

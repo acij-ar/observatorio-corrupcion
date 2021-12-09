@@ -4,7 +4,7 @@
       :data="data"
       title="Causas por juez/a"
       section="juiciosOral"
-      plotName="judgesCount"
+      plotName="juicioOral"
     />
 
     <p>
