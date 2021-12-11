@@ -1,6 +1,31 @@
 version: '3.6'
 
 services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:0.9.3
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+
+  acme-companion:
+    image: nginxproxy/acme-companion:2.1.1
+    depends_on:
+      - nginx-proxy
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - acme:/etc/acme.sh
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+
   ui:
     build:
       context: ./frontend
@@ -9,8 +34,12 @@ services:
         API_URL: ${API_URL}
     env_file:
       - .env
-    ports:
-      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      - VIRTUAL_PORT=80
+      - VIRTUAL_HOST=causasdecorrupcion.org,www.causasdecorrupcion.org
+      - LETSENCRYPT_HOST=causasdecorrupcion.org,www.causasdecorrupcion.org
     restart: always
 
   backend:
@@ -20,20 +49,23 @@ services:
       - .env
     volumes:
       - ./backend:/app
-    ports:
-      - 5000:5000
+    environment:
+      - VIRTUAL_PORT=5000
+      - VIRTUAL_HOST=api.causasdecorrupcion.org
+      - LETSENCRYPT_HOST=api.causasdecorrupcion.org
     depends_on:
       - db
     restart: always
 
   db:
     image: arangodb:3.7.3
-    environment:
-      ARANGO_ROOT_PASSWORD: ${ARANGO_PASSWORD}
     volumes:
       - arangodb:/var/lib/arangodb3
-    ports:
-      - 8529:8529
+    environment:
+      - ARANGO_ROOT_PASSWORD=${ARANGO_PASSWORD}
+      - VIRTUAL_PORT=8529
+      - VIRTUAL_HOST=db.causasdecorrupcion.org
+      - LETSENCRYPT_HOST=db.causasdecorrupcion.org
     restart: always
 
   redis:
@@ -41,4 +73,8 @@ services:
     restart: always
 
 volumes:
+  acme:
+  html:
+  certs:
+  vhost:
   arangodb:
