@@ -51,7 +51,7 @@ export function downloadEntityCases (data, name) {
       .map(d => d.nombre)
       .join(' - ')
 
-    let invest = d.involucrados.filter(d => d.relacion === 'investigado/a')
+    let invest = d.involucrados.filter(d => d.relacion === 'investigado')
       .map(d => d.nombre)
       .join(' - ')
 

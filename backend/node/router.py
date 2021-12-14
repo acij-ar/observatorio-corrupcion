@@ -112,7 +112,7 @@ def query_entity(parameters, show):
             FILTER e.tipo == 'querellante'
 
             FOR v2, e2 IN 1..1 ANY v._id GRAPH 'grafo'
-                FILTER e2.tipo == 'investigado/a'
+                FILTER e2.tipo == 'investigado'
                 RETURN v2.nombre
         """
         entities = arangoDB.aql.execute(query, bind_vars=bind_vars)
@@ -224,8 +224,8 @@ def query_magistrate(parameters, show):
     # Get the most commont investigate
     query = """
     FOR v, e IN 1..2 ANY @node GRAPH 'grafo'
-        // FILTER e.tipo == "investigado/a"
-        FILTER e.tipo IN ['imputado', 'procesado', 'denunciado']
+        FILTER e.tipo == "investigado"
+        // FILTER e.tipo IN ['imputado', 'procesado', 'denunciado']
         RETURN v.nombre
     """
     entities = arangoDB.aql.execute(query, bind_vars=bind_vars)
