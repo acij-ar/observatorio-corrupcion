@@ -37,7 +37,7 @@ export default {
       metrics: [
         { value: 'denunciante', text: 'denunciantes' },
         { value: 'querellante', text: 'querellantes' },
-        // { value: 'investigado', text: 'investigadas' },
+        { value: 'investigado', text: 'investigadas' },
       ]
     }
   },

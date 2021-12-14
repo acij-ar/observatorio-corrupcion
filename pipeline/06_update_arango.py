@@ -173,12 +173,25 @@ FOR node in @@doc
 FOR node in nodos_entidades
     LET denunciante = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'denunciante' RETURN 1)
     LET querellante = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'querellante' RETURN 1)
-    LET sobreseido = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'sobreseido' RETURN 1)
-    LET investigado = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'investigado/a' RETURN 1)
+    LET sobreseido  = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'sobreseido'  RETURN 1)
+    LET letrado     = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'letrado'     RETURN 1)
+    LET imputado    = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'imputado'    RETURN 1)
+    LET denunciado  = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'denunciado'  RETURN 1)
+    LET procesado   = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'procesado'   RETURN 1)
+    LET demandado   = LENGTH(FOR v, e IN 1..1 OUTBOUND node GRAPH 'grafo' FILTER e.tipo == 'demandado'   RETURN 1)
 
     UPDATE node WITH {
-        relaciones: {'denunciante': denunciante, 'querellante': querellante,
-                     'sobreseido': sobreseido, 'investigado': investigado}
+        relaciones: {
+            'denunciante': denunciante,
+            'querellante': querellante,
+            'sobreseido': sobreseido,
+            'letrado': letrado,
+            'imputado': imputado,
+            'denunciado': denunciado,
+            'procesado': procesado,
+            'demandado': demandado,
+            'investigado': imputado + denunciado + procesado + demandado
+        }
     } IN nodos_entidades
 """
     data = {'query': query}
