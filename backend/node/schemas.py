@@ -143,6 +143,8 @@ class Magistrate(Schema):
     mas_investigados = fields.List(fields.Dict())
     histo_causas_abiertas = fields.List(fields.Dict())
     histo_causas_cerradas = fields.List(fields.Dict())
+    link_justiciopedia = fields.Str()
+    bio = fields.Str()
     metricas = fields.Nested(Metrics)
 
 

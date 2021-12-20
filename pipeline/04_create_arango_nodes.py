@@ -1,4 +1,6 @@
 import unidecode
+
+import Levenshtein
 import pandas as pd
 
 from config import settings
@@ -172,16 +174,49 @@ df_magistrados = pd.read_csv(
     settings.BASE_DIR / 'external/magistrados_federales.csv'
 ).fillna("")
 df_magistrados = df_magistrados[df_magistrados.magistrado_nombre != '']
+df_justiciapedia = pd.read_csv(
+    settings.BASE_DIR / 'external/justiciapedia.csv'
+).fillna("")
+df_justiciapedia.nombre = df_justiciapedia.nombre.str.upper()
+df_magisters_descriptions = pd.read_csv(
+    settings.BASE_DIR / 'external/descripcion_magistrados.csv'
+)
+df_magisters_descriptions.columns = ['nombre', 'foto', 'biografia']
 
 df_magistrados['nombre'] = df_magistrados.magistrado_nombre
 df_magistrados['tipo'] = 'magistrado'
 df_magistrados['subtipo'] = df_magistrados.cargo_tipo.str.lower()
 df_magistrados['_key'] = df_magistrados.nombre.apply(generate_key)
-df_magistrados = df_magistrados.drop(columns=['magistrado_nombre'])
-
-df_magistrados = df_magistrados.drop_duplicates(
-    subset=['_key'], keep='first'
+df_magistrados = df_magistrados.drop(columns=['magistrado_nombre']).reset_index(
+    drop=True
 )
+
+# Merge justiciapedia bio
+def sort_name(name):
+    return ' '.join(sorted(unidecode.unidecode(name).split()))
+
+magistrados_bios = []
+for index, row in df_magistrados.iterrows():
+    df_fitler = df_justiciapedia[df_justiciapedia.nombre.apply(
+        lambda ele: Levenshtein.ratio(sort_name(row.nombre), sort_name(ele))
+    ) > 0.8]
+    if len(df_fitler) == 1:
+        magistrados_bios.append(df_fitler.iloc[0].tolist()[2:])
+    else:
+        magistrados_bios.append(['', ''])
+
+magistrados_bios = pd.DataFrame(magistrados_bios, columns=['link_justiciopedia', 'bio'])
+df_magistrados = pd.concat([df_magistrados, magistrados_bios], axis=1)
+
+# Add description
+df_magistrados = df_magistrados.join(
+    df_magisters_descriptions.set_index('nombre'), on='nombre'
+)
+df_magistrados['bio'] = df_magistrados[['biografia', 'bio']].fillna(
+    method='bfill', axis=1
+).iloc[:, 0]
+df_magistrados = df_magistrados.drop(columns=['biografia'])
+
 df_magistrados.to_json(
     settings.BASE_DIR / 'db/nodos_magistrados.json', orient="records", lines=True
 )

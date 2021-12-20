@@ -112,6 +112,8 @@ for index, row in df_involved.iterrows():
         data.append(row.tolist())
 
 df_involved = pd.DataFrame(data, columns=df_involved.columns)
+for col in ["implicado", "letrado"]:
+    df_involved[col] = df_involved[col].apply(clear_string)
 df_involved.to_csv(settings.BASE_DIR / 'cij/implicados.csv', index=False)
 
 # Crimenes

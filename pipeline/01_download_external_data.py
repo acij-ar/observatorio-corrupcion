@@ -64,17 +64,14 @@ async def dowload_justiciapedia_bio(urls: List[HttpUrl]) -> List[str]:
 justiciapedia_url: HttpUrl = 'https://chequeado.com/justiciapedia'
 spreadsheets: List[DowloadFile] = [
     {
-        # "url": "https://docs.google.com/spreadsheets/d/1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM/export?format=csv&id=1FM_cId2ZaBYo7jlMpBw8OD5-2eI5ZL2lFvChv-E4MsM&gid=0",
         "url": "https://docs.google.com/spreadsheets/d/1QO5-lRxeYyKO7KePZN4Q8FfJqTExNPzO/export?format=csv",
         "filepath": settings.BASE_DIR / "external/correcion_involucrados.csv",
     },
     {
-        # "url": "https://docs.google.com/spreadsheets/d/19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk/export?format=csv&id=19VBXgddyN72XJoULK4PCWOiFNqxj_0kOVOSzyEzOlWk&gid=0",
         "url": "https://docs.google.com/spreadsheets/d/1fLi0PY5Zs08dPFJKH-gdjHV7QIG37m5p/export?format=csv",
         "filepath": settings.BASE_DIR / "external/correcion_delitos.csv",
     },
     {
-        # "url": "https://docs.google.com/spreadsheets/d/1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw/export?format=csv&id=1i5H-T0IL-3uc7bx2fQ1WV1-OWzyU_764mCDPTc95YYw&gid=0",
         "url": "https://docs.google.com/spreadsheets/d/18hVdsxsQaxdbz7rfY3aFr3kVHKq38lLq/export?format=csv",
         "filepath": settings.BASE_DIR / "external/correcion_salas.csv",
     },
@@ -83,7 +80,6 @@ spreadsheets: List[DowloadFile] = [
         "filepath": settings.BASE_DIR / "external/correccion_magistrados.csv",
     },
     {
-        # "url": "https://docs.google.com/spreadsheets/d/1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I/export?format=csv&id=1nYx4zme5DhrX3pTZyw6pHY-devYvAXn_ItW5cpBSJ-I&gid=0",
         "url": "https://docs.google.com/spreadsheets/d/1CezXWSnZ901HAH4PkQ9h1li05W-pJBKX/export?format=csv",
         "filepath": settings.BASE_DIR / "external/organismos_estatales.csv",
     },
@@ -94,6 +90,10 @@ spreadsheets: List[DowloadFile] = [
     {
         "url": "https://docs.google.com/spreadsheets/d/1ir54baPOBn8W9JFPIw2hFaNqNoo-U2xX/export?format=csv",
         "filepath": settings.BASE_DIR / "external/descripcion_causas.csv",
+    },
+    {
+        "url": "https://docs.google.com/spreadsheets/d/1TWdPuCGmcfQDN0TDSm8lUDx2SiGvOFqdCZ7i2zE-THs/export?format=csv",
+        "filepath": settings.BASE_DIR / "external/descripcion_magistrados.csv",
     },
     {
         "url": "https://docs.google.com/spreadsheets/d/1eQkYUVQyY9kXaWeG5z9NzPjZ7_jitJv8QDRFhbRGixA/export?format=csv",
@@ -112,19 +112,19 @@ logger = logging.getLogger(__name__)
 logger.info(f"Spreadsheet: bajando {len(spreadsheets)} archivos")
 asyncio.run(download_multi_files(spreadsheets))
 
-# logger.info("Justiciapedia: bajando fiscales")
-# rows = asyncio.run(dowload_justiciapedia_entities(8, "prosecutors", "fiscal"))
-# df_prosecutors = pd.DataFrame(rows)
+logger.info("Justiciapedia: bajando fiscales")
+rows = asyncio.run(dowload_justiciapedia_entities(8, "prosecutors", "fiscal"))
+df_prosecutors = pd.DataFrame(rows)
 
-# logger.info("Justiciapedia: bajando jueces")
-# rows = asyncio.run(dowload_justiciapedia_entities(15, "judges", "juez"))
-# df_judges = pd.DataFrame(rows)
+logger.info("Justiciapedia: bajando jueces")
+rows = asyncio.run(dowload_justiciapedia_entities(15, "judges", "juez"))
+df_judges = pd.DataFrame(rows)
 
-# logger.info("Justiciapedia: bajando las bios")
-# df = pd.concat([df_prosecutors, df_judges])
-# df = df.drop_duplicates()
-# df["bios"] = asyncio.run(dowload_justiciapedia_bio(df.url.to_list()))
-# df.to_csv(settings.BASE_DIR / "external/justiciapedia.csv", index=False)
+logger.info("Justiciapedia: bajando las bios")
+df = pd.concat([df_prosecutors, df_judges])
+df = df.drop_duplicates()
+df["bios"] = asyncio.run(dowload_justiciapedia_bio(df.url.to_list()))
+df.to_csv(settings.BASE_DIR / "external/justiciapedia.csv", index=False)
 
 # Clear some CSV
 df_magistrados = pd.read_csv(
