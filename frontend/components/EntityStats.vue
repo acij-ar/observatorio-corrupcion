@@ -87,6 +87,7 @@ export default {
       // Jugde count
       temp = []
       temp2 = []
+      this.countJudge = []
       this.entity.causas.forEach(cases => temp.push(cases.juez.nombre))
       temp2 = temp.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
       Object.keys(temp2).forEach(key => this.countJudge.push({ name: key, value: temp2[key] }))
@@ -94,6 +95,7 @@ export default {
       // Fiscal count
       temp = []
       temp2 = []
+      this.countFiscal = []
       this.entity.causas.forEach(cases => temp.push(cases.fiscal.nombre))
       temp2 = temp.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
       Object.keys(temp2).forEach(key => this.countFiscal.push({ name: key, value: temp2[key] }))
@@ -101,6 +103,7 @@ export default {
       // Relation count
       temp = []
       temp2 = []
+      this.countRelations = []
       this.entity.causas.forEach(cases => temp.push(cases.relacion))
       temp2 = temp.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
       Object.keys(temp2).forEach(key => this.countRelations.push({ name: key, value: temp2[key] }))
@@ -108,7 +111,7 @@ export default {
       // Crimenes count
       temp = []
       temp2 = []
-      let validInvolved = ['denunciante', 'querellante', 'sobreseido', 'investigado/a']
+      this.countCrimes = []
       this.entity.causas.forEach(cases => {
           temp = temp.concat(cases.delitos)
       })
