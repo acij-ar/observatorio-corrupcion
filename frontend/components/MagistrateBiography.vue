@@ -20,12 +20,12 @@
           </div>
         </div>
 
-        <!-- <div class="column is-offset-1 is-7 s">
-          <p>{{ this.showFullBio ? this.magistrate.bio : ( this.magistrate.bio !== undefined && this.magistrate.bio.slice(0, 1000)) }}</p>
+        <div v-if="this.magistrate.bio !== ''" class="column is-offset-1 is-7 s">
+          <p>{{ this.showFullBio ? this.magistrate.bio : ( this.magistrate.bio.slice(0, 1000)) }}</p>
           <button class="button" @click="showFullBio = !showFullBio">
             {{ this.showFullBio ? 'Ver menos' : 'Ver más' }}
           </button>
-        </div> -->
+        </div>
       </div><!--/columns -->
 
     </div>
