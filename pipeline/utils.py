@@ -41,7 +41,8 @@ async def download_file(
 
 
 async def download_multi_files(rows: List[DowloadFile], step: int = 100):
-    async with httpx.AsyncClient() as client:
+    sslcontext = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    async with httpx.AsyncClient(verify = sslcontext, timeout = 20, headers={"Connection": "close"}) as client:
         for i in tqdm(range(0, len(rows), step)):
             tasks = []
             for row in rows[i: i+step]:
