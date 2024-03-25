@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Union, Optional, Dict, Any, List
 
-from pydantic import AnyHttpUrl, EmailStr, validator #, BaseSettings
-from pydantic_settings import BaseSettings # NEW
+from pydantic import AnyHttpUrl, EmailStr, validator, BaseSettings
+#from pydantic_settings import BaseSettings # NEW
 
 
 class Settings(BaseSettings):
