@@ -15,7 +15,7 @@
         con la Fundación Conocimiento Abierto.
       </p>
       <p>
-        La <a href="https://acij.org.ar/" target="_blank">Asociación Civil por la Igualdad y la Justicia (ACIJ)</a> es una organización
+        La <a href="https://acij.org.ar/" target="_blank">Asociación Civil por la Igualdad y la Justicia (ACIJ)</a> es una organizaciónn
         apartidaria, sin fines de lucro, dedicada a la defensa de los derechos de los
         grupos más desfavorecidos de la sociedad y el fortalecimiento de la democracia en Argentina.
         <br>
