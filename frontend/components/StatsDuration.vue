@@ -7,34 +7,35 @@
 
     <b-tabs>
       <!-- Tab 1 -->
-      <b-tab-item label="Instrucción abierta">
-        <div class="columns">
+      <!-- <b-tab-item label="Instrucción abierta"> -->
+        <!-- <div class="columns"> -->
 
-          <div class="column is-6">
-            <b-table :data="casesEnd">
-              <b-table-column field="bin" label="Duración" v-slot="props">
-                <div class="is-inline-flex">
-                  <div class="box" :style="{'background-color': colors[props.index]}"></div>
-                  {{ props.row.bin }}
-                </div>
-              </b-table-column>
+          <!-- <div class="column is-6"> -->
+            <!-- <b-table :data="casesEnd"> -->
+              <!-- <b-table-column field="bin" label="Duración" v-slot="props"> -->
+                <!-- <div class="is-inline-flex"> -->
+                  <!-- <div class="box" :style="{'background-color': colors[props.index]}"></div> -->
+                  <!-- {{ props.row.bin }} -->
+                <!-- </div> -->
+              <!-- </b-table-column> -->
 
-              <b-table-column field="value" label="Cantidad" v-slot="props">
-                {{ props.row.value }}
-              </b-table-column>
+              <!-- <b-table-column field="value" label="Cantidad" v-slot="props"> -->
+                <!-- {{ props.row.value }} -->
+              <!-- </b-table-column> -->
 
-              <b-table-column field="percent" label="Porcentaje" v-slot="props">
-                {{ props.row.p }}
-              </b-table-column>
-            </b-table>
-          </div>
+              <!-- <b-table-column field="percent" label="Porcentaje" v-slot="props"> -->
+                <!-- {{ props.row.p }} -->
+              <!-- </b-table-column> -->
+            <!-- </b-table> -->
+          <!-- </div> -->
 
-          <div class="column is-6">
-            <donut id="durationEndPlot" :data="casesEnd"></donut>
-          </div>
+          <!-- <div class="column is-6"> -->
+            <!-- <donut id="durationEndPlot" :data="casesEnd"></donut> -->
+          <!-- </div> -->
 
-        </div><!--/columns -->
-      </b-tab-item>
+        <!-- </div> -->
+  <!-- </b-tab-item> -->
+      
 
       <!-- Tab 2 -->
       <b-tab-item label="Instrucción cerrada">
