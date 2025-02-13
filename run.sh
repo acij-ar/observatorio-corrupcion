@@ -27,13 +27,14 @@ function retry {
 mkdir -p data/cij
 
 # Run the scraper
-retry docker-compose run --rm scraper node --trace-warnings --unhandled-rejections=strict index.js
+retry docker compose run --rm scraper node --trace-warnings --unhandled-rejections=strict index.js
 # Run the pipeline process
-retry docker-compose run --rm pipeline python 01_download_external_data.py
-retry docker-compose run --rm pipeline python 02_data_normalization.py
-retry docker-compose run --rm pipeline python 03_download_resolution_pdfs.py
-retry docker-compose run --rm pipeline python 04_create_arango_nodes.py
-retry docker-compose run --rm pipeline python 05_create_arango_edges.py
-retry docker-compose run --rm pipeline python 06_update_arango.py
+retry docker compose run --rm pipeline python 01_download_external_data.py
+retry docker compose run --rm pipeline python 02_data_normalization.py
+retry docker compose run --rm pipeline python 03_download_resolution_pdfs.py
+retry docker compose run --rm pipeline python 04_create_arango_nodes.py
+retry docker compose run --rm pipeline python 05_create_arango_edges.py
+retry docker compose run --rm pipeline python 06_update_arango.py
+
 
 zip -r cij.zip data/cij/* data/db/*
