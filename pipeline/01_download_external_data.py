@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, TypedDict
+from typing import List, TypedDict, Optional
 
 import httpx
 import pandas as pd
