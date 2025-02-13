@@ -52,19 +52,25 @@ async def dowload_justiciapedia_entities(
         return rows
 
 
-async def dowload_justiciapedia_bio(urls: List[HttpUrl]) -> List[str]:
+async def dowload_justiciapedia_bio(urls: List[Optional[HttpUrl]]) -> List[str]:
     rows: List[str] = []
     async with httpx.AsyncClient() as client:
-        for url in tqdm(urls, total=len(urls)):
-            response = await client.get(url)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            bio = soup.find('section', {'class': 'profile-excerpt'}).text
+        for url in tqdm([u for u in urls if u], total=len(urls)):  # Filtra None
+            try:
+                response = await client.get(str(url))
+                soup = BeautifulSoup(response.text, 'html.parser')
+                bio = soup.find('section', {'class': 'profile-excerpt'})
+                bio_text = bio.text if bio else ""
 
-            if "Lo sentimos, no hay reseña para este perfil" in bio:
-                bio = ""
-            rows.append(bio.replace("\n", ""))
+                if "Lo sentimos, no hay reseña para este perfil" in bio_text:
+                    bio_text = ""
 
-        return rows
+                rows.append(bio_text.replace("\n", ""))
+            except Exception as e:
+                print(f"Error con {url}: {e}")
+                rows.append("")
+
+    return rows
 
 
 justiciapedia_url: HttpUrl = 'https://chequeado.com/justiciapedia'
