@@ -36,7 +36,7 @@ jobs:
           sed -i -e "s|BOT_EMAILS_TO_NOTIFY=.*$|BOT_EMAILS_TO_NOTIFY=$BOT_EMAILS_TO_NOTIFY|" .env
 
       - name: Build docker container
-        run: docker-compose build
+        run: docker compose build
 
       - name: Run scraper
         run: ./run.sh
