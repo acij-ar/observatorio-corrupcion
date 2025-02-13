@@ -30,19 +30,25 @@ async def dowload_justiciapedia_entities(
             response = await client.get(f"{justiciapedia_url}/{section_en}/{page}")
 
             soup = BeautifulSoup(response.text, 'html.parser')
-            divs = soup.find('div', {'class': 'profile-table'}).find_all(
-                'div', {'class': 'pure-g'}
-            )
+            profile_table = soup.find('div', {'class': 'profile-table'})
+            if not profile_table:
+                continue  # Evita errores si no encuentra la tabla
+
+            divs = profile_table.find_all('div', {'class': 'pure-g'})
 
             for div in divs:
-                rows.append({
-                    "nombre": div.find(
-                        'p', {'class', 'profile-name'}
-                    ).text.split('\n')[0],
-                    "typo": section_es,
-                    "url": div.find('a').attrs['href']
-                })
+                name_tag = div.find('p', {'class': 'profile-name'})
+                name = name_tag.text.split('\n')[0] if name_tag else "Desconocido"
 
+                link_tag = div.find('p', class_='simple-link-wrapper')
+                url_tag = link_tag.find('a') if link_tag else None
+                url = url_tag.attrs['href'] if url_tag else None
+
+                rows.append({
+                    "nombre": name,
+                    "typo": section_es,
+                    "url": url
+                })
         return rows
 
 
