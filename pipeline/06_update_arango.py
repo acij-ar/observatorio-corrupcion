@@ -56,8 +56,8 @@ auth = {
 logger = logging.getLogger(__name__)
 
 logger.info("Auth arango user")
+print(f"ARANGO HOST: {settings.ARANGO_HOST}")
 response = httpx.post(f"{settings.ARANGO_HOST}/_open/auth", json=auth)
-print(settings.ARANGO_HOST)
 if response.status_code != 200:
     logger.error("Auth invalida")
     exit()
