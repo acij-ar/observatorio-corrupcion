@@ -39,4 +39,4 @@ retry docker compose run --rm pipeline python 03_download_resolution_pdfs.py
 #retry docker compose run --rm pipeline python 06_update_arango.py
 
 
-zip -r cij.zip data/cij/* data/db/*
+zip -r cij.zip data/cij/* #data/db/*
