@@ -32,11 +32,11 @@ retry docker compose run --rm scraper node --trace-warnings --unhandled-rejectio
 retry docker compose run --rm pipeline python 01_download_external_data.py
 retry docker compose run --rm pipeline python 02_data_normalization.py
 retry docker compose run --rm pipeline python 03_download_resolution_pdfs.py
-retry docker compose run --rm pipeline python 04_create_arango_nodes.py
-retry docker compose run --rm pipeline python 05_create_arango_edges.py
-docker compose run --rm pipeline ping -c 4 db
-docker compose run --rm pipeline nc -z db 8529 && echo "ArangoDB está listo" || echo "No se puede conectar"
-retry docker compose run --rm pipeline python 06_update_arango.py
+#retry docker compose run --rm pipeline python 04_create_arango_nodes.py
+#retry docker compose run --rm pipeline python 05_create_arango_edges.py
+#docker compose run --rm pipeline ping -c 4 db
+#docker compose run --rm pipeline nc -z db 8529 && echo "ArangoDB está listo" || echo "No se puede conectar"
+#retry docker compose run --rm pipeline python 06_update_arango.py
 
 
 zip -r cij.zip data/cij/* data/db/*
